@@ -4,6 +4,7 @@ import {AWSError} from './error';
 import {Credentials, CredentialsOptions} from './credentials';
 import {CredentialProviderChain} from './credentials/credential_provider_chain';
 import {ConfigurationServicePlaceholders, ConfigurationServiceApiVersions} from './config_service_placeholders';
+import {CognitoIdentityCredentials} from './cognito_identity_credentials';
 
 export class ConfigBase extends ConfigurationOptions{
     constructor(options?: ConfigurationOptions);
@@ -171,7 +172,7 @@ export abstract class ConfigurationOptions {
     /**
      * The AWS credentials to sign requests with.
      */
-    credentials?: Credentials|CredentialsOptions|null
+    credentials?: Credentials|CredentialsOptions|CognitoIdentityCredentials|null
     /**
      * The provider chain used to resolve credentials if no static credentials property is set.
      */
