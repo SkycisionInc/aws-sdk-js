@@ -1,6 +1,45 @@
 # Changelog for AWS SDK for JavaScript
-<!--LATEST=2.28.0-->
+<!--LATEST=2.36.0-->
 <!--ENTRYINSERT-->
+
+## 2.36.0
+* feature: CloudDirectory: ListObjectAttributes now supports filtering by facet.
+
+## 2.35.0
+* feature: CloudFormation: Adding paginators for ListExports and ListImports
+* feature: CloudFront: Amazon CloudFront now supports user configurable HTTP Read and Keep-Alive Idle Timeouts for your Custom Origin Servers
+* feature: ResourceGroupsTaggingAPI: Resource Groups Tagging APIs can help you organize your resources and enable you to simplify resource management, access management, and cost allocation.
+* feature: StorageGateway: File gateway mode in AWS Storage gateway provides access to objects in S3 as files on a Network File System (NFS) mount point. Once a file share is created, any changes made externally to the S3 bucket will not be reflected by the gateway. Using the cache refresh feature in this update, the customer can trigger an on-demand scan of the keys in their S3 bucket and refresh the file namespace cached on the gateway. It takes as an input the fileShare ARN and refreshes the cache for only that file share. Additionally there is new functionality on file gateway that allows you configure what squash options they would like on their file share, this allows a customer to configure their gateway to not squash root permissions. This can be done by setting options in NfsOptions for CreateNfsFileShare and UpdateNfsFileShare APIs.
+
+## 2.34.0
+* features: Batch: Customers can now provide a retryStrategy as part of the RegisterJobDefinition and SubmitJob API calls.
+* features: EC2: Customers can now tag their Amazon EC2 Instances and Amazon EBS Volumes at the time of their creation.
+
+## 2.33.0
+* feature: core: Adds support for 'v4' and 'v4-unsigned-body' authtype traits.
+* bugfix: ManagedUpload: Ensures multi-part upload locations are URI-decoded to match single-part upload locations.
+
+## 2.32.0
+* feature: S3: Adds a means of specifying tags to apply to objects of any size uploaded with AWS.S3.ManagedUploader
+* feature: ApplicationAutoScaling: Application AutoScaling is launching support for a new target resource (AppStream 2.0 Fleets) as a scalable target.
+
+## 2.31.0
+* feature: DynamoDB: Adds ability to customize retry delays for DynamoDB. This previously worked for all services except DynamoDB. Also adds jitter to DynamoDB retries. See `AWS.Config.retryDelayOptions` for more information.
+* feature: Waiter: Allow customization of a waiter using a special `$waiter` key
+* feature: Lambda: Adds support for new runtime Node.js v6.10 for AWS Lambda service. :tada:
+* feature: ELBv2: Adding waiters for Elastic Load Balancing V2
+* feature: Discovery: Adds export configuration options to the API.
+
+## 2.30.0
+* feature: DynamoDb: Allow objects with inheritance chains to be converted to MapAttributeValues instead of undefined
+* bugfix: CredentialsError: Update AWS.Config.getCredentials to overwrite the name (in addition to message and code) of errors thrown by underlying credential providers.
+
+## 2.29.0
+* feature: protocol: The SDK can now support JSON-value string shapes in headers
+* feature: Pinpoint: Added ability to segment endpoints by user attributes in addition to endpoint attributes.
+* feature: Pinpoint: Added functionality to publish raw app analytics and campaign events data as events streams to Kinesis and Kinesis Firehose.
+* feature: ELBv2: Adding waiters for LoadBalancers in ELBv2.
+* feature: MarketplaceCommerceAnalytics: This update adds a new data set, us_sales_and_use_tax_records, which enables AWS Marketplace sellers to programmatically access to their U.S. Sales and Use Tax report data.
 
 ## 2.28.0
 * feature: DeviceFarm: Network shaping allows users to simulate network connections and conditions while testing their Android, iOS, and web apps with AWS Device Farm.

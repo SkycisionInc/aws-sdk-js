@@ -1,4 +1,4 @@
-// AWS SDK for JavaScript v2.28.0
+// AWS SDK for JavaScript v2.36.0
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // License at https://sdk.amazonaws.com/js/BUNDLE_LICENSE.txt
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -4365,25 +4365,24 @@ module.exports={
   "pagination": {
     "DescribeScalableTargets": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "ScalableTargets"
-    },
-    "DescribeScalingPolicies": {
-      "input_token": "NextToken",
-      "output_token": "NextToken",
-      "limit_key": "MaxResults",
-      "result_key": "ScalingPolicies"
     },
     "DescribeScalingActivities": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "ScalingActivities"
+    },
+    "DescribeScalingPolicies": {
+      "input_token": "NextToken",
+      "limit_key": "MaxResults",
+      "output_token": "NextToken",
+      "result_key": "ScalingPolicies"
     }
   }
 }
-
 },{}],7:[function(require,module,exports){
 module.exports={
   "version": "2.0",
@@ -6995,6 +6994,16 @@ module.exports={
       "output_token": "NextToken",
       "result_key": "Stacks"
     },
+    "ListExports": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "result_key": "Exports"
+    },
+    "ListImports": {
+      "input_token": "NextToken",
+      "output_token": "NextToken",
+      "result_key": "Imports"
+    },
     "ListStackResources": {
       "input_token": "NextToken",
       "output_token": "NextToken",
@@ -7007,7 +7016,6 @@ module.exports={
     }
   }
 }
-
 },{}],11:[function(require,module,exports){
 module.exports={
   "version": 2,
@@ -7156,6 +7164,31 @@ module.exports={
           "matcher": "pathAny",
           "state": "failure",
           "argument": "Stacks[].StackStatus"
+        },
+        {
+          "expected": "ValidationError",
+          "matcher": "error",
+          "state": "failure"
+        }
+      ]
+    },
+    "ChangeSetCreateComplete": {
+      "delay": 30,
+      "operation": "DescribeChangeSet",
+      "maxAttempts": 120,
+      "description": "Wait until change set status is CREATE_COMPLETE.",
+      "acceptors": [
+        {
+          "argument": "Status",
+          "expected": "CREATE_COMPLETE",
+          "matcher": "path",
+          "state": "success"
+        },
+        {
+          "argument": "Status",
+          "expected": "FAILED",
+          "matcher": "path",
+          "state": "failure"
         },
         {
           "expected": "ValidationError",
@@ -9167,6 +9200,1960 @@ module.exports={
 module.exports={
   "version": "2.0",
   "metadata": {
+    "apiVersion": "2017-03-25",
+    "endpointPrefix": "cloudfront",
+    "globalEndpoint": "cloudfront.amazonaws.com",
+    "protocol": "rest-xml",
+    "serviceAbbreviation": "CloudFront",
+    "serviceFullName": "Amazon CloudFront",
+    "signatureVersion": "v4",
+    "uid": "cloudfront-2017-03-25"
+  },
+  "operations": {
+    "CreateCloudFrontOriginAccessIdentity": {
+      "http": {
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "CloudFrontOriginAccessIdentityConfig"
+        ],
+        "members": {
+          "CloudFrontOriginAccessIdentityConfig": {
+            "shape": "S2",
+            "locationName": "CloudFrontOriginAccessIdentityConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentityConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "CloudFrontOriginAccessIdentity": {
+            "shape": "S5"
+          },
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentity"
+      }
+    },
+    "CreateDistribution": {
+      "http": {
+        "requestUri": "/2017-03-25/distribution",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionConfig"
+        ],
+        "members": {
+          "DistributionConfig": {
+            "shape": "S7",
+            "locationName": "DistributionConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          }
+        },
+        "payload": "DistributionConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Distribution": {
+            "shape": "S1s"
+          },
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "Distribution"
+      }
+    },
+    "CreateDistributionWithTags": {
+      "http": {
+        "requestUri": "/2017-03-25/distribution?WithTags",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionConfigWithTags"
+        ],
+        "members": {
+          "DistributionConfigWithTags": {
+            "locationName": "DistributionConfigWithTags",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            },
+            "type": "structure",
+            "required": [
+              "DistributionConfig",
+              "Tags"
+            ],
+            "members": {
+              "DistributionConfig": {
+                "shape": "S7"
+              },
+              "Tags": {
+                "shape": "S21"
+              }
+            }
+          }
+        },
+        "payload": "DistributionConfigWithTags"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Distribution": {
+            "shape": "S1s"
+          },
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "Distribution"
+      }
+    },
+    "CreateInvalidation": {
+      "http": {
+        "requestUri": "/2017-03-25/distribution/{DistributionId}/invalidation",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionId",
+          "InvalidationBatch"
+        ],
+        "members": {
+          "DistributionId": {
+            "location": "uri",
+            "locationName": "DistributionId"
+          },
+          "InvalidationBatch": {
+            "shape": "S28",
+            "locationName": "InvalidationBatch",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          }
+        },
+        "payload": "InvalidationBatch"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "Invalidation": {
+            "shape": "S2c"
+          }
+        },
+        "payload": "Invalidation"
+      }
+    },
+    "CreateStreamingDistribution": {
+      "http": {
+        "requestUri": "/2017-03-25/streaming-distribution",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "StreamingDistributionConfig"
+        ],
+        "members": {
+          "StreamingDistributionConfig": {
+            "shape": "S2e",
+            "locationName": "StreamingDistributionConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          }
+        },
+        "payload": "StreamingDistributionConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistribution": {
+            "shape": "S2i"
+          },
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "StreamingDistribution"
+      }
+    },
+    "CreateStreamingDistributionWithTags": {
+      "http": {
+        "requestUri": "/2017-03-25/streaming-distribution?WithTags",
+        "responseCode": 201
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "StreamingDistributionConfigWithTags"
+        ],
+        "members": {
+          "StreamingDistributionConfigWithTags": {
+            "locationName": "StreamingDistributionConfigWithTags",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            },
+            "type": "structure",
+            "required": [
+              "StreamingDistributionConfig",
+              "Tags"
+            ],
+            "members": {
+              "StreamingDistributionConfig": {
+                "shape": "S2e"
+              },
+              "Tags": {
+                "shape": "S21"
+              }
+            }
+          }
+        },
+        "payload": "StreamingDistributionConfigWithTags"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistribution": {
+            "shape": "S2i"
+          },
+          "Location": {
+            "location": "header",
+            "locationName": "Location"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "StreamingDistribution"
+      }
+    },
+    "DeleteCloudFrontOriginAccessIdentity": {
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront/{Id}",
+        "responseCode": 204
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        }
+      }
+    },
+    "DeleteDistribution": {
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/2017-03-25/distribution/{Id}",
+        "responseCode": 204
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        }
+      }
+    },
+    "DeleteStreamingDistribution": {
+      "http": {
+        "method": "DELETE",
+        "requestUri": "/2017-03-25/streaming-distribution/{Id}",
+        "responseCode": 204
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        }
+      }
+    },
+    "GetCloudFrontOriginAccessIdentity": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront/{Id}"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "CloudFrontOriginAccessIdentity": {
+            "shape": "S5"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentity"
+      }
+    },
+    "GetCloudFrontOriginAccessIdentityConfig": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "CloudFrontOriginAccessIdentityConfig": {
+            "shape": "S2"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentityConfig"
+      }
+    },
+    "GetDistribution": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distribution/{Id}"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Distribution": {
+            "shape": "S1s"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "Distribution"
+      }
+    },
+    "GetDistributionConfig": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distribution/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "DistributionConfig": {
+            "shape": "S7"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "DistributionConfig"
+      }
+    },
+    "GetInvalidation": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distribution/{DistributionId}/invalidation/{Id}"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionId",
+          "Id"
+        ],
+        "members": {
+          "DistributionId": {
+            "location": "uri",
+            "locationName": "DistributionId"
+          },
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Invalidation": {
+            "shape": "S2c"
+          }
+        },
+        "payload": "Invalidation"
+      }
+    },
+    "GetStreamingDistribution": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/streaming-distribution/{Id}"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistribution": {
+            "shape": "S2i"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "StreamingDistribution"
+      }
+    },
+    "GetStreamingDistributionConfig": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/streaming-distribution/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Id"
+        ],
+        "members": {
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistributionConfig": {
+            "shape": "S2e"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "StreamingDistributionConfig"
+      }
+    },
+    "ListCloudFrontOriginAccessIdentities": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront"
+      },
+      "input": {
+        "type": "structure",
+        "members": {
+          "Marker": {
+            "location": "querystring",
+            "locationName": "Marker"
+          },
+          "MaxItems": {
+            "location": "querystring",
+            "locationName": "MaxItems"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "CloudFrontOriginAccessIdentityList": {
+            "type": "structure",
+            "required": [
+              "Marker",
+              "MaxItems",
+              "IsTruncated",
+              "Quantity"
+            ],
+            "members": {
+              "Marker": {},
+              "NextMarker": {},
+              "MaxItems": {
+                "type": "integer"
+              },
+              "IsTruncated": {
+                "type": "boolean"
+              },
+              "Quantity": {
+                "type": "integer"
+              },
+              "Items": {
+                "type": "list",
+                "member": {
+                  "locationName": "CloudFrontOriginAccessIdentitySummary",
+                  "type": "structure",
+                  "required": [
+                    "Id",
+                    "S3CanonicalUserId",
+                    "Comment"
+                  ],
+                  "members": {
+                    "Id": {},
+                    "S3CanonicalUserId": {},
+                    "Comment": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentityList"
+      }
+    },
+    "ListDistributions": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distribution"
+      },
+      "input": {
+        "type": "structure",
+        "members": {
+          "Marker": {
+            "location": "querystring",
+            "locationName": "Marker"
+          },
+          "MaxItems": {
+            "location": "querystring",
+            "locationName": "MaxItems"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "DistributionList": {
+            "shape": "S3a"
+          }
+        },
+        "payload": "DistributionList"
+      }
+    },
+    "ListDistributionsByWebACLId": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distributionsByWebACLId/{WebACLId}"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "WebACLId"
+        ],
+        "members": {
+          "Marker": {
+            "location": "querystring",
+            "locationName": "Marker"
+          },
+          "MaxItems": {
+            "location": "querystring",
+            "locationName": "MaxItems"
+          },
+          "WebACLId": {
+            "location": "uri",
+            "locationName": "WebACLId"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "DistributionList": {
+            "shape": "S3a"
+          }
+        },
+        "payload": "DistributionList"
+      }
+    },
+    "ListInvalidations": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/distribution/{DistributionId}/invalidation"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionId"
+        ],
+        "members": {
+          "DistributionId": {
+            "location": "uri",
+            "locationName": "DistributionId"
+          },
+          "Marker": {
+            "location": "querystring",
+            "locationName": "Marker"
+          },
+          "MaxItems": {
+            "location": "querystring",
+            "locationName": "MaxItems"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "InvalidationList": {
+            "type": "structure",
+            "required": [
+              "Marker",
+              "MaxItems",
+              "IsTruncated",
+              "Quantity"
+            ],
+            "members": {
+              "Marker": {},
+              "NextMarker": {},
+              "MaxItems": {
+                "type": "integer"
+              },
+              "IsTruncated": {
+                "type": "boolean"
+              },
+              "Quantity": {
+                "type": "integer"
+              },
+              "Items": {
+                "type": "list",
+                "member": {
+                  "locationName": "InvalidationSummary",
+                  "type": "structure",
+                  "required": [
+                    "Id",
+                    "CreateTime",
+                    "Status"
+                  ],
+                  "members": {
+                    "Id": {},
+                    "CreateTime": {
+                      "type": "timestamp"
+                    },
+                    "Status": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payload": "InvalidationList"
+      }
+    },
+    "ListStreamingDistributions": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/streaming-distribution"
+      },
+      "input": {
+        "type": "structure",
+        "members": {
+          "Marker": {
+            "location": "querystring",
+            "locationName": "Marker"
+          },
+          "MaxItems": {
+            "location": "querystring",
+            "locationName": "MaxItems"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistributionList": {
+            "type": "structure",
+            "required": [
+              "Marker",
+              "MaxItems",
+              "IsTruncated",
+              "Quantity"
+            ],
+            "members": {
+              "Marker": {},
+              "NextMarker": {},
+              "MaxItems": {
+                "type": "integer"
+              },
+              "IsTruncated": {
+                "type": "boolean"
+              },
+              "Quantity": {
+                "type": "integer"
+              },
+              "Items": {
+                "type": "list",
+                "member": {
+                  "locationName": "StreamingDistributionSummary",
+                  "type": "structure",
+                  "required": [
+                    "Id",
+                    "ARN",
+                    "Status",
+                    "LastModifiedTime",
+                    "DomainName",
+                    "S3Origin",
+                    "Aliases",
+                    "TrustedSigners",
+                    "Comment",
+                    "PriceClass",
+                    "Enabled"
+                  ],
+                  "members": {
+                    "Id": {},
+                    "ARN": {},
+                    "Status": {},
+                    "LastModifiedTime": {
+                      "type": "timestamp"
+                    },
+                    "DomainName": {},
+                    "S3Origin": {
+                      "shape": "S2f"
+                    },
+                    "Aliases": {
+                      "shape": "S8"
+                    },
+                    "TrustedSigners": {
+                      "shape": "Sy"
+                    },
+                    "Comment": {},
+                    "PriceClass": {},
+                    "Enabled": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "payload": "StreamingDistributionList"
+      }
+    },
+    "ListTagsForResource": {
+      "http": {
+        "method": "GET",
+        "requestUri": "/2017-03-25/tagging"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Resource"
+        ],
+        "members": {
+          "Resource": {
+            "location": "querystring",
+            "locationName": "Resource"
+          }
+        }
+      },
+      "output": {
+        "type": "structure",
+        "required": [
+          "Tags"
+        ],
+        "members": {
+          "Tags": {
+            "shape": "S21"
+          }
+        },
+        "payload": "Tags"
+      }
+    },
+    "TagResource": {
+      "http": {
+        "requestUri": "/2017-03-25/tagging?Operation=Tag",
+        "responseCode": 204
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Resource",
+          "Tags"
+        ],
+        "members": {
+          "Resource": {
+            "location": "querystring",
+            "locationName": "Resource"
+          },
+          "Tags": {
+            "shape": "S21",
+            "locationName": "Tags",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          }
+        },
+        "payload": "Tags"
+      }
+    },
+    "UntagResource": {
+      "http": {
+        "requestUri": "/2017-03-25/tagging?Operation=Untag",
+        "responseCode": 204
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "Resource",
+          "TagKeys"
+        ],
+        "members": {
+          "Resource": {
+            "location": "querystring",
+            "locationName": "Resource"
+          },
+          "TagKeys": {
+            "locationName": "TagKeys",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            },
+            "type": "structure",
+            "members": {
+              "Items": {
+                "type": "list",
+                "member": {
+                  "locationName": "Key"
+                }
+              }
+            }
+          }
+        },
+        "payload": "TagKeys"
+      }
+    },
+    "UpdateCloudFrontOriginAccessIdentity": {
+      "http": {
+        "method": "PUT",
+        "requestUri": "/2017-03-25/origin-access-identity/cloudfront/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "CloudFrontOriginAccessIdentityConfig",
+          "Id"
+        ],
+        "members": {
+          "CloudFrontOriginAccessIdentityConfig": {
+            "shape": "S2",
+            "locationName": "CloudFrontOriginAccessIdentityConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          },
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentityConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "CloudFrontOriginAccessIdentity": {
+            "shape": "S5"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "CloudFrontOriginAccessIdentity"
+      }
+    },
+    "UpdateDistribution": {
+      "http": {
+        "method": "PUT",
+        "requestUri": "/2017-03-25/distribution/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "DistributionConfig",
+          "Id"
+        ],
+        "members": {
+          "DistributionConfig": {
+            "shape": "S7",
+            "locationName": "DistributionConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          },
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        },
+        "payload": "DistributionConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "Distribution": {
+            "shape": "S1s"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "Distribution"
+      }
+    },
+    "UpdateStreamingDistribution": {
+      "http": {
+        "method": "PUT",
+        "requestUri": "/2017-03-25/streaming-distribution/{Id}/config"
+      },
+      "input": {
+        "type": "structure",
+        "required": [
+          "StreamingDistributionConfig",
+          "Id"
+        ],
+        "members": {
+          "StreamingDistributionConfig": {
+            "shape": "S2e",
+            "locationName": "StreamingDistributionConfig",
+            "xmlNamespace": {
+              "uri": "http://cloudfront.amazonaws.com/doc/2017-03-25/"
+            }
+          },
+          "Id": {
+            "location": "uri",
+            "locationName": "Id"
+          },
+          "IfMatch": {
+            "location": "header",
+            "locationName": "If-Match"
+          }
+        },
+        "payload": "StreamingDistributionConfig"
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "StreamingDistribution": {
+            "shape": "S2i"
+          },
+          "ETag": {
+            "location": "header",
+            "locationName": "ETag"
+          }
+        },
+        "payload": "StreamingDistribution"
+      }
+    }
+  },
+  "shapes": {
+    "S2": {
+      "type": "structure",
+      "required": [
+        "CallerReference",
+        "Comment"
+      ],
+      "members": {
+        "CallerReference": {},
+        "Comment": {}
+      }
+    },
+    "S5": {
+      "type": "structure",
+      "required": [
+        "Id",
+        "S3CanonicalUserId"
+      ],
+      "members": {
+        "Id": {},
+        "S3CanonicalUserId": {},
+        "CloudFrontOriginAccessIdentityConfig": {
+          "shape": "S2"
+        }
+      }
+    },
+    "S7": {
+      "type": "structure",
+      "required": [
+        "CallerReference",
+        "Origins",
+        "DefaultCacheBehavior",
+        "Comment",
+        "Enabled"
+      ],
+      "members": {
+        "CallerReference": {},
+        "Aliases": {
+          "shape": "S8"
+        },
+        "DefaultRootObject": {},
+        "Origins": {
+          "shape": "Sb"
+        },
+        "DefaultCacheBehavior": {
+          "shape": "Sn"
+        },
+        "CacheBehaviors": {
+          "shape": "S1a"
+        },
+        "CustomErrorResponses": {
+          "shape": "S1d"
+        },
+        "Comment": {},
+        "Logging": {
+          "type": "structure",
+          "required": [
+            "Enabled",
+            "IncludeCookies",
+            "Bucket",
+            "Prefix"
+          ],
+          "members": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "IncludeCookies": {
+              "type": "boolean"
+            },
+            "Bucket": {},
+            "Prefix": {}
+          }
+        },
+        "PriceClass": {},
+        "Enabled": {
+          "type": "boolean"
+        },
+        "ViewerCertificate": {
+          "shape": "S1i"
+        },
+        "Restrictions": {
+          "shape": "S1m"
+        },
+        "WebACLId": {},
+        "HttpVersion": {},
+        "IsIPV6Enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "S8": {
+      "type": "structure",
+      "required": [
+        "Quantity"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "CNAME"
+          }
+        }
+      }
+    },
+    "Sb": {
+      "type": "structure",
+      "required": [
+        "Quantity"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "Origin",
+            "type": "structure",
+            "required": [
+              "Id",
+              "DomainName"
+            ],
+            "members": {
+              "Id": {},
+              "DomainName": {},
+              "OriginPath": {},
+              "CustomHeaders": {
+                "type": "structure",
+                "required": [
+                  "Quantity"
+                ],
+                "members": {
+                  "Quantity": {
+                    "type": "integer"
+                  },
+                  "Items": {
+                    "type": "list",
+                    "member": {
+                      "locationName": "OriginCustomHeader",
+                      "type": "structure",
+                      "required": [
+                        "HeaderName",
+                        "HeaderValue"
+                      ],
+                      "members": {
+                        "HeaderName": {},
+                        "HeaderValue": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "S3OriginConfig": {
+                "type": "structure",
+                "required": [
+                  "OriginAccessIdentity"
+                ],
+                "members": {
+                  "OriginAccessIdentity": {}
+                }
+              },
+              "CustomOriginConfig": {
+                "type": "structure",
+                "required": [
+                  "HTTPPort",
+                  "HTTPSPort",
+                  "OriginProtocolPolicy"
+                ],
+                "members": {
+                  "HTTPPort": {
+                    "type": "integer"
+                  },
+                  "HTTPSPort": {
+                    "type": "integer"
+                  },
+                  "OriginProtocolPolicy": {},
+                  "OriginSslProtocols": {
+                    "type": "structure",
+                    "required": [
+                      "Quantity",
+                      "Items"
+                    ],
+                    "members": {
+                      "Quantity": {
+                        "type": "integer"
+                      },
+                      "Items": {
+                        "type": "list",
+                        "member": {
+                          "locationName": "SslProtocol"
+                        }
+                      }
+                    }
+                  },
+                  "OriginReadTimeout": {
+                    "type": "integer"
+                  },
+                  "OriginKeepaliveTimeout": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Sn": {
+      "type": "structure",
+      "required": [
+        "TargetOriginId",
+        "ForwardedValues",
+        "TrustedSigners",
+        "ViewerProtocolPolicy",
+        "MinTTL"
+      ],
+      "members": {
+        "TargetOriginId": {},
+        "ForwardedValues": {
+          "shape": "So"
+        },
+        "TrustedSigners": {
+          "shape": "Sy"
+        },
+        "ViewerProtocolPolicy": {},
+        "MinTTL": {
+          "type": "long"
+        },
+        "AllowedMethods": {
+          "shape": "S12"
+        },
+        "SmoothStreaming": {
+          "type": "boolean"
+        },
+        "DefaultTTL": {
+          "type": "long"
+        },
+        "MaxTTL": {
+          "type": "long"
+        },
+        "Compress": {
+          "type": "boolean"
+        },
+        "LambdaFunctionAssociations": {
+          "shape": "S16"
+        }
+      }
+    },
+    "So": {
+      "type": "structure",
+      "required": [
+        "QueryString",
+        "Cookies"
+      ],
+      "members": {
+        "QueryString": {
+          "type": "boolean"
+        },
+        "Cookies": {
+          "type": "structure",
+          "required": [
+            "Forward"
+          ],
+          "members": {
+            "Forward": {},
+            "WhitelistedNames": {
+              "type": "structure",
+              "required": [
+                "Quantity"
+              ],
+              "members": {
+                "Quantity": {
+                  "type": "integer"
+                },
+                "Items": {
+                  "type": "list",
+                  "member": {
+                    "locationName": "Name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Headers": {
+          "type": "structure",
+          "required": [
+            "Quantity"
+          ],
+          "members": {
+            "Quantity": {
+              "type": "integer"
+            },
+            "Items": {
+              "type": "list",
+              "member": {
+                "locationName": "Name"
+              }
+            }
+          }
+        },
+        "QueryStringCacheKeys": {
+          "type": "structure",
+          "required": [
+            "Quantity"
+          ],
+          "members": {
+            "Quantity": {
+              "type": "integer"
+            },
+            "Items": {
+              "type": "list",
+              "member": {
+                "locationName": "Name"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Sy": {
+      "type": "structure",
+      "required": [
+        "Enabled",
+        "Quantity"
+      ],
+      "members": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "AwsAccountNumber"
+          }
+        }
+      }
+    },
+    "S12": {
+      "type": "structure",
+      "required": [
+        "Quantity",
+        "Items"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "shape": "S13"
+        },
+        "CachedMethods": {
+          "type": "structure",
+          "required": [
+            "Quantity",
+            "Items"
+          ],
+          "members": {
+            "Quantity": {
+              "type": "integer"
+            },
+            "Items": {
+              "shape": "S13"
+            }
+          }
+        }
+      }
+    },
+    "S13": {
+      "type": "list",
+      "member": {
+        "locationName": "Method"
+      }
+    },
+    "S16": {
+      "type": "structure",
+      "required": [
+        "Quantity"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "LambdaFunctionAssociation",
+            "type": "structure",
+            "members": {
+              "LambdaFunctionARN": {},
+              "EventType": {}
+            }
+          }
+        }
+      }
+    },
+    "S1a": {
+      "type": "structure",
+      "required": [
+        "Quantity"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "CacheBehavior",
+            "type": "structure",
+            "required": [
+              "PathPattern",
+              "TargetOriginId",
+              "ForwardedValues",
+              "TrustedSigners",
+              "ViewerProtocolPolicy",
+              "MinTTL"
+            ],
+            "members": {
+              "PathPattern": {},
+              "TargetOriginId": {},
+              "ForwardedValues": {
+                "shape": "So"
+              },
+              "TrustedSigners": {
+                "shape": "Sy"
+              },
+              "ViewerProtocolPolicy": {},
+              "MinTTL": {
+                "type": "long"
+              },
+              "AllowedMethods": {
+                "shape": "S12"
+              },
+              "SmoothStreaming": {
+                "type": "boolean"
+              },
+              "DefaultTTL": {
+                "type": "long"
+              },
+              "MaxTTL": {
+                "type": "long"
+              },
+              "Compress": {
+                "type": "boolean"
+              },
+              "LambdaFunctionAssociations": {
+                "shape": "S16"
+              }
+            }
+          }
+        }
+      }
+    },
+    "S1d": {
+      "type": "structure",
+      "required": [
+        "Quantity"
+      ],
+      "members": {
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "CustomErrorResponse",
+            "type": "structure",
+            "required": [
+              "ErrorCode"
+            ],
+            "members": {
+              "ErrorCode": {
+                "type": "integer"
+              },
+              "ResponsePagePath": {},
+              "ResponseCode": {},
+              "ErrorCachingMinTTL": {
+                "type": "long"
+              }
+            }
+          }
+        }
+      }
+    },
+    "S1i": {
+      "type": "structure",
+      "members": {
+        "CloudFrontDefaultCertificate": {
+          "type": "boolean"
+        },
+        "IAMCertificateId": {},
+        "ACMCertificateArn": {},
+        "SSLSupportMethod": {},
+        "MinimumProtocolVersion": {},
+        "Certificate": {
+          "deprecated": true
+        },
+        "CertificateSource": {
+          "deprecated": true
+        }
+      }
+    },
+    "S1m": {
+      "type": "structure",
+      "required": [
+        "GeoRestriction"
+      ],
+      "members": {
+        "GeoRestriction": {
+          "type": "structure",
+          "required": [
+            "RestrictionType",
+            "Quantity"
+          ],
+          "members": {
+            "RestrictionType": {},
+            "Quantity": {
+              "type": "integer"
+            },
+            "Items": {
+              "type": "list",
+              "member": {
+                "locationName": "Location"
+              }
+            }
+          }
+        }
+      }
+    },
+    "S1s": {
+      "type": "structure",
+      "required": [
+        "Id",
+        "ARN",
+        "Status",
+        "LastModifiedTime",
+        "InProgressInvalidationBatches",
+        "DomainName",
+        "ActiveTrustedSigners",
+        "DistributionConfig"
+      ],
+      "members": {
+        "Id": {},
+        "ARN": {},
+        "Status": {},
+        "LastModifiedTime": {
+          "type": "timestamp"
+        },
+        "InProgressInvalidationBatches": {
+          "type": "integer"
+        },
+        "DomainName": {},
+        "ActiveTrustedSigners": {
+          "shape": "S1u"
+        },
+        "DistributionConfig": {
+          "shape": "S7"
+        }
+      }
+    },
+    "S1u": {
+      "type": "structure",
+      "required": [
+        "Enabled",
+        "Quantity"
+      ],
+      "members": {
+        "Enabled": {
+          "type": "boolean"
+        },
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "Signer",
+            "type": "structure",
+            "members": {
+              "AwsAccountNumber": {},
+              "KeyPairIds": {
+                "type": "structure",
+                "required": [
+                  "Quantity"
+                ],
+                "members": {
+                  "Quantity": {
+                    "type": "integer"
+                  },
+                  "Items": {
+                    "type": "list",
+                    "member": {
+                      "locationName": "KeyPairId"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "S21": {
+      "type": "structure",
+      "members": {
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "Tag",
+            "type": "structure",
+            "required": [
+              "Key"
+            ],
+            "members": {
+              "Key": {},
+              "Value": {}
+            }
+          }
+        }
+      }
+    },
+    "S28": {
+      "type": "structure",
+      "required": [
+        "Paths",
+        "CallerReference"
+      ],
+      "members": {
+        "Paths": {
+          "type": "structure",
+          "required": [
+            "Quantity"
+          ],
+          "members": {
+            "Quantity": {
+              "type": "integer"
+            },
+            "Items": {
+              "type": "list",
+              "member": {
+                "locationName": "Path"
+              }
+            }
+          }
+        },
+        "CallerReference": {}
+      }
+    },
+    "S2c": {
+      "type": "structure",
+      "required": [
+        "Id",
+        "Status",
+        "CreateTime",
+        "InvalidationBatch"
+      ],
+      "members": {
+        "Id": {},
+        "Status": {},
+        "CreateTime": {
+          "type": "timestamp"
+        },
+        "InvalidationBatch": {
+          "shape": "S28"
+        }
+      }
+    },
+    "S2e": {
+      "type": "structure",
+      "required": [
+        "CallerReference",
+        "S3Origin",
+        "Comment",
+        "TrustedSigners",
+        "Enabled"
+      ],
+      "members": {
+        "CallerReference": {},
+        "S3Origin": {
+          "shape": "S2f"
+        },
+        "Aliases": {
+          "shape": "S8"
+        },
+        "Comment": {},
+        "Logging": {
+          "type": "structure",
+          "required": [
+            "Enabled",
+            "Bucket",
+            "Prefix"
+          ],
+          "members": {
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Bucket": {},
+            "Prefix": {}
+          }
+        },
+        "TrustedSigners": {
+          "shape": "Sy"
+        },
+        "PriceClass": {},
+        "Enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "S2f": {
+      "type": "structure",
+      "required": [
+        "DomainName",
+        "OriginAccessIdentity"
+      ],
+      "members": {
+        "DomainName": {},
+        "OriginAccessIdentity": {}
+      }
+    },
+    "S2i": {
+      "type": "structure",
+      "required": [
+        "Id",
+        "ARN",
+        "Status",
+        "DomainName",
+        "ActiveTrustedSigners",
+        "StreamingDistributionConfig"
+      ],
+      "members": {
+        "Id": {},
+        "ARN": {},
+        "Status": {},
+        "LastModifiedTime": {
+          "type": "timestamp"
+        },
+        "DomainName": {},
+        "ActiveTrustedSigners": {
+          "shape": "S1u"
+        },
+        "StreamingDistributionConfig": {
+          "shape": "S2e"
+        }
+      }
+    },
+    "S3a": {
+      "type": "structure",
+      "required": [
+        "Marker",
+        "MaxItems",
+        "IsTruncated",
+        "Quantity"
+      ],
+      "members": {
+        "Marker": {},
+        "NextMarker": {},
+        "MaxItems": {
+          "type": "integer"
+        },
+        "IsTruncated": {
+          "type": "boolean"
+        },
+        "Quantity": {
+          "type": "integer"
+        },
+        "Items": {
+          "type": "list",
+          "member": {
+            "locationName": "DistributionSummary",
+            "type": "structure",
+            "required": [
+              "Id",
+              "ARN",
+              "Status",
+              "LastModifiedTime",
+              "DomainName",
+              "Aliases",
+              "Origins",
+              "DefaultCacheBehavior",
+              "CacheBehaviors",
+              "CustomErrorResponses",
+              "Comment",
+              "PriceClass",
+              "Enabled",
+              "ViewerCertificate",
+              "Restrictions",
+              "WebACLId",
+              "HttpVersion",
+              "IsIPV6Enabled"
+            ],
+            "members": {
+              "Id": {},
+              "ARN": {},
+              "Status": {},
+              "LastModifiedTime": {
+                "type": "timestamp"
+              },
+              "DomainName": {},
+              "Aliases": {
+                "shape": "S8"
+              },
+              "Origins": {
+                "shape": "Sb"
+              },
+              "DefaultCacheBehavior": {
+                "shape": "Sn"
+              },
+              "CacheBehaviors": {
+                "shape": "S1a"
+              },
+              "CustomErrorResponses": {
+                "shape": "S1d"
+              },
+              "Comment": {},
+              "PriceClass": {},
+              "Enabled": {
+                "type": "boolean"
+              },
+              "ViewerCertificate": {
+                "shape": "S1i"
+              },
+              "Restrictions": {
+                "shape": "S1m"
+              },
+              "WebACLId": {},
+              "HttpVersion": {},
+              "IsIPV6Enabled": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+},{}],16:[function(require,module,exports){
+module.exports={
+  "pagination": {
+    "ListCloudFrontOriginAccessIdentities": {
+      "input_token": "Marker",
+      "limit_key": "MaxItems",
+      "more_results": "CloudFrontOriginAccessIdentityList.IsTruncated",
+      "output_token": "CloudFrontOriginAccessIdentityList.NextMarker",
+      "result_key": "CloudFrontOriginAccessIdentityList.Items"
+    },
+    "ListDistributions": {
+      "input_token": "Marker",
+      "limit_key": "MaxItems",
+      "more_results": "DistributionList.IsTruncated",
+      "output_token": "DistributionList.NextMarker",
+      "result_key": "DistributionList.Items"
+    },
+    "ListInvalidations": {
+      "input_token": "Marker",
+      "limit_key": "MaxItems",
+      "more_results": "InvalidationList.IsTruncated",
+      "output_token": "InvalidationList.NextMarker",
+      "result_key": "InvalidationList.Items"
+    },
+    "ListStreamingDistributions": {
+      "input_token": "Marker",
+      "limit_key": "MaxItems",
+      "more_results": "StreamingDistributionList.IsTruncated",
+      "output_token": "StreamingDistributionList.NextMarker",
+      "result_key": "StreamingDistributionList.Items"
+    }
+  }
+}
+},{}],17:[function(require,module,exports){
+arguments[4][14][0].apply(exports,arguments)
+},{"dup":14}],18:[function(require,module,exports){
+module.exports={
+  "version": "2.0",
+  "metadata": {
     "apiVersion": "2014-05-30",
     "endpointPrefix": "cloudhsm",
     "jsonVersion": "1.1",
@@ -9684,7 +11671,7 @@ module.exports={
     }
   }
 }
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -9842,6 +11829,9 @@ module.exports={
     "GetEventSelectors": {
       "input": {
         "type": "structure",
+        "required": [
+          "TrailName"
+        ],
         "members": {
           "TrailName": {}
         }
@@ -10045,6 +12035,10 @@ module.exports={
     "PutEventSelectors": {
       "input": {
         "type": "structure",
+        "required": [
+          "TrailName",
+          "EventSelectors"
+        ],
         "members": {
           "TrailName": {},
           "EventSelectors": {
@@ -10208,7 +12202,7 @@ module.exports={
     }
   }
 }
-},{}],17:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeTrails": {
@@ -10222,7 +12216,7 @@ module.exports={
     }
   }
 }
-},{}],18:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -10688,7 +12682,7 @@ module.exports={
     }
   }
 }
-},{}],19:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports={
   "pagination": {
     "GetDifferences": {
@@ -10708,7 +12702,7 @@ module.exports={
     }
   }
 }
-},{}],20:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -11962,7 +13956,7 @@ module.exports={
     }
   }
 }
-},{}],21:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListApplicationRevisions": {
@@ -11997,7 +13991,7 @@ module.exports={
     }
   }
 }
-},{}],22:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -12029,7 +14023,7 @@ module.exports={
   }
 }
 
-},{}],23:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -13131,7 +15125,7 @@ module.exports={
     }
   }
 }
-},{}],24:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -13669,13 +15663,13 @@ module.exports={
     }
   }
 }
-},{}],25:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports={
   "pagination": {
   }
 }
 
-},{}],26:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -15791,7 +17785,7 @@ module.exports={
     }
   }
 }
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -16539,7 +18533,7 @@ module.exports={
   },
   "examples": {}
 }
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -17410,7 +19404,7 @@ module.exports={
     }
   }
 }
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports={
   "pagination": {
     "GetResourceConfigHistory": {
@@ -17421,7 +19415,7 @@ module.exports={
     }
   }
 }
-},{}],30:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -17524,7 +19518,7 @@ module.exports={
     }
   }
 }
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeReportDefinitions": {
@@ -17535,7 +19529,7 @@ module.exports={
   }
 }
 
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -19152,7 +21146,7 @@ module.exports={
     }
   }
 }
-},{}],33:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports={
   "pagination": {
     "GetOfferingStatus": {
@@ -19230,7 +21224,7 @@ module.exports={
     }
   }
 }
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -19266,7 +21260,8 @@ module.exports={
       },
       "output": {
         "shape": "S7"
-      }
+      },
+      "deprecated": true
     },
     "AllocateHostedConnection": {
       "input": {
@@ -19739,7 +21734,8 @@ module.exports={
             "shape": "S28"
           }
         }
-      }
+      },
+      "deprecated": true
     },
     "DescribeConnections": {
       "input": {
@@ -19764,7 +21760,8 @@ module.exports={
       },
       "output": {
         "shape": "S2b"
-      }
+      },
+      "deprecated": true
     },
     "DescribeHostedConnections": {
       "input": {
@@ -19799,7 +21796,8 @@ module.exports={
             "shape": "S28"
           }
         }
-      }
+      },
+      "deprecated": true
     },
     "DescribeInterconnects": {
       "input": {
@@ -20168,7 +22166,7 @@ module.exports={
     }
   }
 }
-},{}],35:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeConnections": {
@@ -20191,7 +22189,7 @@ module.exports={
     }
   }
 }
-},{}],36:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -20856,7 +22854,7 @@ module.exports={
     }
   }
 }
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports={
   "pagination": {
     "BatchGetItem": {
@@ -20883,7 +22881,7 @@ module.exports={
     }
   }
 }
-},{}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -20920,7 +22918,7 @@ module.exports={
   }
 }
 
-},{}],39:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -22097,11 +24095,11 @@ module.exports={
     }
   }
 }
-},{}],40:[function(require,module,exports){
-arguments[4][37][0].apply(exports,arguments)
-},{"dup":37}],41:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
+arguments[4][40][0].apply(exports,arguments)
+},{"dup":40}],44:[function(require,module,exports){
+arguments[4][41][0].apply(exports,arguments)
+},{"dup":41}],45:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -23741,11 +25739,15 @@ module.exports={
             "locationName": "encrypted",
             "type": "boolean"
           },
-          "KmsKeyId": {}
+          "KmsKeyId": {},
+          "TagSpecifications": {
+            "shape": "S6w",
+            "locationName": "TagSpecification"
+          }
         }
       },
       "output": {
-        "shape": "S6w"
+        "shape": "S6z"
       }
     },
     "CreateVpc": {
@@ -23773,7 +25775,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Vpc": {
-            "shape": "S72",
+            "shape": "S75",
             "locationName": "vpc"
           }
         }
@@ -23804,7 +25806,7 @@ module.exports={
         "type": "structure",
         "members": {
           "VpcEndpoint": {
-            "shape": "S77",
+            "shape": "S7a",
             "locationName": "vpcEndpoint"
           },
           "ClientToken": {
@@ -23874,7 +25876,7 @@ module.exports={
         "type": "structure",
         "members": {
           "VpnConnection": {
-            "shape": "S7e",
+            "shape": "S7h",
             "locationName": "vpnConnection"
           }
         }
@@ -23912,7 +25914,7 @@ module.exports={
         "type": "structure",
         "members": {
           "VpnGateway": {
-            "shape": "S7q",
+            "shape": "S7t",
             "locationName": "vpnGateway"
           }
         }
@@ -24444,7 +26446,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "AllocationIds": {
@@ -24512,7 +26514,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -24571,7 +26573,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -24599,11 +26601,11 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {
@@ -24672,7 +26674,7 @@ module.exports={
             "locationName": "conversionTasks",
             "type": "list",
             "member": {
-              "shape": "S9o",
+              "shape": "S9r",
               "locationName": "item"
             }
           }
@@ -24695,7 +26697,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -24730,7 +26732,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -24822,7 +26824,7 @@ module.exports={
             "locationName": "FlowLogId"
           },
           "Filter": {
-            "shape": "S8x"
+            "shape": "S90"
           },
           "NextToken": {},
           "MaxResults": {
@@ -24889,7 +26891,7 @@ module.exports={
             "type": "integer"
           },
           "Filter": {
-            "shape": "S8x"
+            "shape": "S90"
           },
           "MaxResults": {
             "type": "integer"
@@ -24948,7 +26950,7 @@ module.exports={
             }
           },
           "Filter": {
-            "shape": "S8x"
+            "shape": "S90"
           },
           "MaxResults": {
             "type": "integer"
@@ -24969,7 +26971,7 @@ module.exports={
                   "locationName": "hostReservationId"
                 },
                 "HostIdSet": {
-                  "shape": "Sar",
+                  "shape": "Sau",
                   "locationName": "hostIdSet"
                 },
                 "OfferingId": {
@@ -25023,7 +27025,7 @@ module.exports={
         "type": "structure",
         "members": {
           "HostIds": {
-            "shape": "Sau",
+            "shape": "Sax",
             "locationName": "hostId"
           },
           "NextToken": {
@@ -25034,7 +27036,7 @@ module.exports={
             "type": "integer"
           },
           "Filter": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "filter"
           }
         }
@@ -25156,7 +27158,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "MaxResults": {
@@ -25193,7 +27195,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Statuses": {
-            "shape": "Sbd",
+            "shape": "Sbg",
             "locationName": "statusSet"
           }
         }
@@ -25218,7 +27220,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Statuses": {
-            "shape": "Sbd",
+            "shape": "Sbg",
             "locationName": "statusSet"
           }
         }
@@ -25247,11 +27249,11 @@ module.exports={
             "locationName": "imageId"
           },
           "LaunchPermissions": {
-            "shape": "Sbk",
+            "shape": "Sbn",
             "locationName": "launchPermission"
           },
           "ProductCodes": {
-            "shape": "Sbn",
+            "shape": "Sbq",
             "locationName": "productCodes"
           },
           "KernelId": {
@@ -25271,7 +27273,7 @@ module.exports={
             "locationName": "sriovNetSupport"
           },
           "BlockDeviceMappings": {
-            "shape": "Sbq",
+            "shape": "Sbt",
             "locationName": "blockDeviceMapping"
           }
         }
@@ -25293,7 +27295,7 @@ module.exports={
             }
           },
           "Owners": {
-            "shape": "Sbt",
+            "shape": "Sbw",
             "locationName": "Owner"
           },
           "ExecutableUsers": {
@@ -25304,7 +27306,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -25339,7 +27341,7 @@ module.exports={
                   "type": "boolean"
                 },
                 "ProductCodes": {
-                  "shape": "Sbn",
+                  "shape": "Sbq",
                   "locationName": "productCodes"
                 },
                 "Architecture": {
@@ -25365,7 +27367,7 @@ module.exports={
                   "type": "boolean"
                 },
                 "StateReason": {
-                  "shape": "Sc1",
+                  "shape": "Sc4",
                   "locationName": "stateReason"
                 },
                 "ImageOwnerAlias": {
@@ -25384,7 +27386,7 @@ module.exports={
                   "locationName": "rootDeviceName"
                 },
                 "BlockDeviceMappings": {
-                  "shape": "Sbq",
+                  "shape": "Sbt",
                   "locationName": "blockDeviceMapping"
                 },
                 "VirtualizationType": {
@@ -25411,7 +27413,7 @@ module.exports={
             "type": "boolean"
           },
           "ImportTaskIds": {
-            "shape": "Sc6",
+            "shape": "Sc9",
             "locationName": "ImportTaskId"
           },
           "NextToken": {},
@@ -25419,7 +27421,7 @@ module.exports={
             "type": "integer"
           },
           "Filters": {
-            "shape": "S8x"
+            "shape": "S90"
           }
         }
       },
@@ -25452,7 +27454,7 @@ module.exports={
                   "locationName": "description"
                 },
                 "SnapshotDetails": {
-                  "shape": "Sca",
+                  "shape": "Scd",
                   "locationName": "snapshotDetailSet"
                 },
                 "ImageId": {
@@ -25484,7 +27486,7 @@ module.exports={
             "type": "boolean"
           },
           "ImportTaskIds": {
-            "shape": "Sc6",
+            "shape": "Sc9",
             "locationName": "ImportTaskId"
           },
           "NextToken": {},
@@ -25492,7 +27494,7 @@ module.exports={
             "type": "integer"
           },
           "Filters": {
-            "shape": "S8x"
+            "shape": "S90"
           }
         }
       },
@@ -25510,7 +27512,7 @@ module.exports={
                   "locationName": "importTaskId"
                 },
                 "SnapshotTaskDetail": {
-                  "shape": "Sch",
+                  "shape": "Sck",
                   "locationName": "snapshotTaskDetail"
                 },
                 "Description": {
@@ -25568,7 +27570,7 @@ module.exports={
             "locationName": "userData"
           },
           "DisableApiTermination": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "disableApiTermination"
           },
           "InstanceInitiatedShutdownBehavior": {
@@ -25580,15 +27582,15 @@ module.exports={
             "locationName": "rootDeviceName"
           },
           "BlockDeviceMappings": {
-            "shape": "Scm",
+            "shape": "Scp",
             "locationName": "blockDeviceMapping"
           },
           "ProductCodes": {
-            "shape": "Sbn",
+            "shape": "Sbq",
             "locationName": "productCodes"
           },
           "EbsOptimized": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "ebsOptimized"
           },
           "SriovNetSupport": {
@@ -25596,11 +27598,11 @@ module.exports={
             "locationName": "sriovNetSupport"
           },
           "EnaSupport": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "enaSupport"
           },
           "SourceDestCheck": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "sourceDestCheck"
           },
           "Groups": {
@@ -25619,11 +27621,11 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {},
@@ -25677,15 +27679,15 @@ module.exports={
                   }
                 },
                 "InstanceState": {
-                  "shape": "Scw",
+                  "shape": "Scz",
                   "locationName": "instanceState"
                 },
                 "SystemStatus": {
-                  "shape": "Scy",
+                  "shape": "Sd1",
                   "locationName": "systemStatus"
                 },
                 "InstanceStatus": {
-                  "shape": "Scy",
+                  "shape": "Sd1",
                   "locationName": "instanceStatus"
                 }
               }
@@ -25706,11 +27708,11 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {
@@ -25729,7 +27731,7 @@ module.exports={
             "locationName": "reservationSet",
             "type": "list",
             "member": {
-              "shape": "Sd7",
+              "shape": "Sda",
               "locationName": "item"
             }
           },
@@ -25752,7 +27754,7 @@ module.exports={
             "locationName": "internetGatewayId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -25787,7 +27789,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -25830,7 +27832,7 @@ module.exports={
             "locationName": "nextToken"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "filter"
           },
           "MaxResults": {
@@ -25873,7 +27875,7 @@ module.exports={
             "locationName": "NatGatewayId"
           },
           "Filter": {
-            "shape": "S8x"
+            "shape": "S90"
           },
           "MaxResults": {
             "type": "integer"
@@ -25911,7 +27913,7 @@ module.exports={
             "locationName": "NetworkAclId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -25960,7 +27962,7 @@ module.exports={
             "locationName": "description"
           },
           "SourceDestCheck": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "sourceDestCheck"
           },
           "Groups": {
@@ -25990,7 +27992,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "filter"
           }
         }
@@ -26023,7 +28025,7 @@ module.exports={
             "member": {}
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26065,7 +28067,7 @@ module.exports={
             "locationName": "PrefixListId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "MaxResults": {
@@ -26119,7 +28121,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26155,11 +28157,11 @@ module.exports={
             "type": "boolean"
           },
           "ReservedInstancesIds": {
-            "shape": "Ser",
+            "shape": "Seu",
             "locationName": "ReservedInstancesId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "OfferingType": {
@@ -26231,7 +28233,7 @@ module.exports={
                   "locationName": "offeringType"
                 },
                 "RecurringCharges": {
-                  "shape": "Sf0",
+                  "shape": "Sf3",
                   "locationName": "recurringCharges"
                 },
                 "OfferingClass": {
@@ -26257,7 +28259,7 @@ module.exports={
             "locationName": "reservedInstancesListingId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26287,7 +28289,7 @@ module.exports={
             "locationName": "nextToken"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26329,7 +28331,7 @@ module.exports={
                         "locationName": "reservedInstancesId"
                       },
                       "TargetConfiguration": {
-                        "shape": "Sff",
+                        "shape": "Sfi",
                         "locationName": "targetConfiguration"
                       }
                     }
@@ -26382,7 +28384,7 @@ module.exports={
           "AvailabilityZone": {},
           "ProductDescription": {},
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "InstanceTenancy": {
@@ -26457,7 +28459,7 @@ module.exports={
                   "locationName": "offeringType"
                 },
                 "RecurringCharges": {
-                  "shape": "Sf0",
+                  "shape": "Sf3",
                   "locationName": "recurringCharges"
                 },
                 "Marketplace": {
@@ -26510,7 +28512,7 @@ module.exports={
             "locationName": "RouteTableId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26587,7 +28589,7 @@ module.exports={
             "type": "integer"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26625,7 +28627,7 @@ module.exports={
                   "type": "integer"
                 },
                 "Recurrence": {
-                  "shape": "Sfx",
+                  "shape": "Sg0",
                   "locationName": "recurrence"
                 },
                 "FirstSlotStartTime": {
@@ -26687,7 +28689,7 @@ module.exports={
             "type": "integer"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26702,7 +28704,7 @@ module.exports={
             "locationName": "scheduledInstanceSet",
             "type": "list",
             "member": {
-              "shape": "Sg4",
+              "shape": "Sg7",
               "locationName": "item"
             }
           }
@@ -26765,7 +28767,7 @@ module.exports={
             "type": "boolean"
           },
           "GroupNames": {
-            "shape": "Sgb",
+            "shape": "Sge",
             "locationName": "GroupName"
           },
           "GroupIds": {
@@ -26773,7 +28775,7 @@ module.exports={
             "locationName": "GroupId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -26844,11 +28846,11 @@ module.exports={
             "locationName": "snapshotId"
           },
           "CreateVolumePermissions": {
-            "shape": "Sgi",
+            "shape": "Sgl",
             "locationName": "createVolumePermission"
           },
           "ProductCodes": {
-            "shape": "Sbn",
+            "shape": "Sbq",
             "locationName": "productCodes"
           }
         }
@@ -26870,7 +28872,7 @@ module.exports={
             }
           },
           "OwnerIds": {
-            "shape": "Sbt",
+            "shape": "Sbw",
             "locationName": "Owner"
           },
           "RestorableByUserIds": {
@@ -26879,7 +28881,7 @@ module.exports={
             "member": {}
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {},
@@ -27127,7 +29129,7 @@ module.exports={
                   "locationName": "spotFleetRequestState"
                 },
                 "SpotFleetRequestConfig": {
-                  "shape": "Sh6",
+                  "shape": "Sh9",
                   "locationName": "spotFleetRequestConfig"
                 },
                 "CreateTime": {
@@ -27159,7 +29161,7 @@ module.exports={
             "locationName": "SpotInstanceRequestId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27168,7 +29170,7 @@ module.exports={
         "type": "structure",
         "members": {
           "SpotInstanceRequests": {
-            "shape": "Shj",
+            "shape": "Shm",
             "locationName": "spotInstanceRequestSet"
           }
         }
@@ -27201,7 +29203,7 @@ module.exports={
             "member": {}
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "AvailabilityZone": {
@@ -27294,11 +29296,11 @@ module.exports={
                   "locationName": "vpcId"
                 },
                 "StaleIpPermissions": {
-                  "shape": "Si0",
+                  "shape": "Si3",
                   "locationName": "staleIpPermissions"
                 },
                 "StaleIpPermissionsEgress": {
-                  "shape": "Si0",
+                  "shape": "Si3",
                   "locationName": "staleIpPermissionsEgress"
                 }
               }
@@ -27326,7 +29328,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27354,7 +29356,7 @@ module.exports={
             "type": "boolean"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "MaxResults": {
@@ -27419,11 +29421,11 @@ module.exports={
             "locationName": "volumeId"
           },
           "AutoEnableIO": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "autoEnableIO"
           },
           "ProductCodes": {
-            "shape": "Sbn",
+            "shape": "Sbq",
             "locationName": "productCodes"
           }
         }
@@ -27438,11 +29440,11 @@ module.exports={
             "type": "boolean"
           },
           "VolumeIds": {
-            "shape": "Sii",
+            "shape": "Sik",
             "locationName": "VolumeId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {},
@@ -27559,11 +29561,11 @@ module.exports={
             "type": "boolean"
           },
           "VolumeIds": {
-            "shape": "Sii",
+            "shape": "Sik",
             "locationName": "VolumeId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {
@@ -27582,7 +29584,7 @@ module.exports={
             "locationName": "volumeSet",
             "type": "list",
             "member": {
-              "shape": "S6w",
+              "shape": "S6z",
               "locationName": "item"
             }
           },
@@ -27600,11 +29602,11 @@ module.exports={
             "type": "boolean"
           },
           "VolumeIds": {
-            "shape": "Sii",
+            "shape": "Sik",
             "locationName": "VolumeId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "NextToken": {},
@@ -27620,7 +29622,7 @@ module.exports={
             "locationName": "volumeModificationSet",
             "type": "list",
             "member": {
-              "shape": "Sj1",
+              "shape": "Sj3",
               "locationName": "item"
             }
           },
@@ -27653,11 +29655,11 @@ module.exports={
             "locationName": "vpcId"
           },
           "EnableDnsSupport": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "enableDnsSupport"
           },
           "EnableDnsHostnames": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "enableDnsHostnames"
           }
         }
@@ -27672,11 +29674,11 @@ module.exports={
             "type": "boolean"
           },
           "VpcIds": {
-            "shape": "Sj7",
+            "shape": "Sj9",
             "locationName": "VpcId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27713,7 +29715,7 @@ module.exports={
         "type": "structure",
         "members": {
           "VpcIds": {
-            "shape": "Sj7"
+            "shape": "Sj9"
           },
           "MaxResults": {
             "locationName": "maxResults",
@@ -27788,7 +29790,7 @@ module.exports={
             "locationName": "VpcEndpointId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           },
           "MaxResults": {
@@ -27804,7 +29806,7 @@ module.exports={
             "locationName": "vpcEndpointSet",
             "type": "list",
             "member": {
-              "shape": "S77",
+              "shape": "S7a",
               "locationName": "item"
             }
           },
@@ -27827,7 +29829,7 @@ module.exports={
             "locationName": "VpcPeeringConnectionId"
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27862,7 +29864,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27874,7 +29876,7 @@ module.exports={
             "locationName": "vpcSet",
             "type": "list",
             "member": {
-              "shape": "S72",
+              "shape": "S75",
               "locationName": "item"
             }
           }
@@ -27897,7 +29899,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27909,7 +29911,7 @@ module.exports={
             "locationName": "vpnConnectionSet",
             "type": "list",
             "member": {
-              "shape": "S7e",
+              "shape": "S7h",
               "locationName": "item"
             }
           }
@@ -27932,7 +29934,7 @@ module.exports={
             }
           },
           "Filters": {
-            "shape": "S8x",
+            "shape": "S90",
             "locationName": "Filter"
           }
         }
@@ -27944,7 +29946,7 @@ module.exports={
             "locationName": "vpnGatewaySet",
             "type": "list",
             "member": {
-              "shape": "S7q",
+              "shape": "S7t",
               "locationName": "item"
             }
           }
@@ -28360,7 +30362,7 @@ module.exports={
         "members": {
           "OfferingId": {},
           "HostIdSet": {
-            "shape": "Skt"
+            "shape": "Skv"
           }
         }
       },
@@ -28368,7 +30370,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Purchase": {
-            "shape": "Skv",
+            "shape": "Skx",
             "locationName": "purchase"
           },
           "TotalUpfrontPrice": {
@@ -28447,14 +30449,14 @@ module.exports={
                   "locationName": "reservedInstanceId"
                 },
                 "ReservationValue": {
-                  "shape": "Sl3",
+                  "shape": "Sl5",
                   "locationName": "reservationValue"
                 }
               }
             }
           },
           "ReservedInstanceValueRollup": {
-            "shape": "Sl3",
+            "shape": "Sl5",
             "locationName": "reservedInstanceValueRollup"
           },
           "TargetConfigurationValueSet": {
@@ -28478,14 +30480,14 @@ module.exports={
                   }
                 },
                 "ReservationValue": {
-                  "shape": "Sl3",
+                  "shape": "Sl5",
                   "locationName": "reservationValue"
                 }
               }
             }
           },
           "TargetConfigurationValueRollup": {
-            "shape": "Sl3",
+            "shape": "Sl5",
             "locationName": "targetConfigurationValueRollup"
           },
           "PaymentDue": {
@@ -28527,7 +30529,7 @@ module.exports={
                 "Format": {},
                 "Url": {},
                 "UserBucket": {
-                  "shape": "Sla"
+                  "shape": "Slc"
                 },
                 "DeviceName": {},
                 "SnapshotId": {}
@@ -28539,7 +30541,7 @@ module.exports={
           "Architecture": {},
           "Platform": {},
           "ClientData": {
-            "shape": "Slb"
+            "shape": "Sld"
           },
           "ClientToken": {},
           "RoleName": {}
@@ -28567,7 +30569,7 @@ module.exports={
             "locationName": "description"
           },
           "SnapshotDetails": {
-            "shape": "Sca",
+            "shape": "Scd",
             "locationName": "snapshotDetailSet"
           },
           "ImageId": {
@@ -28607,7 +30609,7 @@ module.exports={
                 "locationName": "architecture"
               },
               "GroupNames": {
-                "shape": "Slf",
+                "shape": "Slh",
                 "locationName": "GroupName"
               },
               "GroupIds": {
@@ -28630,7 +30632,7 @@ module.exports={
                 "locationName": "instanceType"
               },
               "Placement": {
-                "shape": "Sdb",
+                "shape": "Sde",
                 "locationName": "placement"
               },
               "Monitoring": {
@@ -28655,11 +30657,11 @@ module.exports={
               "type": "structure",
               "members": {
                 "Image": {
-                  "shape": "Slk"
+                  "shape": "Slm"
                 },
                 "Description": {},
                 "Volume": {
-                  "shape": "Sll"
+                  "shape": "Sln"
                 }
               }
             }
@@ -28673,7 +30675,7 @@ module.exports={
         "type": "structure",
         "members": {
           "ConversionTask": {
-            "shape": "S9o",
+            "shape": "S9r",
             "locationName": "conversionTask"
           }
         }
@@ -28727,12 +30729,12 @@ module.exports={
               "Format": {},
               "Url": {},
               "UserBucket": {
-                "shape": "Sla"
+                "shape": "Slc"
               }
             }
           },
           "ClientData": {
-            "shape": "Slb"
+            "shape": "Sld"
           },
           "ClientToken": {},
           "RoleName": {}
@@ -28745,7 +30747,7 @@ module.exports={
             "locationName": "importTaskId"
           },
           "SnapshotTaskDetail": {
-            "shape": "Sch",
+            "shape": "Sck",
             "locationName": "snapshotTaskDetail"
           },
           "Description": {
@@ -28771,14 +30773,14 @@ module.exports={
             "locationName": "availabilityZone"
           },
           "Image": {
-            "shape": "Slk",
+            "shape": "Slm",
             "locationName": "image"
           },
           "Description": {
             "locationName": "description"
           },
           "Volume": {
-            "shape": "Sll",
+            "shape": "Sln",
             "locationName": "volume"
           }
         }
@@ -28787,7 +30789,7 @@ module.exports={
         "type": "structure",
         "members": {
           "ConversionTask": {
-            "shape": "S9o",
+            "shape": "S9r",
             "locationName": "conversionTask"
           }
         }
@@ -28802,7 +30804,7 @@ module.exports={
         ],
         "members": {
           "HostIds": {
-            "shape": "Sau",
+            "shape": "Sax",
             "locationName": "hostId"
           },
           "AutoPlacement": {
@@ -28818,7 +30820,7 @@ module.exports={
             "locationName": "successful"
           },
           "Unsuccessful": {
-            "shape": "Slw",
+            "shape": "Sly",
             "locationName": "unsuccessful"
           }
         }
@@ -28876,7 +30878,7 @@ module.exports={
           "Attribute": {},
           "OperationType": {},
           "UserIds": {
-            "shape": "Sm1",
+            "shape": "Sm3",
             "locationName": "UserId"
           },
           "UserGroups": {
@@ -28898,10 +30900,10 @@ module.exports={
             "type": "structure",
             "members": {
               "Add": {
-                "shape": "Sbk"
+                "shape": "Sbn"
               },
               "Remove": {
-                "shape": "Sbk"
+                "shape": "Sbn"
               }
             }
           },
@@ -28964,10 +30966,10 @@ module.exports={
             }
           },
           "SourceDestCheck": {
-            "shape": "Scl"
+            "shape": "Sco"
           },
           "DisableApiTermination": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "disableApiTermination"
           },
           "InstanceType": {
@@ -29001,7 +31003,7 @@ module.exports={
             "locationName": "GroupId"
           },
           "EbsOptimized": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "ebsOptimized"
           },
           "SriovNetSupport": {
@@ -29009,7 +31011,7 @@ module.exports={
             "locationName": "sriovNetSupport"
           },
           "EnaSupport": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "enaSupport"
           }
         }
@@ -29065,7 +31067,7 @@ module.exports={
             "locationName": "description"
           },
           "SourceDestCheck": {
-            "shape": "Scl",
+            "shape": "Sco",
             "locationName": "sourceDestCheck"
           },
           "Groups": {
@@ -29100,14 +31102,14 @@ module.exports={
             "locationName": "clientToken"
           },
           "ReservedInstancesIds": {
-            "shape": "Ser",
+            "shape": "Seu",
             "locationName": "ReservedInstancesId"
           },
           "TargetConfigurations": {
             "locationName": "ReservedInstancesConfigurationSetItemType",
             "type": "list",
             "member": {
-              "shape": "Sff",
+              "shape": "Sfi",
               "locationName": "item"
             }
           }
@@ -29137,21 +31139,21 @@ module.exports={
           "Attribute": {},
           "OperationType": {},
           "UserIds": {
-            "shape": "Sm1",
+            "shape": "Sm3",
             "locationName": "UserId"
           },
           "GroupNames": {
-            "shape": "Sgb",
+            "shape": "Sge",
             "locationName": "UserGroup"
           },
           "CreateVolumePermission": {
             "type": "structure",
             "members": {
               "Add": {
-                "shape": "Sgi"
+                "shape": "Sgl"
               },
               "Remove": {
-                "shape": "Sgi"
+                "shape": "Sgl"
               }
             }
           }
@@ -29198,10 +31200,10 @@ module.exports={
             "locationName": "subnetId"
           },
           "MapPublicIpOnLaunch": {
-            "shape": "Scl"
+            "shape": "Sco"
           },
           "AssignIpv6AddressOnCreation": {
-            "shape": "Scl"
+            "shape": "Sco"
           }
         }
       }
@@ -29230,7 +31232,7 @@ module.exports={
         "type": "structure",
         "members": {
           "VolumeModification": {
-            "shape": "Sj1",
+            "shape": "Sj3",
             "locationName": "volumeModification"
           }
         }
@@ -29249,7 +31251,7 @@ module.exports={
           },
           "VolumeId": {},
           "AutoEnableIO": {
-            "shape": "Scl"
+            "shape": "Sco"
           }
         }
       }
@@ -29265,10 +31267,10 @@ module.exports={
             "locationName": "vpcId"
           },
           "EnableDnsSupport": {
-            "shape": "Scl"
+            "shape": "Sco"
           },
           "EnableDnsHostnames": {
-            "shape": "Scl"
+            "shape": "Sco"
           }
         }
       }
@@ -29320,10 +31322,10 @@ module.exports={
           },
           "VpcPeeringConnectionId": {},
           "RequesterPeeringConnectionOptions": {
-            "shape": "Smv"
+            "shape": "Smx"
           },
           "AccepterPeeringConnectionOptions": {
-            "shape": "Smv"
+            "shape": "Smx"
           }
         }
       },
@@ -29331,11 +31333,11 @@ module.exports={
         "type": "structure",
         "members": {
           "RequesterPeeringConnectionOptions": {
-            "shape": "Smx",
+            "shape": "Smz",
             "locationName": "requesterPeeringConnectionOptions"
           },
           "AccepterPeeringConnectionOptions": {
-            "shape": "Smx",
+            "shape": "Smz",
             "locationName": "accepterPeeringConnectionOptions"
           }
         }
@@ -29353,7 +31355,7 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           }
         }
@@ -29362,7 +31364,7 @@ module.exports={
         "type": "structure",
         "members": {
           "InstanceMonitorings": {
-            "shape": "Sn0",
+            "shape": "Sn2",
             "locationName": "instancesSet"
           }
         }
@@ -29406,7 +31408,7 @@ module.exports={
         "members": {
           "OfferingId": {},
           "HostIdSet": {
-            "shape": "Skt"
+            "shape": "Skv"
           },
           "LimitPrice": {},
           "CurrencyCode": {},
@@ -29417,7 +31419,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Purchase": {
-            "shape": "Skv",
+            "shape": "Skx",
             "locationName": "purchase"
           },
           "TotalUpfrontPrice": {
@@ -29515,7 +31517,7 @@ module.exports={
             "locationName": "scheduledInstanceSet",
             "type": "list",
             "member": {
-              "shape": "Sg4",
+              "shape": "Sg7",
               "locationName": "item"
             }
           }
@@ -29534,7 +31536,7 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           }
         }
@@ -29649,7 +31651,7 @@ module.exports={
         ],
         "members": {
           "HostIds": {
-            "shape": "Sau",
+            "shape": "Sax",
             "locationName": "hostId"
           }
         }
@@ -29662,7 +31664,7 @@ module.exports={
             "locationName": "successful"
           },
           "Unsuccessful": {
-            "shape": "Slw",
+            "shape": "Sly",
             "locationName": "unsuccessful"
           }
         }
@@ -29854,7 +31856,7 @@ module.exports={
             "type": "boolean"
           },
           "Instances": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "instanceId"
           },
           "Status": {
@@ -29893,7 +31895,7 @@ module.exports={
             "type": "boolean"
           },
           "SpotFleetRequestConfig": {
-            "shape": "Sh6",
+            "shape": "Sh9",
             "locationName": "spotFleetRequestConfig"
           }
         }
@@ -29975,7 +31977,7 @@ module.exports={
                 "locationName": "instanceType"
               },
               "Placement": {
-                "shape": "Sh9",
+                "shape": "Shc",
                 "locationName": "placement"
               },
               "KernelId": {
@@ -29985,14 +31987,14 @@ module.exports={
                 "locationName": "ramdiskId"
               },
               "BlockDeviceMappings": {
-                "shape": "Sbq",
+                "shape": "Sbt",
                 "locationName": "blockDeviceMapping"
               },
               "SubnetId": {
                 "locationName": "subnetId"
               },
               "NetworkInterfaces": {
-                "shape": "Shb",
+                "shape": "She",
                 "locationName": "NetworkInterface"
               },
               "IamInstanceProfile": {
@@ -30004,7 +32006,7 @@ module.exports={
                 "type": "boolean"
               },
               "Monitoring": {
-                "shape": "Shp",
+                "shape": "Shs",
                 "locationName": "monitoring"
               },
               "SecurityGroupIds": {
@@ -30019,7 +32021,7 @@ module.exports={
         "type": "structure",
         "members": {
           "SpotInstanceRequests": {
-            "shape": "Shj",
+            "shape": "Shm",
             "locationName": "spotInstanceRequestSet"
           }
         }
@@ -30217,7 +32219,7 @@ module.exports={
           },
           "KeyName": {},
           "SecurityGroups": {
-            "shape": "Slf",
+            "shape": "Slh",
             "locationName": "SecurityGroup"
           },
           "SecurityGroupIds": {
@@ -30227,7 +32229,7 @@ module.exports={
           "UserData": {},
           "InstanceType": {},
           "Placement": {
-            "shape": "Sdb"
+            "shape": "Sde"
           },
           "KernelId": {},
           "RamdiskId": {},
@@ -30236,7 +32238,7 @@ module.exports={
             "locationName": "BlockDeviceMapping"
           },
           "Monitoring": {
-            "shape": "Shp"
+            "shape": "Shs"
           },
           "SubnetId": {},
           "DisableApiTermination": {
@@ -30263,7 +32265,7 @@ module.exports={
             "locationName": "additionalInfo"
           },
           "NetworkInterfaces": {
-            "shape": "Shb",
+            "shape": "She",
             "locationName": "networkInterface"
           },
           "IamInstanceProfile": {
@@ -30273,11 +32275,15 @@ module.exports={
           "EbsOptimized": {
             "locationName": "ebsOptimized",
             "type": "boolean"
+          },
+          "TagSpecifications": {
+            "shape": "S6w",
+            "locationName": "TagSpecification"
           }
         }
       },
       "output": {
-        "shape": "Sd7"
+        "shape": "Sda"
       }
     },
     "RunScheduledInstances": {
@@ -30307,7 +32313,7 @@ module.exports={
               "ImageId": {},
               "KeyName": {},
               "SecurityGroupIds": {
-                "shape": "Soh",
+                "shape": "Soj",
                 "locationName": "SecurityGroupId"
               },
               "UserData": {},
@@ -30397,7 +32403,7 @@ module.exports={
                       "type": "boolean"
                     },
                     "Groups": {
-                      "shape": "Soh",
+                      "shape": "Soj",
                       "locationName": "Group"
                     },
                     "DeleteOnTermination": {
@@ -30455,7 +32461,7 @@ module.exports={
         ],
         "members": {
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           },
           "AdditionalInfo": {
@@ -30471,7 +32477,7 @@ module.exports={
         "type": "structure",
         "members": {
           "StartingInstances": {
-            "shape": "Soz",
+            "shape": "Sp1",
             "locationName": "instancesSet"
           }
         }
@@ -30489,7 +32495,7 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           },
           "Force": {
@@ -30502,7 +32508,7 @@ module.exports={
         "type": "structure",
         "members": {
           "StoppingInstances": {
-            "shape": "Soz",
+            "shape": "Sp1",
             "locationName": "instancesSet"
           }
         }
@@ -30520,7 +32526,7 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           }
         }
@@ -30529,7 +32535,7 @@ module.exports={
         "type": "structure",
         "members": {
           "TerminatingInstances": {
-            "shape": "Soz",
+            "shape": "Sp1",
             "locationName": "instancesSet"
           }
         }
@@ -30595,7 +32601,7 @@ module.exports={
             "type": "boolean"
           },
           "InstanceIds": {
-            "shape": "S9g",
+            "shape": "S9j",
             "locationName": "InstanceId"
           }
         }
@@ -30604,7 +32610,7 @@ module.exports={
         "type": "structure",
         "members": {
           "InstanceMonitorings": {
-            "shape": "Sn0",
+            "shape": "Sn2",
             "locationName": "instancesSet"
           }
         }
@@ -31977,6 +33983,22 @@ module.exports={
       "member": {}
     },
     "S6w": {
+      "type": "list",
+      "member": {
+        "locationName": "item",
+        "type": "structure",
+        "members": {
+          "ResourceType": {
+            "locationName": "resourceType"
+          },
+          "Tags": {
+            "shape": "Sj",
+            "locationName": "Tag"
+          }
+        }
+      }
+    },
+    "S6z": {
       "type": "structure",
       "members": {
         "VolumeId": {
@@ -32027,7 +34049,7 @@ module.exports={
         }
       }
     },
-    "S72": {
+    "S75": {
       "type": "structure",
       "members": {
         "VpcId": {
@@ -32063,7 +34085,7 @@ module.exports={
         }
       }
     },
-    "S77": {
+    "S7a": {
       "type": "structure",
       "members": {
         "VpcEndpointId": {
@@ -32091,7 +34113,7 @@ module.exports={
         }
       }
     },
-    "S7e": {
+    "S7h": {
       "type": "structure",
       "members": {
         "VpnConnectionId": {
@@ -32174,7 +34196,7 @@ module.exports={
         }
       }
     },
-    "S7q": {
+    "S7t": {
       "type": "structure",
       "members": {
         "VpnGatewayId": {
@@ -32203,7 +34225,7 @@ module.exports={
         }
       }
     },
-    "S8x": {
+    "S90": {
       "type": "list",
       "member": {
         "locationName": "Filter",
@@ -32217,13 +34239,13 @@ module.exports={
         }
       }
     },
-    "S9g": {
+    "S9j": {
       "type": "list",
       "member": {
         "locationName": "InstanceId"
       }
     },
-    "S9o": {
+    "S9r": {
       "type": "structure",
       "required": [
         "ConversionTaskId",
@@ -32265,11 +34287,11 @@ module.exports={
                     "locationName": "availabilityZone"
                   },
                   "Image": {
-                    "shape": "S9s",
+                    "shape": "S9v",
                     "locationName": "image"
                   },
                   "Volume": {
-                    "shape": "S9t",
+                    "shape": "S9w",
                     "locationName": "volume"
                   },
                   "Status": {
@@ -32316,11 +34338,11 @@ module.exports={
               "locationName": "description"
             },
             "Image": {
-              "shape": "S9s",
+              "shape": "S9v",
               "locationName": "image"
             },
             "Volume": {
-              "shape": "S9t",
+              "shape": "S9w",
               "locationName": "volume"
             }
           }
@@ -32337,7 +34359,7 @@ module.exports={
         }
       }
     },
-    "S9s": {
+    "S9v": {
       "type": "structure",
       "required": [
         "Format",
@@ -32360,7 +34382,7 @@ module.exports={
         }
       }
     },
-    "S9t": {
+    "S9w": {
       "type": "structure",
       "required": [
         "Id"
@@ -32375,19 +34397,19 @@ module.exports={
         }
       }
     },
-    "Sar": {
-      "type": "list",
-      "member": {
-        "locationName": "item"
-      }
-    },
     "Sau": {
       "type": "list",
       "member": {
         "locationName": "item"
       }
     },
-    "Sbd": {
+    "Sax": {
+      "type": "list",
+      "member": {
+        "locationName": "item"
+      }
+    },
+    "Sbg": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32407,7 +34429,7 @@ module.exports={
         }
       }
     },
-    "Sbk": {
+    "Sbn": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32422,7 +34444,7 @@ module.exports={
         }
       }
     },
-    "Sbn": {
+    "Sbq": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32437,20 +34459,20 @@ module.exports={
         }
       }
     },
-    "Sbq": {
+    "Sbt": {
       "type": "list",
       "member": {
         "shape": "S4c",
         "locationName": "item"
       }
     },
-    "Sbt": {
+    "Sbw": {
       "type": "list",
       "member": {
         "locationName": "Owner"
       }
     },
-    "Sc1": {
+    "Sc4": {
       "type": "structure",
       "members": {
         "Code": {
@@ -32461,13 +34483,13 @@ module.exports={
         }
       }
     },
-    "Sc6": {
+    "Sc9": {
       "type": "list",
       "member": {
         "locationName": "ImportTaskId"
       }
     },
-    "Sca": {
+    "Scd": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32487,7 +34509,7 @@ module.exports={
             "locationName": "url"
           },
           "UserBucket": {
-            "shape": "Scc",
+            "shape": "Scf",
             "locationName": "userBucket"
           },
           "DeviceName": {
@@ -32508,7 +34530,7 @@ module.exports={
         }
       }
     },
-    "Scc": {
+    "Scf": {
       "type": "structure",
       "members": {
         "S3Bucket": {
@@ -32519,7 +34541,7 @@ module.exports={
         }
       }
     },
-    "Sch": {
+    "Sck": {
       "type": "structure",
       "members": {
         "DiskImageSize": {
@@ -32536,7 +34558,7 @@ module.exports={
           "locationName": "url"
         },
         "UserBucket": {
-          "shape": "Scc",
+          "shape": "Scf",
           "locationName": "userBucket"
         },
         "SnapshotId": {
@@ -32553,7 +34575,7 @@ module.exports={
         }
       }
     },
-    "Scl": {
+    "Sco": {
       "type": "structure",
       "members": {
         "Value": {
@@ -32562,7 +34584,7 @@ module.exports={
         }
       }
     },
-    "Scm": {
+    "Scp": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32594,7 +34616,7 @@ module.exports={
         }
       }
     },
-    "Scw": {
+    "Scz": {
       "type": "structure",
       "members": {
         "Code": {
@@ -32606,7 +34628,7 @@ module.exports={
         }
       }
     },
-    "Scy": {
+    "Sd1": {
       "type": "structure",
       "members": {
         "Status": {
@@ -32634,7 +34656,7 @@ module.exports={
         }
       }
     },
-    "Sd7": {
+    "Sda": {
       "type": "structure",
       "members": {
         "ReservationId": {
@@ -32664,7 +34686,7 @@ module.exports={
                 "locationName": "imageId"
               },
               "State": {
-                "shape": "Scw",
+                "shape": "Scz",
                 "locationName": "instanceState"
               },
               "PrivateDnsName": {
@@ -32684,7 +34706,7 @@ module.exports={
                 "type": "integer"
               },
               "ProductCodes": {
-                "shape": "Sbn",
+                "shape": "Sbq",
                 "locationName": "productCodes"
               },
               "InstanceType": {
@@ -32695,7 +34717,7 @@ module.exports={
                 "type": "timestamp"
               },
               "Placement": {
-                "shape": "Sdb",
+                "shape": "Sde",
                 "locationName": "placement"
               },
               "KernelId": {
@@ -32708,7 +34730,7 @@ module.exports={
                 "locationName": "platform"
               },
               "Monitoring": {
-                "shape": "Sdc",
+                "shape": "Sdf",
                 "locationName": "monitoring"
               },
               "SubnetId": {
@@ -32724,7 +34746,7 @@ module.exports={
                 "locationName": "ipAddress"
               },
               "StateReason": {
-                "shape": "Sc1",
+                "shape": "Sc4",
                 "locationName": "stateReason"
               },
               "Architecture": {
@@ -32737,7 +34759,7 @@ module.exports={
                 "locationName": "rootDeviceName"
               },
               "BlockDeviceMappings": {
-                "shape": "Scm",
+                "shape": "Scp",
                 "locationName": "blockDeviceMapping"
               },
               "VirtualizationType": {
@@ -32834,7 +34856,7 @@ module.exports={
                       }
                     },
                     "Association": {
-                      "shape": "Sdi",
+                      "shape": "Sdl",
                       "locationName": "association"
                     },
                     "PrivateIpAddresses": {
@@ -32855,7 +34877,7 @@ module.exports={
                             "type": "boolean"
                           },
                           "Association": {
-                            "shape": "Sdi",
+                            "shape": "Sdl",
                             "locationName": "association"
                           }
                         }
@@ -32888,7 +34910,7 @@ module.exports={
         }
       }
     },
-    "Sdb": {
+    "Sde": {
       "type": "structure",
       "members": {
         "AvailabilityZone": {
@@ -32908,7 +34930,7 @@ module.exports={
         }
       }
     },
-    "Sdc": {
+    "Sdf": {
       "type": "structure",
       "members": {
         "State": {
@@ -32916,7 +34938,7 @@ module.exports={
         }
       }
     },
-    "Sdi": {
+    "Sdl": {
       "type": "structure",
       "members": {
         "PublicIp": {
@@ -32930,13 +34952,13 @@ module.exports={
         }
       }
     },
-    "Ser": {
+    "Seu": {
       "type": "list",
       "member": {
         "locationName": "ReservedInstancesId"
       }
     },
-    "Sf0": {
+    "Sf3": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -32952,7 +34974,7 @@ module.exports={
         }
       }
     },
-    "Sff": {
+    "Sfi": {
       "type": "structure",
       "members": {
         "AvailabilityZone": {
@@ -32973,7 +34995,7 @@ module.exports={
         }
       }
     },
-    "Sfx": {
+    "Sg0": {
       "type": "structure",
       "members": {
         "Frequency": {
@@ -33000,7 +35022,7 @@ module.exports={
         }
       }
     },
-    "Sg4": {
+    "Sg7": {
       "type": "structure",
       "members": {
         "ScheduledInstanceId": {
@@ -33023,7 +35045,7 @@ module.exports={
           "type": "integer"
         },
         "Recurrence": {
-          "shape": "Sfx",
+          "shape": "Sg0",
           "locationName": "recurrence"
         },
         "PreviousSlotEndTime": {
@@ -33059,13 +35081,13 @@ module.exports={
         }
       }
     },
-    "Sgb": {
+    "Sge": {
       "type": "list",
       "member": {
         "locationName": "GroupName"
       }
     },
-    "Sgi": {
+    "Sgl": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33080,7 +35102,7 @@ module.exports={
         }
       }
     },
-    "Sh6": {
+    "Sh9": {
       "type": "structure",
       "required": [
         "SpotPrice",
@@ -33141,7 +35163,7 @@ module.exports={
                 "locationName": "instanceType"
               },
               "Placement": {
-                "shape": "Sh9",
+                "shape": "Shc",
                 "locationName": "placement"
               },
               "KernelId": {
@@ -33151,7 +35173,7 @@ module.exports={
                 "locationName": "ramdiskId"
               },
               "BlockDeviceMappings": {
-                "shape": "Sbq",
+                "shape": "Sbt",
                 "locationName": "blockDeviceMapping"
               },
               "Monitoring": {
@@ -33168,7 +35190,7 @@ module.exports={
                 "locationName": "subnetId"
               },
               "NetworkInterfaces": {
-                "shape": "Shb",
+                "shape": "She",
                 "locationName": "networkInterfaceSet"
               },
               "IamInstanceProfile": {
@@ -33208,7 +35230,7 @@ module.exports={
         }
       }
     },
-    "Sh9": {
+    "Shc": {
       "type": "structure",
       "members": {
         "AvailabilityZone": {
@@ -33222,7 +35244,7 @@ module.exports={
         }
       }
     },
-    "Shb": {
+    "She": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33277,7 +35299,7 @@ module.exports={
         }
       }
     },
-    "Shj": {
+    "Shm": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33353,7 +35375,7 @@ module.exports={
                 "locationName": "instanceType"
               },
               "Placement": {
-                "shape": "Sh9",
+                "shape": "Shc",
                 "locationName": "placement"
               },
               "KernelId": {
@@ -33363,14 +35385,14 @@ module.exports={
                 "locationName": "ramdiskId"
               },
               "BlockDeviceMappings": {
-                "shape": "Sbq",
+                "shape": "Sbt",
                 "locationName": "blockDeviceMapping"
               },
               "SubnetId": {
                 "locationName": "subnetId"
               },
               "NetworkInterfaces": {
-                "shape": "Shb",
+                "shape": "She",
                 "locationName": "networkInterfaceSet"
               },
               "IamInstanceProfile": {
@@ -33382,7 +35404,7 @@ module.exports={
                 "type": "boolean"
               },
               "Monitoring": {
-                "shape": "Shp",
+                "shape": "Shs",
                 "locationName": "monitoring"
               }
             }
@@ -33414,7 +35436,7 @@ module.exports={
         }
       }
     },
-    "Shp": {
+    "Shs": {
       "type": "structure",
       "required": [
         "Enabled"
@@ -33426,7 +35448,7 @@ module.exports={
         }
       }
     },
-    "Si0": {
+    "Si3": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33468,13 +35490,13 @@ module.exports={
         }
       }
     },
-    "Sii": {
+    "Sik": {
       "type": "list",
       "member": {
         "locationName": "VolumeId"
       }
     },
-    "Sj1": {
+    "Sj3": {
       "type": "structure",
       "members": {
         "VolumeId": {
@@ -33522,19 +35544,19 @@ module.exports={
         }
       }
     },
-    "Sj7": {
+    "Sj9": {
       "type": "list",
       "member": {
         "locationName": "VpcId"
       }
     },
-    "Skt": {
+    "Skv": {
       "type": "list",
       "member": {
         "locationName": "item"
       }
     },
-    "Skv": {
+    "Skx": {
       "type": "list",
       "member": {
         "type": "structure",
@@ -33543,7 +35565,7 @@ module.exports={
             "locationName": "hostReservationId"
           },
           "HostIdSet": {
-            "shape": "Sar",
+            "shape": "Sau",
             "locationName": "hostIdSet"
           },
           "InstanceFamily": {
@@ -33568,7 +35590,7 @@ module.exports={
         }
       }
     },
-    "Sl3": {
+    "Sl5": {
       "type": "structure",
       "members": {
         "RemainingTotalValue": {
@@ -33582,14 +35604,14 @@ module.exports={
         }
       }
     },
-    "Sla": {
+    "Slc": {
       "type": "structure",
       "members": {
         "S3Bucket": {},
         "S3Key": {}
       }
     },
-    "Slb": {
+    "Sld": {
       "type": "structure",
       "members": {
         "UploadStart": {
@@ -33604,13 +35626,13 @@ module.exports={
         "Comment": {}
       }
     },
-    "Slf": {
+    "Slh": {
       "type": "list",
       "member": {
         "locationName": "SecurityGroup"
       }
     },
-    "Slk": {
+    "Slm": {
       "type": "structure",
       "required": [
         "Format",
@@ -33630,7 +35652,7 @@ module.exports={
         }
       }
     },
-    "Sll": {
+    "Sln": {
       "type": "structure",
       "required": [
         "Size"
@@ -33642,20 +35664,20 @@ module.exports={
         }
       }
     },
-    "Slw": {
+    "Sly": {
       "type": "list",
       "member": {
         "shape": "S48",
         "locationName": "item"
       }
     },
-    "Sm1": {
+    "Sm3": {
       "type": "list",
       "member": {
         "locationName": "UserId"
       }
     },
-    "Smv": {
+    "Smx": {
       "type": "structure",
       "members": {
         "AllowEgressFromLocalClassicLinkToRemoteVpc": {
@@ -33669,7 +35691,7 @@ module.exports={
         }
       }
     },
-    "Smx": {
+    "Smz": {
       "type": "structure",
       "members": {
         "AllowEgressFromLocalClassicLinkToRemoteVpc": {
@@ -33686,7 +35708,7 @@ module.exports={
         }
       }
     },
-    "Sn0": {
+    "Sn2": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33696,19 +35718,19 @@ module.exports={
             "locationName": "instanceId"
           },
           "Monitoring": {
-            "shape": "Sdc",
+            "shape": "Sdf",
             "locationName": "monitoring"
           }
         }
       }
     },
-    "Soh": {
+    "Soj": {
       "type": "list",
       "member": {
         "locationName": "SecurityGroupId"
       }
     },
-    "Soz": {
+    "Sp1": {
       "type": "list",
       "member": {
         "locationName": "item",
@@ -33718,11 +35740,11 @@ module.exports={
             "locationName": "instanceId"
           },
           "CurrentState": {
-            "shape": "Scw",
+            "shape": "Scz",
             "locationName": "currentState"
           },
           "PreviousState": {
-            "shape": "Scw",
+            "shape": "Scz",
             "locationName": "previousState"
           }
         }
@@ -33730,7 +35752,7 @@ module.exports={
     }
   }
 }
-},{}],43:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeAccountAttributes": {
@@ -33875,7 +35897,7 @@ module.exports={
     }
   }
 }
-},{}],44:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -34488,7 +36510,7 @@ module.exports={
   }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -35041,7 +37063,7 @@ module.exports={
     }
   }
 }
-},{}],46:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListImages": {
@@ -35065,7 +37087,7 @@ module.exports={
   }
 }
 
-},{}],47:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -36370,7 +38392,7 @@ module.exports={
     }
   }
 }
-},{}],48:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports={
 	"pagination": {
 		"ListClusters": {
@@ -36412,7 +38434,7 @@ module.exports={
 	}
 }
 
-},{}],49:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -36507,7 +38529,7 @@ module.exports={
   }
 }
 
-},{}],50:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -38078,7 +40100,7 @@ module.exports={
     }
   }
 }
-},{}],51:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeCacheClusters": {
@@ -38156,7 +40178,7 @@ module.exports={
   }
 }
 
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 module.exports={
     "version":2,
     "waiters":{
@@ -38301,7 +40323,7 @@ module.exports={
     }
 }
 
-},{}],53:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -39881,7 +41903,7 @@ module.exports={
     }
   }
 }
-},{}],54:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeApplicationVersions": {
@@ -39907,7 +41929,7 @@ module.exports={
     }
   }
 }
-},{}],55:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -40882,7 +42904,7 @@ module.exports={
     }
   }
 }
-},{}],56:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeInstanceHealth": {
@@ -40902,7 +42924,7 @@ module.exports={
   }
 }
 
-},{}],57:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 module.exports={
     "version":2,
     "waiters":{
@@ -40953,7 +42975,7 @@ module.exports={
     }
 }
 
-},{}],58:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -41999,7 +44021,7 @@ module.exports={
     }
   }
 }
-},{}],59:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeListeners": {
@@ -42019,7 +44041,55 @@ module.exports={
     }
   }
 }
-},{}],60:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
+module.exports={
+  "version": 2,
+  "waiters": {
+    "LoadBalancerExists": {
+      "delay": 15,
+      "operation": "DescribeLoadBalancers",
+      "maxAttempts": 40,
+      "acceptors": [
+        {
+          "matcher": "status",
+          "expected": 200,
+          "state": "success"
+        },
+        {
+          "matcher": "error",
+          "expected": "LoadBalancerNotFound",
+          "state": "retry"
+        }
+      ]
+    },
+    "LoadBalancerAvailable": {
+      "delay": 15,
+      "operation": "DescribeLoadBalancers",
+      "maxAttempts": 40,
+      "acceptors": [
+        {
+          "state": "success",
+          "matcher": "pathAll",
+          "argument": "LoadBalancers[].State.Code",
+          "expected": "active"
+        },
+        {
+          "state": "retry",
+          "matcher": "pathAny",
+          "argument": "LoadBalancers[].State.Code",
+          "expected": "provisioning"
+        },
+        {
+          "state": "retry",
+          "matcher": "error",
+          "expected": "LoadBalancerNotFound"
+        }
+      ]
+    }
+  }
+}
+
+},{}],64:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -43729,7 +45799,7 @@ module.exports={
     }
   }
 }
-},{}],61:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeJobFlows": {
@@ -43767,7 +45837,7 @@ module.exports={
     }
   }
 }
-},{}],62:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -43855,7 +45925,7 @@ module.exports={
   }
 }
 
-},{}],63:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -44915,7 +46985,7 @@ module.exports={
     }
   }
 }
-},{}],64:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListJobsByPipeline": {
@@ -44941,7 +47011,7 @@ module.exports={
   }
 }
 
-},{}],65:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -44973,7 +47043,7 @@ module.exports={
   }
 }
 
-},{}],66:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -46418,7 +48488,7 @@ module.exports={
     }
   }
 }
-},{}],67:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListIdentities": {
@@ -46433,7 +48503,7 @@ module.exports={
   }
 }
 
-},{}],68:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -46453,7 +48523,7 @@ module.exports={
   }
 }
 
-},{}],69:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -46845,9 +48915,9 @@ module.exports={
     }
   }
 }
-},{}],70:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],71:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],75:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -47551,7 +49621,7 @@ module.exports={
     }
   }
 }
-},{}],72:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -49064,9 +51134,9 @@ module.exports={
     }
   }
 }
-},{}],73:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],78:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -50316,7 +52386,7 @@ module.exports={
     }
   }
 }
-},{}],75:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -52267,7 +54337,7 @@ module.exports={
   },
   "examples": {}
 }
-},{}],76:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -52397,7 +54467,7 @@ module.exports={
   },
   "shapes": {}
 }
-},{}],77:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -52956,7 +55026,7 @@ module.exports={
     }
   }
 }
-},{}],78:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeStream": {
@@ -52976,7 +55046,7 @@ module.exports={
   }
 }
 
-},{}],79:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -52996,7 +55066,7 @@ module.exports={
   }
 }
 
-},{}],80:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -53832,7 +55902,7 @@ module.exports={
     }
   }
 }
-},{}],81:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListAliases": {
@@ -53865,7 +55935,7 @@ module.exports={
     }
   }
 }
-},{}],82:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports={
   "metadata": {
     "apiVersion": "2014-11-11",
@@ -54289,7 +56359,7 @@ module.exports={
     }
   }
 }
-},{}],83:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListEventSources": {
@@ -54307,7 +56377,7 @@ module.exports={
   }
 }
 
-},{}],84:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -55294,25 +57364,24 @@ module.exports={
     }
   }
 }
-},{}],85:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListEventSourceMappings": {
       "input_token": "Marker",
-      "output_token": "NextMarker",
       "limit_key": "MaxItems",
+      "output_token": "NextMarker",
       "result_key": "EventSourceMappings"
     },
     "ListFunctions": {
       "input_token": "Marker",
-      "output_token": "NextMarker",
       "limit_key": "MaxItems",
+      "output_token": "NextMarker",
       "result_key": "Functions"
     }
   }
 }
-
-},{}],86:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -56096,7 +58165,7 @@ module.exports={
     }
   }
 }
-},{}],87:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeDestinations": {
@@ -56147,7 +58216,7 @@ module.exports={
   }
 }
 
-},{}],88:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -57256,7 +59325,7 @@ module.exports={
   },
   "examples": {}
 }
-},{}],89:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeBatchPredictions": {
@@ -57286,7 +59355,7 @@ module.exports={
   }
 }
 
-},{}],90:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -57369,7 +59438,7 @@ module.exports={
   }
 }
 
-},{}],91:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -57455,7 +59524,9 @@ module.exports={
     }
   }
 }
-},{}],92:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],97:[function(require,module,exports){
 module.exports={
   "acm": {
     "name": "ACM",
@@ -57506,7 +59577,8 @@ module.exports={
       "2016-08-01*",
       "2016-08-20*",
       "2016-09-07*",
-      "2016-09-29*"
+      "2016-09-29*",
+      "2016-11-25*"
     ],
     "cors": true
   },
@@ -57789,6 +59861,9 @@ module.exports={
     "name": "Rekognition",
     "cors": true
   },
+  "resourcegroupstaggingapi": {
+    "name": "ResourceGroupsTaggingAPI"
+  },
   "route53": {
     "name": "Route53",
     "cors": true
@@ -57874,7 +59949,7 @@ module.exports={
   }
 }
 
-},{}],93:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -57949,7 +60024,7 @@ module.exports={
   },
   "shapes": {}
 }
-},{}],94:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -58466,7 +60541,7 @@ module.exports={
     }
   }
 }
-},{}],95:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeAlarmHistory": {
@@ -58492,7 +60567,7 @@ module.exports={
   }
 }
 
-},{}],96:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -58512,7 +60587,7 @@ module.exports={
   }
 }
 
-},{}],97:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -59794,7 +61869,7 @@ module.exports={
     }
   }
 }
-},{}],98:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListAssignmentsForHIT": {
@@ -59850,7 +61925,7 @@ module.exports={
   }
 }
 
-},{}],99:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -61993,7 +64068,7 @@ module.exports={
     }
   }
 }
-},{}],100:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeApps": {
@@ -62050,7 +64125,7 @@ module.exports={
   }
 }
 
-},{}],101:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -62347,7 +64422,7 @@ module.exports={
   }
 }
 
-},{}],102:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -62592,7 +64667,7 @@ module.exports={
     }
   }
 }
-},{}],103:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -64489,7 +66564,7 @@ module.exports={
     }
   }
 }
-},{}],104:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeDBEngineVersions": {
@@ -64587,7 +66662,7 @@ module.exports={
     }
   }
 }
-},{}],105:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -66616,7 +68691,7 @@ module.exports={
     }
   }
 }
-},{}],106:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeDBEngineVersions": {
@@ -66727,7 +68802,7 @@ module.exports={
     }
   }
 }
-},{}],107:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -68892,9 +70967,9 @@ module.exports={
     }
   }
 }
-},{}],108:[function(require,module,exports){
-arguments[4][106][0].apply(exports,arguments)
-},{"dup":106}],109:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
+arguments[4][111][0].apply(exports,arguments)
+},{"dup":111}],114:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -68993,7 +71068,7 @@ module.exports={
   }
 }
 
-},{}],110:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -72586,9 +74661,9 @@ module.exports={
     }
   }
 }
-},{}],111:[function(require,module,exports){
-arguments[4][106][0].apply(exports,arguments)
-},{"dup":106}],112:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
+arguments[4][111][0].apply(exports,arguments)
+},{"dup":111}],117:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -72680,7 +74755,7 @@ module.exports={
   }
 }
 
-},{}],113:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -74988,7 +77063,7 @@ module.exports={
     }
   }
 }
-},{}],114:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeClusterParameterGroups": {
@@ -75084,7 +77159,7 @@ module.exports={
   }
 }
 
-},{}],115:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -75183,7 +77258,7 @@ module.exports={
   }
 }
 
-},{}],116:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -75765,7 +77840,7 @@ module.exports={
     }
   }
 }
-},{}],117:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListCollections": {
@@ -75782,7 +77857,7 @@ module.exports={
     }
   }
 }
-},{}],118:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -78063,7 +80138,7 @@ module.exports={
     }
   }
 }
-},{}],119:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListHealthChecks": {
@@ -78097,7 +80172,7 @@ module.exports={
     }
   }
 }
-},{}],120:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -78117,7 +80192,7 @@ module.exports={
   }
 }
 
-},{}],121:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -78866,7 +80941,7 @@ module.exports={
     }
   }
 }
-},{}],122:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 module.exports={
   "version": "1.0",
   "pagination": {
@@ -78885,7 +80960,7 @@ module.exports={
   }
 }
 
-},{}],123:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -78988,9 +81063,9 @@ module.exports={
     }
   }
 }
-},{}],124:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],125:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],130:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -83497,7 +85572,7 @@ module.exports={
     }
   }
 }
-},{}],126:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListBuckets": {
@@ -83565,7 +85640,7 @@ module.exports={
   }
 }
 
-},{}],127:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 module.exports={
   "version": 2,
   "waiters": {
@@ -83640,7 +85715,7 @@ module.exports={
   }
 }
 
-},{}],128:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -85034,7 +87109,7 @@ module.exports={
     }
   }
 }
-},{}],129:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -85658,7 +87733,7 @@ module.exports={
     }
   }
 }
-},{}],130:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListEndpointsByPlatformApplication": {
@@ -85689,7 +87764,7 @@ module.exports={
   }
 }
 
-},{}],131:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -86288,7 +88363,7 @@ module.exports={
     }
   }
 }
-},{}],132:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 module.exports={
   "pagination": {
     "ListQueues": {
@@ -86297,7 +88372,7 @@ module.exports={
   }
 }
 
-},{}],133:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -87594,7 +89669,7 @@ module.exports={
           "BaselineIdentities": {
             "type": "list",
             "member": {
-              "shape": "S96"
+              "shape": "S97"
             }
           },
           "NextToken": {}
@@ -87655,7 +89730,7 @@ module.exports={
               "members": {
                 "PatchGroup": {},
                 "BaselineIdentity": {
-                  "shape": "S96"
+                  "shape": "S97"
                 }
               }
             }
@@ -87825,7 +89900,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Filters": {
-            "shape": "Sa4"
+            "shape": "Sa5"
           },
           "ResultAttributes": {
             "type": "list",
@@ -87872,7 +89947,7 @@ module.exports={
                       "CaptureTime": {},
                       "ContentHash": {},
                       "Content": {
-                        "shape": "San"
+                        "shape": "Sao"
                       }
                     }
                   }
@@ -88089,7 +90164,7 @@ module.exports={
         ],
         "members": {
           "Names": {
-            "shape": "Sbf"
+            "shape": "Sbg"
           },
           "WithDecryption": {
             "type": "boolean"
@@ -88111,7 +90186,7 @@ module.exports={
             }
           },
           "InvalidParameters": {
-            "shape": "Sbf"
+            "shape": "Sbg"
           }
         }
       }
@@ -88241,7 +90316,7 @@ module.exports={
           },
           "NextToken": {},
           "Filters": {
-            "shape": "Sby"
+            "shape": "Sbz"
           },
           "Details": {
             "type": "boolean"
@@ -88297,7 +90372,7 @@ module.exports={
                 },
                 "ServiceRole": {},
                 "NotificationConfig": {
-                  "shape": "Scb"
+                  "shape": "Scc"
                 }
               }
             }
@@ -88317,7 +90392,7 @@ module.exports={
           },
           "NextToken": {},
           "Filters": {
-            "shape": "Sby"
+            "shape": "Sbz"
           }
         }
       },
@@ -88327,7 +90402,7 @@ module.exports={
           "Commands": {
             "type": "list",
             "member": {
-              "shape": "Scj"
+              "shape": "Sck"
             }
           },
           "NextToken": {}
@@ -88431,7 +90506,7 @@ module.exports={
           "InstanceId": {},
           "TypeName": {},
           "Filters": {
-            "shape": "Sa4"
+            "shape": "Sa5"
           },
           "NextToken": {},
           "MaxResults": {
@@ -88447,7 +90522,7 @@ module.exports={
           "SchemaVersion": {},
           "CaptureTime": {},
           "Entries": {
-            "shape": "San"
+            "shape": "Sao"
           },
           "NextToken": {}
         }
@@ -88522,7 +90597,7 @@ module.exports={
                 "CaptureTime": {},
                 "ContentHash": {},
                 "Content": {
-                  "shape": "San"
+                  "shape": "Sao"
                 }
               }
             }
@@ -88719,7 +90794,7 @@ module.exports={
           "MaxErrors": {},
           "ServiceRoleArn": {},
           "NotificationConfig": {
-            "shape": "Scb"
+            "shape": "Scc"
           }
         }
       },
@@ -88727,7 +90802,7 @@ module.exports={
         "type": "structure",
         "members": {
           "Command": {
-            "shape": "Scj"
+            "shape": "Sck"
           }
         }
       }
@@ -89362,7 +91437,7 @@ module.exports={
         "S3Region": {}
       }
     },
-    "S96": {
+    "S97": {
       "type": "structure",
       "members": {
         "BaselineId": {},
@@ -89373,7 +91448,7 @@ module.exports={
         }
       }
     },
-    "Sa4": {
+    "Sa5": {
       "type": "list",
       "member": {
         "locationName": "InventoryFilter",
@@ -89394,7 +91469,7 @@ module.exports={
         }
       }
     },
-    "San": {
+    "Sao": {
       "type": "list",
       "member": {
         "type": "map",
@@ -89402,11 +91477,11 @@ module.exports={
         "value": {}
       }
     },
-    "Sbf": {
+    "Sbg": {
       "type": "list",
       "member": {}
     },
-    "Sby": {
+    "Sbz": {
       "type": "list",
       "member": {
         "type": "structure",
@@ -89420,7 +91495,7 @@ module.exports={
         }
       }
     },
-    "Scb": {
+    "Scc": {
       "type": "structure",
       "members": {
         "NotificationArn": {},
@@ -89431,7 +91506,7 @@ module.exports={
         "NotificationType": {}
       }
     },
-    "Scj": {
+    "Sck": {
       "type": "structure",
       "members": {
         "CommandId": {},
@@ -89470,55 +91545,54 @@ module.exports={
         },
         "ServiceRole": {},
         "NotificationConfig": {
-          "shape": "Scb"
+          "shape": "Scc"
         }
       }
     }
   }
 }
-},{}],134:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 module.exports={
   "pagination": {
+    "DescribeActivations": {
+      "input_token": "NextToken",
+      "limit_key": "MaxResults",
+      "output_token": "NextToken",
+      "result_key": "ActivationList"
+    },
     "DescribeInstanceInformation": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "InstanceInformationList"
     },
     "ListAssociations": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "Associations"
     },
     "ListCommandInvocations": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "CommandInvocations"
     },
     "ListCommands": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "Commands"
     },
     "ListDocuments": {
       "input_token": "NextToken",
-      "output_token": "NextToken",
       "limit_key": "MaxResults",
+      "output_token": "NextToken",
       "result_key": "DocumentIdentifiers"
-    },
-    "DescribeActivations": {
-      "input_token": "NextToken",
-      "output_token": "NextToken",
-      "limit_key": "MaxResults",
-      "result_key": "ActivationList"
     }
   }
 }
-
-},{}],135:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -89734,6 +91808,10 @@ module.exports={
           "DefaultStorageClass": {},
           "ClientList": {
             "shape": "S1d"
+          },
+          "Squash": {},
+          "ReadOnly": {
+            "type": "boolean"
           }
         }
       },
@@ -89866,7 +91944,7 @@ module.exports={
         "type": "structure",
         "members": {
           "TapeARNs": {
-            "shape": "S1y"
+            "shape": "S1z"
           }
         }
       }
@@ -90080,7 +92158,7 @@ module.exports={
         ],
         "members": {
           "VolumeARNs": {
-            "shape": "S2p"
+            "shape": "S2q"
           }
         }
       },
@@ -90104,7 +92182,7 @@ module.exports={
                 },
                 "SourceSnapshotId": {},
                 "VolumeiSCSIAttributes": {
-                  "shape": "S2x"
+                  "shape": "S2y"
                 },
                 "CreatedDate": {
                   "type": "timestamp"
@@ -90243,6 +92321,10 @@ module.exports={
                 "DefaultStorageClass": {},
                 "ClientList": {
                   "shape": "S1d"
+                },
+                "Squash": {},
+                "ReadOnly": {
+                  "type": "boolean"
                 }
               }
             }
@@ -90283,7 +92365,7 @@ module.exports={
         ],
         "members": {
           "VolumeARNs": {
-            "shape": "S2p"
+            "shape": "S2q"
           }
         }
       },
@@ -90311,7 +92393,7 @@ module.exports={
                   "type": "boolean"
                 },
                 "VolumeiSCSIAttributes": {
-                  "shape": "S2x"
+                  "shape": "S2y"
                 },
                 "CreatedDate": {
                   "type": "timestamp"
@@ -90327,7 +92409,7 @@ module.exports={
         "type": "structure",
         "members": {
           "TapeARNs": {
-            "shape": "S1y"
+            "shape": "S1z"
           },
           "Marker": {},
           "Limit": {
@@ -90410,7 +92492,7 @@ module.exports={
         "members": {
           "GatewayARN": {},
           "TapeARNs": {
-            "shape": "S1y"
+            "shape": "S1z"
           },
           "Marker": {},
           "Limit": {
@@ -90691,7 +92773,7 @@ module.exports={
         "type": "structure",
         "members": {
           "TapeARNs": {
-            "shape": "S1y"
+            "shape": "S1z"
           },
           "Marker": {},
           "Limit": {
@@ -90806,6 +92888,23 @@ module.exports={
               }
             }
           }
+        }
+      }
+    },
+    "RefreshCache": {
+      "input": {
+        "type": "structure",
+        "required": [
+          "FileShareARN"
+        ],
+        "members": {
+          "FileShareARN": {}
+        }
+      },
+      "output": {
+        "type": "structure",
+        "members": {
+          "FileShareARN": {}
         }
       }
     },
@@ -91072,6 +93171,10 @@ module.exports={
           "DefaultStorageClass": {},
           "ClientList": {
             "shape": "S1d"
+          },
+          "Squash": {},
+          "ReadOnly": {
+            "type": "boolean"
           }
         }
       },
@@ -91164,15 +93267,15 @@ module.exports={
       "type": "list",
       "member": {}
     },
-    "S1y": {
+    "S1z": {
       "type": "list",
       "member": {}
     },
-    "S2p": {
+    "S2q": {
       "type": "list",
       "member": {}
     },
-    "S2x": {
+    "S2y": {
       "type": "structure",
       "members": {
         "TargetARN": {},
@@ -91190,7 +93293,7 @@ module.exports={
     }
   }
 }
-},{}],136:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeCachediSCSIVolumes": {
@@ -91243,7 +93346,7 @@ module.exports={
     }
   }
 }
-},{}],137:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -91490,9 +93593,9 @@ module.exports={
     }
   }
 }
-},{}],138:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],139:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],144:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -91743,7 +93846,7 @@ module.exports={
     }
   }
 }
-},{}],140:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -93027,9 +95130,9 @@ module.exports={
     }
   }
 }
-},{}],141:[function(require,module,exports){
-arguments[4][25][0].apply(exports,arguments)
-},{"dup":25}],142:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"dup":28}],147:[function(require,module,exports){
 module.exports={
   "version": "2.0",
   "metadata": {
@@ -94148,7 +96251,7 @@ module.exports={
     }
   }
 }
-},{}],143:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 module.exports={
   "pagination": {
     "DescribeDocumentVersions": {
@@ -94174,7 +96277,7 @@ module.exports={
     }
   }
 }
-},{}],144:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94194,7 +96297,7 @@ Object.defineProperty(apiLoader.services['acm'], '2015-12-08', {
 
 module.exports = AWS.ACM;
 
-},{"../apis/acm-2015-12-08.min.json":1,"../apis/acm-2015-12-08.paginators.json":2,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],145:[function(require,module,exports){
+},{"../apis/acm-2015-12-08.min.json":1,"../apis/acm-2015-12-08.paginators.json":2,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],150:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94215,7 +96318,7 @@ Object.defineProperty(apiLoader.services['apigateway'], '2015-07-09', {
 
 module.exports = AWS.APIGateway;
 
-},{"../apis/apigateway-2015-07-09.min.json":3,"../apis/apigateway-2015-07-09.paginators.json":4,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/apigateway":250}],146:[function(require,module,exports){
+},{"../apis/apigateway-2015-07-09.min.json":3,"../apis/apigateway-2015-07-09.paginators.json":4,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/apigateway":255}],151:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94235,7 +96338,7 @@ Object.defineProperty(apiLoader.services['applicationautoscaling'], '2016-02-06'
 
 module.exports = AWS.ApplicationAutoScaling;
 
-},{"../apis/application-autoscaling-2016-02-06.min.json":5,"../apis/application-autoscaling-2016-02-06.paginators.json":6,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],147:[function(require,module,exports){
+},{"../apis/application-autoscaling-2016-02-06.min.json":5,"../apis/application-autoscaling-2016-02-06.paginators.json":6,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],152:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94255,7 +96358,7 @@ Object.defineProperty(apiLoader.services['autoscaling'], '2011-01-01', {
 
 module.exports = AWS.AutoScaling;
 
-},{"../apis/autoscaling-2011-01-01.min.json":7,"../apis/autoscaling-2011-01-01.paginators.json":8,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],148:[function(require,module,exports){
+},{"../apis/autoscaling-2011-01-01.min.json":7,"../apis/autoscaling-2011-01-01.paginators.json":8,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],153:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 
@@ -94323,7 +96426,7 @@ module.exports = {
   WAF: require('./waf'),
   WorkDocs: require('./workdocs')
 };
-},{"../lib/core":211,"../lib/node_loader":208,"./acm":144,"./apigateway":145,"./applicationautoscaling":146,"./autoscaling":147,"./cloudformation":149,"./cloudfront":150,"./cloudhsm":151,"./cloudtrail":152,"./cloudwatch":153,"./cloudwatchevents":154,"./cloudwatchlogs":155,"./codecommit":156,"./codedeploy":157,"./codepipeline":158,"./cognitoidentity":159,"./cognitoidentityserviceprovider":160,"./cognitosync":161,"./configservice":162,"./cur":163,"./devicefarm":164,"./directconnect":165,"./dynamodb":166,"./dynamodbstreams":167,"./ec2":168,"./ecr":169,"./ecs":170,"./elasticache":171,"./elasticbeanstalk":172,"./elastictranscoder":173,"./elb":174,"./elbv2":175,"./emr":176,"./firehose":177,"./gamelift":178,"./inspector":179,"./iot":180,"./iotdata":181,"./kinesis":182,"./kms":183,"./lambda":184,"./lexruntime":185,"./machinelearning":186,"./marketplacecommerceanalytics":187,"./mobileanalytics":188,"./mturk":189,"./opsworks":190,"./polly":191,"./rds":192,"./redshift":193,"./rekognition":194,"./route53":195,"./route53domains":196,"./s3":197,"./servicecatalog":198,"./ses":199,"./sns":200,"./sqs":201,"./ssm":202,"./storagegateway":203,"./sts":204,"./waf":205,"./workdocs":206}],149:[function(require,module,exports){
+},{"../lib/core":216,"../lib/node_loader":213,"./acm":149,"./apigateway":150,"./applicationautoscaling":151,"./autoscaling":152,"./cloudformation":154,"./cloudfront":155,"./cloudhsm":156,"./cloudtrail":157,"./cloudwatch":158,"./cloudwatchevents":159,"./cloudwatchlogs":160,"./codecommit":161,"./codedeploy":162,"./codepipeline":163,"./cognitoidentity":164,"./cognitoidentityserviceprovider":165,"./cognitosync":166,"./configservice":167,"./cur":168,"./devicefarm":169,"./directconnect":170,"./dynamodb":171,"./dynamodbstreams":172,"./ec2":173,"./ecr":174,"./ecs":175,"./elasticache":176,"./elasticbeanstalk":177,"./elastictranscoder":178,"./elb":179,"./elbv2":180,"./emr":181,"./firehose":182,"./gamelift":183,"./inspector":184,"./iot":185,"./iotdata":186,"./kinesis":187,"./kms":188,"./lambda":189,"./lexruntime":190,"./machinelearning":191,"./marketplacecommerceanalytics":192,"./mobileanalytics":193,"./mturk":194,"./opsworks":195,"./polly":196,"./rds":197,"./redshift":198,"./rekognition":199,"./route53":200,"./route53domains":201,"./s3":202,"./servicecatalog":203,"./ses":204,"./sns":205,"./sqs":206,"./ssm":207,"./storagegateway":208,"./sts":209,"./waf":210,"./workdocs":211}],154:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94344,14 +96447,14 @@ Object.defineProperty(apiLoader.services['cloudformation'], '2010-05-15', {
 
 module.exports = AWS.CloudFormation;
 
-},{"../apis/cloudformation-2010-05-15.min.json":9,"../apis/cloudformation-2010-05-15.paginators.json":10,"../apis/cloudformation-2010-05-15.waiters2.json":11,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],150:[function(require,module,exports){
+},{"../apis/cloudformation-2010-05-15.min.json":9,"../apis/cloudformation-2010-05-15.paginators.json":10,"../apis/cloudformation-2010-05-15.waiters2.json":11,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],155:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
 var apiLoader = require('../lib/api_loader');
 
 apiLoader.services['cloudfront'] = {};
-AWS.CloudFront = Service.defineService('cloudfront', ['2013-05-12*', '2013-11-11*', '2014-05-31*', '2014-10-21*', '2014-11-06*', '2015-04-17*', '2015-07-27*', '2015-09-17*', '2016-01-13*', '2016-01-28*', '2016-08-01*', '2016-08-20*', '2016-09-07*', '2016-09-29*', '2016-11-25']);
+AWS.CloudFront = Service.defineService('cloudfront', ['2013-05-12*', '2013-11-11*', '2014-05-31*', '2014-10-21*', '2014-11-06*', '2015-04-17*', '2015-07-27*', '2015-09-17*', '2016-01-13*', '2016-01-28*', '2016-08-01*', '2016-08-20*', '2016-09-07*', '2016-09-29*', '2016-11-25', '2016-11-25*', '2017-03-25']);
 require('../lib/services/cloudfront');
 Object.defineProperty(apiLoader.services['cloudfront'], '2016-11-25', {
   get: function get() {
@@ -94363,10 +96466,20 @@ Object.defineProperty(apiLoader.services['cloudfront'], '2016-11-25', {
   enumerable: true,
   configurable: true
 });
+Object.defineProperty(apiLoader.services['cloudfront'], '2017-03-25', {
+  get: function get() {
+    var model = require('../apis/cloudfront-2017-03-25.min.json');
+    model.paginators = require('../apis/cloudfront-2017-03-25.paginators.json').pagination;
+    model.waiters = require('../apis/cloudfront-2017-03-25.waiters2.json').waiters;
+    return model;
+  },
+  enumerable: true,
+  configurable: true
+});
 
 module.exports = AWS.CloudFront;
 
-},{"../apis/cloudfront-2016-11-25.min.json":12,"../apis/cloudfront-2016-11-25.paginators.json":13,"../apis/cloudfront-2016-11-25.waiters2.json":14,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/cloudfront":251}],151:[function(require,module,exports){
+},{"../apis/cloudfront-2016-11-25.min.json":12,"../apis/cloudfront-2016-11-25.paginators.json":13,"../apis/cloudfront-2016-11-25.waiters2.json":14,"../apis/cloudfront-2017-03-25.min.json":15,"../apis/cloudfront-2017-03-25.paginators.json":16,"../apis/cloudfront-2017-03-25.waiters2.json":17,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/cloudfront":256}],156:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94385,7 +96498,7 @@ Object.defineProperty(apiLoader.services['cloudhsm'], '2014-05-30', {
 
 module.exports = AWS.CloudHSM;
 
-},{"../apis/cloudhsm-2014-05-30.min.json":15,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],152:[function(require,module,exports){
+},{"../apis/cloudhsm-2014-05-30.min.json":18,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],157:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94405,7 +96518,7 @@ Object.defineProperty(apiLoader.services['cloudtrail'], '2013-11-01', {
 
 module.exports = AWS.CloudTrail;
 
-},{"../apis/cloudtrail-2013-11-01.min.json":16,"../apis/cloudtrail-2013-11-01.paginators.json":17,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],153:[function(require,module,exports){
+},{"../apis/cloudtrail-2013-11-01.min.json":19,"../apis/cloudtrail-2013-11-01.paginators.json":20,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],158:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94426,7 +96539,7 @@ Object.defineProperty(apiLoader.services['cloudwatch'], '2010-08-01', {
 
 module.exports = AWS.CloudWatch;
 
-},{"../apis/monitoring-2010-08-01.min.json":94,"../apis/monitoring-2010-08-01.paginators.json":95,"../apis/monitoring-2010-08-01.waiters2.json":96,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],154:[function(require,module,exports){
+},{"../apis/monitoring-2010-08-01.min.json":99,"../apis/monitoring-2010-08-01.paginators.json":100,"../apis/monitoring-2010-08-01.waiters2.json":101,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],159:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94446,7 +96559,7 @@ Object.defineProperty(apiLoader.services['cloudwatchevents'], '2015-10-07', {
 
 module.exports = AWS.CloudWatchEvents;
 
-},{"../apis/events-2015-10-07.min.json":69,"../apis/events-2015-10-07.paginators.json":70,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],155:[function(require,module,exports){
+},{"../apis/events-2015-10-07.min.json":73,"../apis/events-2015-10-07.paginators.json":74,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],160:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94466,7 +96579,7 @@ Object.defineProperty(apiLoader.services['cloudwatchlogs'], '2014-03-28', {
 
 module.exports = AWS.CloudWatchLogs;
 
-},{"../apis/logs-2014-03-28.min.json":86,"../apis/logs-2014-03-28.paginators.json":87,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],156:[function(require,module,exports){
+},{"../apis/logs-2014-03-28.min.json":90,"../apis/logs-2014-03-28.paginators.json":91,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],161:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94486,7 +96599,7 @@ Object.defineProperty(apiLoader.services['codecommit'], '2015-04-13', {
 
 module.exports = AWS.CodeCommit;
 
-},{"../apis/codecommit-2015-04-13.min.json":18,"../apis/codecommit-2015-04-13.paginators.json":19,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],157:[function(require,module,exports){
+},{"../apis/codecommit-2015-04-13.min.json":21,"../apis/codecommit-2015-04-13.paginators.json":22,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],162:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94507,7 +96620,7 @@ Object.defineProperty(apiLoader.services['codedeploy'], '2014-10-06', {
 
 module.exports = AWS.CodeDeploy;
 
-},{"../apis/codedeploy-2014-10-06.min.json":20,"../apis/codedeploy-2014-10-06.paginators.json":21,"../apis/codedeploy-2014-10-06.waiters2.json":22,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],158:[function(require,module,exports){
+},{"../apis/codedeploy-2014-10-06.min.json":23,"../apis/codedeploy-2014-10-06.paginators.json":24,"../apis/codedeploy-2014-10-06.waiters2.json":25,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],163:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94526,7 +96639,7 @@ Object.defineProperty(apiLoader.services['codepipeline'], '2015-07-09', {
 
 module.exports = AWS.CodePipeline;
 
-},{"../apis/codepipeline-2015-07-09.min.json":23,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],159:[function(require,module,exports){
+},{"../apis/codepipeline-2015-07-09.min.json":26,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],164:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94547,7 +96660,7 @@ Object.defineProperty(apiLoader.services['cognitoidentity'], '2014-06-30', {
 
 module.exports = AWS.CognitoIdentity;
 
-},{"../apis/cognito-identity-2014-06-30.min.json":24,"../apis/cognito-identity-2014-06-30.paginators.json":25,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/cognitoidentity":252}],160:[function(require,module,exports){
+},{"../apis/cognito-identity-2014-06-30.min.json":27,"../apis/cognito-identity-2014-06-30.paginators.json":28,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/cognitoidentity":257}],165:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94566,7 +96679,7 @@ Object.defineProperty(apiLoader.services['cognitoidentityserviceprovider'], '201
 
 module.exports = AWS.CognitoIdentityServiceProvider;
 
-},{"../apis/cognito-idp-2016-04-18.min.json":26,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],161:[function(require,module,exports){
+},{"../apis/cognito-idp-2016-04-18.min.json":29,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],166:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94585,7 +96698,7 @@ Object.defineProperty(apiLoader.services['cognitosync'], '2014-06-30', {
 
 module.exports = AWS.CognitoSync;
 
-},{"../apis/cognito-sync-2014-06-30.min.json":27,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],162:[function(require,module,exports){
+},{"../apis/cognito-sync-2014-06-30.min.json":30,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],167:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94605,7 +96718,7 @@ Object.defineProperty(apiLoader.services['configservice'], '2014-11-12', {
 
 module.exports = AWS.ConfigService;
 
-},{"../apis/config-2014-11-12.min.json":28,"../apis/config-2014-11-12.paginators.json":29,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],163:[function(require,module,exports){
+},{"../apis/config-2014-11-12.min.json":31,"../apis/config-2014-11-12.paginators.json":32,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],168:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94625,7 +96738,7 @@ Object.defineProperty(apiLoader.services['cur'], '2017-01-06', {
 
 module.exports = AWS.CUR;
 
-},{"../apis/cur-2017-01-06.min.json":30,"../apis/cur-2017-01-06.paginators.json":31,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],164:[function(require,module,exports){
+},{"../apis/cur-2017-01-06.min.json":33,"../apis/cur-2017-01-06.paginators.json":34,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],169:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94645,7 +96758,7 @@ Object.defineProperty(apiLoader.services['devicefarm'], '2015-06-23', {
 
 module.exports = AWS.DeviceFarm;
 
-},{"../apis/devicefarm-2015-06-23.min.json":32,"../apis/devicefarm-2015-06-23.paginators.json":33,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],165:[function(require,module,exports){
+},{"../apis/devicefarm-2015-06-23.min.json":35,"../apis/devicefarm-2015-06-23.paginators.json":36,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],170:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94665,7 +96778,7 @@ Object.defineProperty(apiLoader.services['directconnect'], '2012-10-25', {
 
 module.exports = AWS.DirectConnect;
 
-},{"../apis/directconnect-2012-10-25.min.json":34,"../apis/directconnect-2012-10-25.paginators.json":35,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],166:[function(require,module,exports){
+},{"../apis/directconnect-2012-10-25.min.json":37,"../apis/directconnect-2012-10-25.paginators.json":38,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],171:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94697,7 +96810,7 @@ Object.defineProperty(apiLoader.services['dynamodb'], '2012-08-10', {
 
 module.exports = AWS.DynamoDB;
 
-},{"../apis/dynamodb-2011-12-05.min.json":36,"../apis/dynamodb-2011-12-05.paginators.json":37,"../apis/dynamodb-2011-12-05.waiters2.json":38,"../apis/dynamodb-2012-08-10.min.json":39,"../apis/dynamodb-2012-08-10.paginators.json":40,"../apis/dynamodb-2012-08-10.waiters2.json":41,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/dynamodb":253}],167:[function(require,module,exports){
+},{"../apis/dynamodb-2011-12-05.min.json":39,"../apis/dynamodb-2011-12-05.paginators.json":40,"../apis/dynamodb-2011-12-05.waiters2.json":41,"../apis/dynamodb-2012-08-10.min.json":42,"../apis/dynamodb-2012-08-10.paginators.json":43,"../apis/dynamodb-2012-08-10.waiters2.json":44,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/dynamodb":258}],172:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94717,7 +96830,7 @@ Object.defineProperty(apiLoader.services['dynamodbstreams'], '2012-08-10', {
 
 module.exports = AWS.DynamoDBStreams;
 
-},{"../apis/streams.dynamodb-2012-08-10.min.json":137,"../apis/streams.dynamodb-2012-08-10.paginators.json":138,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],168:[function(require,module,exports){
+},{"../apis/streams.dynamodb-2012-08-10.min.json":142,"../apis/streams.dynamodb-2012-08-10.paginators.json":143,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],173:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94739,7 +96852,7 @@ Object.defineProperty(apiLoader.services['ec2'], '2016-11-15', {
 
 module.exports = AWS.EC2;
 
-},{"../apis/ec2-2016-11-15.min.json":42,"../apis/ec2-2016-11-15.paginators.json":43,"../apis/ec2-2016-11-15.waiters2.json":44,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/ec2":254}],169:[function(require,module,exports){
+},{"../apis/ec2-2016-11-15.min.json":45,"../apis/ec2-2016-11-15.paginators.json":46,"../apis/ec2-2016-11-15.waiters2.json":47,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/ec2":259}],174:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94759,7 +96872,7 @@ Object.defineProperty(apiLoader.services['ecr'], '2015-09-21', {
 
 module.exports = AWS.ECR;
 
-},{"../apis/ecr-2015-09-21.min.json":45,"../apis/ecr-2015-09-21.paginators.json":46,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],170:[function(require,module,exports){
+},{"../apis/ecr-2015-09-21.min.json":48,"../apis/ecr-2015-09-21.paginators.json":49,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],175:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94780,7 +96893,7 @@ Object.defineProperty(apiLoader.services['ecs'], '2014-11-13', {
 
 module.exports = AWS.ECS;
 
-},{"../apis/ecs-2014-11-13.min.json":47,"../apis/ecs-2014-11-13.paginators.json":48,"../apis/ecs-2014-11-13.waiters2.json":49,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],171:[function(require,module,exports){
+},{"../apis/ecs-2014-11-13.min.json":50,"../apis/ecs-2014-11-13.paginators.json":51,"../apis/ecs-2014-11-13.waiters2.json":52,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],176:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94801,7 +96914,7 @@ Object.defineProperty(apiLoader.services['elasticache'], '2015-02-02', {
 
 module.exports = AWS.ElastiCache;
 
-},{"../apis/elasticache-2015-02-02.min.json":50,"../apis/elasticache-2015-02-02.paginators.json":51,"../apis/elasticache-2015-02-02.waiters2.json":52,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],172:[function(require,module,exports){
+},{"../apis/elasticache-2015-02-02.min.json":53,"../apis/elasticache-2015-02-02.paginators.json":54,"../apis/elasticache-2015-02-02.waiters2.json":55,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],177:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94821,7 +96934,7 @@ Object.defineProperty(apiLoader.services['elasticbeanstalk'], '2010-12-01', {
 
 module.exports = AWS.ElasticBeanstalk;
 
-},{"../apis/elasticbeanstalk-2010-12-01.min.json":53,"../apis/elasticbeanstalk-2010-12-01.paginators.json":54,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],173:[function(require,module,exports){
+},{"../apis/elasticbeanstalk-2010-12-01.min.json":56,"../apis/elasticbeanstalk-2010-12-01.paginators.json":57,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],178:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94842,7 +96955,7 @@ Object.defineProperty(apiLoader.services['elastictranscoder'], '2012-09-25', {
 
 module.exports = AWS.ElasticTranscoder;
 
-},{"../apis/elastictranscoder-2012-09-25.min.json":63,"../apis/elastictranscoder-2012-09-25.paginators.json":64,"../apis/elastictranscoder-2012-09-25.waiters2.json":65,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],174:[function(require,module,exports){
+},{"../apis/elastictranscoder-2012-09-25.min.json":67,"../apis/elastictranscoder-2012-09-25.paginators.json":68,"../apis/elastictranscoder-2012-09-25.waiters2.json":69,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],179:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94863,7 +96976,7 @@ Object.defineProperty(apiLoader.services['elb'], '2012-06-01', {
 
 module.exports = AWS.ELB;
 
-},{"../apis/elasticloadbalancing-2012-06-01.min.json":55,"../apis/elasticloadbalancing-2012-06-01.paginators.json":56,"../apis/elasticloadbalancing-2012-06-01.waiters2.json":57,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],175:[function(require,module,exports){
+},{"../apis/elasticloadbalancing-2012-06-01.min.json":58,"../apis/elasticloadbalancing-2012-06-01.paginators.json":59,"../apis/elasticloadbalancing-2012-06-01.waiters2.json":60,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],180:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94875,6 +96988,7 @@ Object.defineProperty(apiLoader.services['elbv2'], '2015-12-01', {
   get: function get() {
     var model = require('../apis/elasticloadbalancingv2-2015-12-01.min.json');
     model.paginators = require('../apis/elasticloadbalancingv2-2015-12-01.paginators.json').pagination;
+    model.waiters = require('../apis/elasticloadbalancingv2-2015-12-01.waiters2.json').waiters;
     return model;
   },
   enumerable: true,
@@ -94883,7 +96997,7 @@ Object.defineProperty(apiLoader.services['elbv2'], '2015-12-01', {
 
 module.exports = AWS.ELBv2;
 
-},{"../apis/elasticloadbalancingv2-2015-12-01.min.json":58,"../apis/elasticloadbalancingv2-2015-12-01.paginators.json":59,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],176:[function(require,module,exports){
+},{"../apis/elasticloadbalancingv2-2015-12-01.min.json":61,"../apis/elasticloadbalancingv2-2015-12-01.paginators.json":62,"../apis/elasticloadbalancingv2-2015-12-01.waiters2.json":63,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],181:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94904,7 +97018,7 @@ Object.defineProperty(apiLoader.services['emr'], '2009-03-31', {
 
 module.exports = AWS.EMR;
 
-},{"../apis/elasticmapreduce-2009-03-31.min.json":60,"../apis/elasticmapreduce-2009-03-31.paginators.json":61,"../apis/elasticmapreduce-2009-03-31.waiters2.json":62,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],177:[function(require,module,exports){
+},{"../apis/elasticmapreduce-2009-03-31.min.json":64,"../apis/elasticmapreduce-2009-03-31.paginators.json":65,"../apis/elasticmapreduce-2009-03-31.waiters2.json":66,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],182:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94923,7 +97037,7 @@ Object.defineProperty(apiLoader.services['firehose'], '2015-08-04', {
 
 module.exports = AWS.Firehose;
 
-},{"../apis/firehose-2015-08-04.min.json":71,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],178:[function(require,module,exports){
+},{"../apis/firehose-2015-08-04.min.json":75,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],183:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94943,7 +97057,7 @@ Object.defineProperty(apiLoader.services['gamelift'], '2015-10-01', {
 
 module.exports = AWS.GameLift;
 
-},{"../apis/gamelift-2015-10-01.min.json":72,"../apis/gamelift-2015-10-01.paginators.json":73,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],179:[function(require,module,exports){
+},{"../apis/gamelift-2015-10-01.min.json":76,"../apis/gamelift-2015-10-01.paginators.json":77,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],184:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94962,7 +97076,7 @@ Object.defineProperty(apiLoader.services['inspector'], '2016-02-16', {
 
 module.exports = AWS.Inspector;
 
-},{"../apis/inspector-2016-02-16.min.json":74,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],180:[function(require,module,exports){
+},{"../apis/inspector-2016-02-16.min.json":78,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],185:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -94981,7 +97095,7 @@ Object.defineProperty(apiLoader.services['iot'], '2015-05-28', {
 
 module.exports = AWS.Iot;
 
-},{"../apis/iot-2015-05-28.min.json":75,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],181:[function(require,module,exports){
+},{"../apis/iot-2015-05-28.min.json":79,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],186:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95001,7 +97115,7 @@ Object.defineProperty(apiLoader.services['iotdata'], '2015-05-28', {
 
 module.exports = AWS.IotData;
 
-},{"../apis/iot-data-2015-05-28.min.json":76,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/iotdata":255}],182:[function(require,module,exports){
+},{"../apis/iot-data-2015-05-28.min.json":80,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/iotdata":260}],187:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95022,7 +97136,7 @@ Object.defineProperty(apiLoader.services['kinesis'], '2013-12-02', {
 
 module.exports = AWS.Kinesis;
 
-},{"../apis/kinesis-2013-12-02.min.json":77,"../apis/kinesis-2013-12-02.paginators.json":78,"../apis/kinesis-2013-12-02.waiters2.json":79,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],183:[function(require,module,exports){
+},{"../apis/kinesis-2013-12-02.min.json":81,"../apis/kinesis-2013-12-02.paginators.json":82,"../apis/kinesis-2013-12-02.waiters2.json":83,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],188:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95042,7 +97156,7 @@ Object.defineProperty(apiLoader.services['kms'], '2014-11-01', {
 
 module.exports = AWS.KMS;
 
-},{"../apis/kms-2014-11-01.min.json":80,"../apis/kms-2014-11-01.paginators.json":81,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],184:[function(require,module,exports){
+},{"../apis/kms-2014-11-01.min.json":84,"../apis/kms-2014-11-01.paginators.json":85,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],189:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95071,7 +97185,7 @@ Object.defineProperty(apiLoader.services['lambda'], '2015-03-31', {
 
 module.exports = AWS.Lambda;
 
-},{"../apis/lambda-2014-11-11.min.json":82,"../apis/lambda-2014-11-11.paginators.json":83,"../apis/lambda-2015-03-31.min.json":84,"../apis/lambda-2015-03-31.paginators.json":85,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],185:[function(require,module,exports){
+},{"../apis/lambda-2014-11-11.min.json":86,"../apis/lambda-2014-11-11.paginators.json":87,"../apis/lambda-2015-03-31.min.json":88,"../apis/lambda-2015-03-31.paginators.json":89,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],190:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95091,7 +97205,7 @@ Object.defineProperty(apiLoader.services['lexruntime'], '2016-11-28', {
 
 module.exports = AWS.LexRuntime;
 
-},{"../apis/runtime.lex-2016-11-28.min.json":123,"../apis/runtime.lex-2016-11-28.paginators.json":124,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],186:[function(require,module,exports){
+},{"../apis/runtime.lex-2016-11-28.min.json":128,"../apis/runtime.lex-2016-11-28.paginators.json":129,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],191:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95113,7 +97227,7 @@ Object.defineProperty(apiLoader.services['machinelearning'], '2014-12-12', {
 
 module.exports = AWS.MachineLearning;
 
-},{"../apis/machinelearning-2014-12-12.min.json":88,"../apis/machinelearning-2014-12-12.paginators.json":89,"../apis/machinelearning-2014-12-12.waiters2.json":90,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/machinelearning":256}],187:[function(require,module,exports){
+},{"../apis/machinelearning-2014-12-12.min.json":92,"../apis/machinelearning-2014-12-12.paginators.json":93,"../apis/machinelearning-2014-12-12.waiters2.json":94,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/machinelearning":261}],192:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95124,6 +97238,7 @@ AWS.MarketplaceCommerceAnalytics = Service.defineService('marketplacecommerceana
 Object.defineProperty(apiLoader.services['marketplacecommerceanalytics'], '2015-07-01', {
   get: function get() {
     var model = require('../apis/marketplacecommerceanalytics-2015-07-01.min.json');
+    model.paginators = require('../apis/marketplacecommerceanalytics-2015-07-01.paginators.json').pagination;
     return model;
   },
   enumerable: true,
@@ -95132,7 +97247,7 @@ Object.defineProperty(apiLoader.services['marketplacecommerceanalytics'], '2015-
 
 module.exports = AWS.MarketplaceCommerceAnalytics;
 
-},{"../apis/marketplacecommerceanalytics-2015-07-01.min.json":91,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],188:[function(require,module,exports){
+},{"../apis/marketplacecommerceanalytics-2015-07-01.min.json":95,"../apis/marketplacecommerceanalytics-2015-07-01.paginators.json":96,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],193:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95151,7 +97266,7 @@ Object.defineProperty(apiLoader.services['mobileanalytics'], '2014-06-05', {
 
 module.exports = AWS.MobileAnalytics;
 
-},{"../apis/mobileanalytics-2014-06-05.min.json":93,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],189:[function(require,module,exports){
+},{"../apis/mobileanalytics-2014-06-05.min.json":98,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],194:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95171,7 +97286,7 @@ Object.defineProperty(apiLoader.services['mturk'], '2017-01-17', {
 
 module.exports = AWS.MTurk;
 
-},{"../apis/mturk-requester-2017-01-17.min.json":97,"../apis/mturk-requester-2017-01-17.paginators.json":98,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],190:[function(require,module,exports){
+},{"../apis/mturk-requester-2017-01-17.min.json":102,"../apis/mturk-requester-2017-01-17.paginators.json":103,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],195:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95192,7 +97307,7 @@ Object.defineProperty(apiLoader.services['opsworks'], '2013-02-18', {
 
 module.exports = AWS.OpsWorks;
 
-},{"../apis/opsworks-2013-02-18.min.json":99,"../apis/opsworks-2013-02-18.paginators.json":100,"../apis/opsworks-2013-02-18.waiters2.json":101,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],191:[function(require,module,exports){
+},{"../apis/opsworks-2013-02-18.min.json":104,"../apis/opsworks-2013-02-18.paginators.json":105,"../apis/opsworks-2013-02-18.waiters2.json":106,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],196:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95212,7 +97327,7 @@ Object.defineProperty(apiLoader.services['polly'], '2016-06-10', {
 
 module.exports = AWS.Polly;
 
-},{"../apis/polly-2016-06-10.min.json":102,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/polly":257}],192:[function(require,module,exports){
+},{"../apis/polly-2016-06-10.min.json":107,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/polly":262}],197:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95262,7 +97377,7 @@ Object.defineProperty(apiLoader.services['rds'], '2014-10-31', {
 
 module.exports = AWS.RDS;
 
-},{"../apis/rds-2013-01-10.min.json":103,"../apis/rds-2013-01-10.paginators.json":104,"../apis/rds-2013-02-12.min.json":105,"../apis/rds-2013-02-12.paginators.json":106,"../apis/rds-2013-09-09.min.json":107,"../apis/rds-2013-09-09.paginators.json":108,"../apis/rds-2013-09-09.waiters2.json":109,"../apis/rds-2014-10-31.min.json":110,"../apis/rds-2014-10-31.paginators.json":111,"../apis/rds-2014-10-31.waiters2.json":112,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/rds":258}],193:[function(require,module,exports){
+},{"../apis/rds-2013-01-10.min.json":108,"../apis/rds-2013-01-10.paginators.json":109,"../apis/rds-2013-02-12.min.json":110,"../apis/rds-2013-02-12.paginators.json":111,"../apis/rds-2013-09-09.min.json":112,"../apis/rds-2013-09-09.paginators.json":113,"../apis/rds-2013-09-09.waiters2.json":114,"../apis/rds-2014-10-31.min.json":115,"../apis/rds-2014-10-31.paginators.json":116,"../apis/rds-2014-10-31.waiters2.json":117,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/rds":263}],198:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95283,7 +97398,7 @@ Object.defineProperty(apiLoader.services['redshift'], '2012-12-01', {
 
 module.exports = AWS.Redshift;
 
-},{"../apis/redshift-2012-12-01.min.json":113,"../apis/redshift-2012-12-01.paginators.json":114,"../apis/redshift-2012-12-01.waiters2.json":115,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],194:[function(require,module,exports){
+},{"../apis/redshift-2012-12-01.min.json":118,"../apis/redshift-2012-12-01.paginators.json":119,"../apis/redshift-2012-12-01.waiters2.json":120,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],199:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95303,7 +97418,7 @@ Object.defineProperty(apiLoader.services['rekognition'], '2016-06-27', {
 
 module.exports = AWS.Rekognition;
 
-},{"../apis/rekognition-2016-06-27.min.json":116,"../apis/rekognition-2016-06-27.paginators.json":117,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],195:[function(require,module,exports){
+},{"../apis/rekognition-2016-06-27.min.json":121,"../apis/rekognition-2016-06-27.paginators.json":122,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],200:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95325,7 +97440,7 @@ Object.defineProperty(apiLoader.services['route53'], '2013-04-01', {
 
 module.exports = AWS.Route53;
 
-},{"../apis/route53-2013-04-01.min.json":118,"../apis/route53-2013-04-01.paginators.json":119,"../apis/route53-2013-04-01.waiters2.json":120,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/route53":259}],196:[function(require,module,exports){
+},{"../apis/route53-2013-04-01.min.json":123,"../apis/route53-2013-04-01.paginators.json":124,"../apis/route53-2013-04-01.waiters2.json":125,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/route53":264}],201:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95345,7 +97460,7 @@ Object.defineProperty(apiLoader.services['route53domains'], '2014-05-15', {
 
 module.exports = AWS.Route53Domains;
 
-},{"../apis/route53domains-2014-05-15.min.json":121,"../apis/route53domains-2014-05-15.paginators.json":122,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],197:[function(require,module,exports){
+},{"../apis/route53domains-2014-05-15.min.json":126,"../apis/route53domains-2014-05-15.paginators.json":127,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],202:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95367,7 +97482,7 @@ Object.defineProperty(apiLoader.services['s3'], '2006-03-01', {
 
 module.exports = AWS.S3;
 
-},{"../apis/s3-2006-03-01.min.json":125,"../apis/s3-2006-03-01.paginators.json":126,"../apis/s3-2006-03-01.waiters2.json":127,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/s3":260}],198:[function(require,module,exports){
+},{"../apis/s3-2006-03-01.min.json":130,"../apis/s3-2006-03-01.paginators.json":131,"../apis/s3-2006-03-01.waiters2.json":132,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/s3":265}],203:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95386,7 +97501,7 @@ Object.defineProperty(apiLoader.services['servicecatalog'], '2015-12-10', {
 
 module.exports = AWS.ServiceCatalog;
 
-},{"../apis/servicecatalog-2015-12-10.min.json":128,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],199:[function(require,module,exports){
+},{"../apis/servicecatalog-2015-12-10.min.json":133,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],204:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95407,7 +97522,7 @@ Object.defineProperty(apiLoader.services['ses'], '2010-12-01', {
 
 module.exports = AWS.SES;
 
-},{"../apis/email-2010-12-01.min.json":66,"../apis/email-2010-12-01.paginators.json":67,"../apis/email-2010-12-01.waiters2.json":68,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],200:[function(require,module,exports){
+},{"../apis/email-2010-12-01.min.json":70,"../apis/email-2010-12-01.paginators.json":71,"../apis/email-2010-12-01.waiters2.json":72,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],205:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95427,7 +97542,7 @@ Object.defineProperty(apiLoader.services['sns'], '2010-03-31', {
 
 module.exports = AWS.SNS;
 
-},{"../apis/sns-2010-03-31.min.json":129,"../apis/sns-2010-03-31.paginators.json":130,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],201:[function(require,module,exports){
+},{"../apis/sns-2010-03-31.min.json":134,"../apis/sns-2010-03-31.paginators.json":135,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],206:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95448,7 +97563,7 @@ Object.defineProperty(apiLoader.services['sqs'], '2012-11-05', {
 
 module.exports = AWS.SQS;
 
-},{"../apis/sqs-2012-11-05.min.json":131,"../apis/sqs-2012-11-05.paginators.json":132,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/sqs":261}],202:[function(require,module,exports){
+},{"../apis/sqs-2012-11-05.min.json":136,"../apis/sqs-2012-11-05.paginators.json":137,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/sqs":266}],207:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95468,7 +97583,7 @@ Object.defineProperty(apiLoader.services['ssm'], '2014-11-06', {
 
 module.exports = AWS.SSM;
 
-},{"../apis/ssm-2014-11-06.min.json":133,"../apis/ssm-2014-11-06.paginators.json":134,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],203:[function(require,module,exports){
+},{"../apis/ssm-2014-11-06.min.json":138,"../apis/ssm-2014-11-06.paginators.json":139,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],208:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95488,7 +97603,7 @@ Object.defineProperty(apiLoader.services['storagegateway'], '2013-06-30', {
 
 module.exports = AWS.StorageGateway;
 
-},{"../apis/storagegateway-2013-06-30.min.json":135,"../apis/storagegateway-2013-06-30.paginators.json":136,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],204:[function(require,module,exports){
+},{"../apis/storagegateway-2013-06-30.min.json":140,"../apis/storagegateway-2013-06-30.paginators.json":141,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],209:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95508,7 +97623,7 @@ Object.defineProperty(apiLoader.services['sts'], '2011-06-15', {
 
 module.exports = AWS.STS;
 
-},{"../apis/sts-2011-06-15.min.json":139,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249,"../lib/services/sts":262}],205:[function(require,module,exports){
+},{"../apis/sts-2011-06-15.min.json":144,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254,"../lib/services/sts":267}],210:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95528,7 +97643,7 @@ Object.defineProperty(apiLoader.services['waf'], '2015-08-24', {
 
 module.exports = AWS.WAF;
 
-},{"../apis/waf-2015-08-24.min.json":140,"../apis/waf-2015-08-24.paginators.json":141,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],206:[function(require,module,exports){
+},{"../apis/waf-2015-08-24.min.json":145,"../apis/waf-2015-08-24.paginators.json":146,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],211:[function(require,module,exports){
 require('../lib/node_loader');
 var AWS = require('../lib/core');
 var Service = require('../lib/service');
@@ -95548,7 +97663,7 @@ Object.defineProperty(apiLoader.services['workdocs'], '2016-05-01', {
 
 module.exports = AWS.WorkDocs;
 
-},{"../apis/workdocs-2016-05-01.min.json":142,"../apis/workdocs-2016-05-01.paginators.json":143,"../lib/api_loader":207,"../lib/core":211,"../lib/node_loader":208,"../lib/service":249}],207:[function(require,module,exports){
+},{"../apis/workdocs-2016-05-01.min.json":147,"../apis/workdocs-2016-05-01.paginators.json":148,"../lib/api_loader":212,"../lib/core":216,"../lib/node_loader":213,"../lib/service":254}],212:[function(require,module,exports){
 var AWS = require('./core');
 
 AWS.apiLoader = function(svc, version) {
@@ -95563,7 +97678,7 @@ AWS.apiLoader.services = {};
 
 module.exports = AWS.apiLoader;
 
-},{"./core":211}],208:[function(require,module,exports){
+},{"./core":216}],213:[function(require,module,exports){
 (function (process){
 var util = require('./util');
 
@@ -95586,7 +97701,7 @@ if (typeof process === 'undefined') {
   };
 }
 }).call(this,require('_process'))
-},{"./api_loader":207,"./core":211,"./http/xhr":225,"./util":272,"./xml/browser_parser":273,"_process":277,"buffer/":285,"crypto-browserify":290,"querystring/":298,"url/":299}],209:[function(require,module,exports){
+},{"./api_loader":212,"./core":216,"./http/xhr":230,"./util":277,"./xml/browser_parser":278,"_process":341,"buffer/":282,"crypto-browserify":284,"querystring/":348,"url/":349}],214:[function(require,module,exports){
 var AWS = require('../core'),
     url = AWS.util.url,
     crypto = AWS.util.crypto.lib,
@@ -95741,7 +97856,7 @@ AWS.CloudFront.Signer = inherit({
 
 module.exports = AWS.CloudFront.Signer;
 
-},{"../core":211}],210:[function(require,module,exports){
+},{"../core":216}],215:[function(require,module,exports){
 var AWS = require('./core');
 require('./credentials');
 require('./credentials/credential_provider_chain');
@@ -95773,7 +97888,9 @@ AWS.Config = AWS.util.inherit({
 
     function credError(msg, err) {
       return new AWS.util.error(err || new Error(), {
-        code: 'CredentialsError', message: msg
+        code: 'CredentialsError',
+        message: msg,
+        name: 'CredentialsError'
       });
     }
 
@@ -95903,9 +98020,7 @@ AWS.Config = AWS.util.inherit({
     systemClockOffset: 0,
     signatureVersion: null,
     signatureCache: true,
-    retryDelayOptions: {
-      base: 100
-    },
+    retryDelayOptions: {},
     useAccelerateEndpoint: false
   },
 
@@ -95938,7 +98053,7 @@ AWS.Config = AWS.util.inherit({
 
 AWS.config = new AWS.Config();
 
-},{"./core":211,"./credentials":212,"./credentials/credential_provider_chain":214}],211:[function(require,module,exports){
+},{"./core":216,"./credentials":217,"./credentials/credential_provider_chain":219}],216:[function(require,module,exports){
 
 var AWS = { util: require('./util') };
 
@@ -95950,7 +98065,7 @@ module.exports = AWS;
 AWS.util.update(AWS, {
 
 
-  VERSION: '2.28.0',
+  VERSION: '2.36.0',
 
 
   Signers: {},
@@ -96013,7 +98128,7 @@ require('./param_validator');
 
 AWS.events = new AWS.SequentialExecutor();
 
-},{"./config":210,"./credentials":212,"./credentials/cognito_identity_credentials":213,"./credentials/credential_provider_chain":214,"./credentials/saml_credentials":215,"./credentials/temporary_credentials":216,"./credentials/web_identity_credentials":217,"./event_listeners":223,"./http":224,"./json/builder":226,"./json/parser":227,"./model/api":228,"./model/operation":230,"./model/paginator":231,"./model/resource_waiter":232,"./model/shape":233,"./param_validator":234,"./protocol/json":236,"./protocol/query":237,"./protocol/rest":238,"./protocol/rest_json":239,"./protocol/rest_xml":240,"./request":244,"./resource_waiter":245,"./response":246,"./sequential_executor":248,"./service":249,"./signers/request_signer":264,"./util":272,"./xml/builder":274}],212:[function(require,module,exports){
+},{"./config":215,"./credentials":217,"./credentials/cognito_identity_credentials":218,"./credentials/credential_provider_chain":219,"./credentials/saml_credentials":220,"./credentials/temporary_credentials":221,"./credentials/web_identity_credentials":222,"./event_listeners":228,"./http":229,"./json/builder":231,"./json/parser":232,"./model/api":233,"./model/operation":235,"./model/paginator":236,"./model/resource_waiter":237,"./model/shape":238,"./param_validator":239,"./protocol/json":241,"./protocol/query":242,"./protocol/rest":243,"./protocol/rest_json":244,"./protocol/rest_xml":245,"./request":249,"./resource_waiter":250,"./response":251,"./sequential_executor":253,"./service":254,"./signers/request_signer":269,"./util":277,"./xml/builder":279}],217:[function(require,module,exports){
 var AWS = require('./core');
 
 
@@ -96089,7 +98204,7 @@ AWS.Credentials.deletePromisesFromClass = function deletePromisesFromClass() {
 
 AWS.util.addPromises(AWS.Credentials);
 
-},{"./core":211}],213:[function(require,module,exports){
+},{"./core":216}],218:[function(require,module,exports){
 var AWS = require('../core');
 var CognitoIdentity = require('../../clients/cognitoidentity');
 var STS = require('../../clients/sts');
@@ -96304,7 +98419,7 @@ AWS.CognitoIdentityCredentials = AWS.util.inherit(AWS.Credentials, {
   })()
 });
 
-},{"../../clients/cognitoidentity":159,"../../clients/sts":204,"../core":211}],214:[function(require,module,exports){
+},{"../../clients/cognitoidentity":164,"../../clients/sts":209,"../core":216}],219:[function(require,module,exports){
 var AWS = require('../core');
 
 
@@ -96373,7 +98488,7 @@ AWS.CredentialProviderChain.deletePromisesFromClass = function deletePromisesFro
 
 AWS.util.addPromises(AWS.CredentialProviderChain);
 
-},{"../core":211}],215:[function(require,module,exports){
+},{"../core":216}],220:[function(require,module,exports){
 var AWS = require('../core');
 var STS = require('../../clients/sts');
 
@@ -96407,7 +98522,7 @@ AWS.SAMLCredentials = AWS.util.inherit(AWS.Credentials, {
 
 });
 
-},{"../../clients/sts":204,"../core":211}],216:[function(require,module,exports){
+},{"../../clients/sts":209,"../core":216}],221:[function(require,module,exports){
 var AWS = require('../core');
 var STS = require('../../clients/sts');
 
@@ -96464,7 +98579,7 @@ AWS.TemporaryCredentials = AWS.util.inherit(AWS.Credentials, {
 
 });
 
-},{"../../clients/sts":204,"../core":211}],217:[function(require,module,exports){
+},{"../../clients/sts":209,"../core":216}],222:[function(require,module,exports){
 var AWS = require('../core');
 var STS = require('../../clients/sts');
 
@@ -96507,7 +98622,7 @@ AWS.WebIdentityCredentials = AWS.util.inherit(AWS.Credentials, {
 
 });
 
-},{"../../clients/sts":204,"../core":211}],218:[function(require,module,exports){
+},{"../../clients/sts":209,"../core":216}],223:[function(require,module,exports){
 var AWS = require('../core');
 var util = AWS.util;
 var typeOf = require('./types').typeOf;
@@ -96518,17 +98633,9 @@ function convertInput(data, options) {
   options = options || {};
   var type = typeOf(data);
   if (type === 'Object') {
-    var map = {M: {}};
-    for (var key in data) {
-      map['M'][key] = convertInput(data[key], options);
-    }
-    return map;
+    return formatMap(data, options);
   } else if (type === 'Array') {
-    var list = {L: []};
-    for (var i = 0; i < data.length; i++) {
-      list['L'].push(convertInput(data[i], options));
-    }
-    return list;
+    return formatList(data, options);
   } else if (type === 'Set') {
     return formatSet(data, options);
   } else if (type === 'String') {
@@ -96547,7 +98654,30 @@ function convertInput(data, options) {
     return { BOOL: data };
   } else if (type === 'null') {
     return { NULL: true };
+  } else if (type !== 'undefined' && type !== 'Function') {
+    return formatMap(data, options);
   }
+}
+
+
+function formatList(data, options) {
+  var list = {L: []};
+  for (var i = 0; i < data.length; i++) {
+    list['L'].push(convertInput(data[i], options));
+  }
+  return list;
+}
+
+
+function formatMap(data, options) {
+  var map = {M: {}};
+  for (var key in data) {
+    var formatted = convertInput(data[key], options);
+    if (formatted !== void 0) {
+      map['M'][key] = formatted;
+    }
+  }
+  return map;
 }
 
 
@@ -96650,7 +98780,7 @@ AWS.DynamoDB.Converter = {
 
 module.exports = AWS.DynamoDB.Converter;
 
-},{"../core":211,"./set":220,"./types":222}],219:[function(require,module,exports){
+},{"../core":216,"./set":225,"./types":227}],224:[function(require,module,exports){
 var AWS = require('../core');
 var Translator = require('./translator');
 var DynamoDBSet = require('./set');
@@ -96864,7 +98994,7 @@ AWS.DynamoDB.DocumentClient = AWS.util.inherit({
 
 module.exports = AWS.DynamoDB.DocumentClient;
 
-},{"../core":211,"./set":220,"./translator":221}],220:[function(require,module,exports){
+},{"../core":216,"./set":225,"./translator":226}],225:[function(require,module,exports){
 var util = require('../core').util;
 var typeOf = require('./types').typeOf;
 
@@ -96920,7 +99050,7 @@ var DynamoDBSet = util.inherit({
 
 module.exports = DynamoDBSet;
 
-},{"../core":211,"./types":222}],221:[function(require,module,exports){
+},{"../core":216,"./types":227}],226:[function(require,module,exports){
 var util = require('../core').util;
 var convert = require('./converter');
 
@@ -97002,7 +99132,7 @@ Translator.prototype.translateScalar = function(value, shape) {
 
 module.exports = Translator;
 
-},{"../core":211,"./converter":218}],222:[function(require,module,exports){
+},{"../core":216,"./converter":223}],227:[function(require,module,exports){
 var util = require('../core').util;
 
 function typeOf(data) {
@@ -97046,7 +99176,7 @@ module.exports = {
   isBinary: isBinary
 };
 
-},{"../core":211}],223:[function(require,module,exports){
+},{"../core":216}],228:[function(require,module,exports){
 var AWS = require('./core');
 var SequentialExecutor = require('./sequential_executor');
 
@@ -97102,9 +99232,15 @@ AWS.EventListeners = {
 
     addAsync('COMPUTE_SHA256', 'afterBuild', function COMPUTE_SHA256(req, done) {
       req.haltHandlersOnError();
-      if (!req.service.api.signatureVersion) return done(); // none
+      var operation = req.service.api.operations[req.operation];
+      var authtype = operation ? operation.authtype : '';
+      if (!req.service.api.signatureVersion && !authtype) return done(); // none
       if (req.service.getSignerClass(req) === AWS.Signers.V4) {
         var body = req.httpRequest.body || '';
+        if (authtype.indexOf('unsigned-body') >= 0) {
+          req.httpRequest.headers['X-Amz-Content-Sha256'] = 'UNSIGNED-PAYLOAD';
+          return done();
+        }
         AWS.util.computeSha256(body, function(err, sha) {
           if (err) {
             done(err);
@@ -97148,7 +99284,9 @@ AWS.EventListeners = {
 
     addAsync('SIGN', 'sign', function SIGN(req, done) {
       var service = req.service;
-      if (!service.api.signatureVersion) return done(); // none
+      var operation = req.service.api.operations[req.operation];
+      var authtype = operation ? operation.authtype : '';
+      if (!service.api.signatureVersion && !authtype) return done(); // none
 
       service.config.getCredentials(function (err, credentials) {
         if (err) {
@@ -97161,7 +99299,10 @@ AWS.EventListeners = {
           var SignerClass = service.getSignerClass(req);
           var signer = new SignerClass(req.httpRequest,
             service.api.signingName || service.api.endpointPrefix,
-           service.config.signatureCache);
+            {
+              signatureCache: service.config.signatureCache,
+              operation: operation
+            });
           signer.setServiceClientId(service._clientId);
 
           delete req.httpRequest.headers['Authorization'];
@@ -97482,7 +99623,7 @@ AWS.EventListeners = {
   })
 };
 
-},{"./core":211,"./protocol/json":236,"./protocol/query":237,"./protocol/rest":238,"./protocol/rest_json":239,"./protocol/rest_xml":240,"./sequential_executor":248,"util":284}],224:[function(require,module,exports){
+},{"./core":216,"./protocol/json":241,"./protocol/query":242,"./protocol/rest":243,"./protocol/rest_json":244,"./protocol/rest_xml":245,"./sequential_executor":253,"util":352}],229:[function(require,module,exports){
 var AWS = require('./core');
 var inherit = AWS.util.inherit;
 
@@ -97602,7 +99743,7 @@ AWS.HttpClient.getInstance = function getInstance() {
   return this.singleton;
 };
 
-},{"./core":211}],225:[function(require,module,exports){
+},{"./core":216}],230:[function(require,module,exports){
 var AWS = require('../core');
 var EventEmitter = require('events').EventEmitter;
 require('../http');
@@ -97730,7 +99871,7 @@ AWS.HttpClient.prototype = AWS.XHRClient.prototype;
 
 AWS.HttpClient.streamsApiVersion = 1;
 
-},{"../core":211,"../http":224,"events":276}],226:[function(require,module,exports){
+},{"../core":216,"../http":229,"events":289}],231:[function(require,module,exports){
 var util = require('../util');
 
 function JsonBuilder() { }
@@ -97788,7 +99929,7 @@ function translateScalar(value, shape) {
 
 module.exports = JsonBuilder;
 
-},{"../util":272}],227:[function(require,module,exports){
+},{"../util":277}],232:[function(require,module,exports){
 var util = require('../util');
 
 function JsonParser() { }
@@ -97854,7 +99995,7 @@ function translateScalar(value, shape) {
 
 module.exports = JsonParser;
 
-},{"../util":272}],228:[function(require,module,exports){
+},{"../util":277}],233:[function(require,module,exports){
 var Collection = require('./collection');
 var Operation = require('./operation');
 var Shape = require('./shape');
@@ -97919,7 +100060,7 @@ function Api(api, options) {
 
 module.exports = Api;
 
-},{"../util":272,"./collection":229,"./operation":230,"./paginator":231,"./resource_waiter":232,"./shape":233}],229:[function(require,module,exports){
+},{"../util":277,"./collection":234,"./operation":235,"./paginator":236,"./resource_waiter":237,"./shape":238}],234:[function(require,module,exports){
 var memoizedProperty = require('../util').memoizedProperty;
 
 function memoize(name, value, fn, nameTr) {
@@ -97941,7 +100082,7 @@ function Collection(iterable, options, fn, nameTr) {
 
 module.exports = Collection;
 
-},{"../util":272}],230:[function(require,module,exports){
+},{"../util":277}],235:[function(require,module,exports){
 var Shape = require('./shape');
 
 var util = require('../util');
@@ -98016,7 +100157,7 @@ function Operation(name, operation, options) {
 
 module.exports = Operation;
 
-},{"../util":272,"./shape":233}],231:[function(require,module,exports){
+},{"../util":277,"./shape":238}],236:[function(require,module,exports){
 var property = require('../util').property;
 
 function Paginator(name, paginator) {
@@ -98029,7 +100170,7 @@ function Paginator(name, paginator) {
 
 module.exports = Paginator;
 
-},{"../util":272}],232:[function(require,module,exports){
+},{"../util":277}],237:[function(require,module,exports){
 var util = require('../util');
 var property = util.property;
 
@@ -98061,7 +100202,7 @@ function ResourceWaiter(name, waiter, options) {
 
 module.exports = ResourceWaiter;
 
-},{"../util":272}],233:[function(require,module,exports){
+},{"../util":277}],238:[function(require,module,exports){
 var Collection = require('./collection');
 
 var util = require('../util');
@@ -98094,9 +100235,10 @@ function Shape(shape, options, memberName) {
   property(this, 'isStreaming', shape.streaming || this.isStreaming || false);
   property(this, 'isComposite', shape.isComposite || false);
   property(this, 'isShape', true, false);
-  property(this, 'isQueryName', shape.queryName ? true : false, false);
-  property(this, 'isLocationName', shape.locationName ? true : false, false);
+  property(this, 'isQueryName', Boolean(shape.queryName), false);
+  property(this, 'isLocationName', Boolean(shape.locationName), false);
   property(this, 'isIdempotent', shape.idempotencyToken === true);
+  property(this, 'isJsonValue', shape.jsonvalue === true);
 
   if (options.documentation) {
     property(this, 'documentation', shape.documentation);
@@ -98338,14 +100480,16 @@ function TimestampShape(shape) {
 function StringShape() {
   Shape.apply(this, arguments);
 
-  if (this.api) {
-    switch (this.api.protocol) {
-      case 'rest-xml':
-      case 'query':
-      case 'ec2':
-        this.toType = function(value) { return value || ''; };
-    }
-  }
+  var nullLessProtocols = ['rest-xml', 'query', 'ec2'];
+  this.toType = function(value) {
+    value = this.api && nullLessProtocols.indexOf(this.api.protocol) > -1 ?
+      value || '' : value;
+    return this.isJsonValue ? JSON.parse(value) : value;
+  };
+
+  this.toWireFormat = function(value) {
+    return this.isJsonValue ? JSON.stringify(value) : value;
+  };
 }
 
 function FloatShape() {
@@ -98400,7 +100544,7 @@ Shape.shapes = {
 
 module.exports = Shape;
 
-},{"../util":272,"./collection":229}],234:[function(require,module,exports){
+},{"../util":277,"./collection":234}],239:[function(require,module,exports){
 var AWS = require('./core');
 
 
@@ -98527,7 +100671,11 @@ AWS.ParamValidator = AWS.util.inherit({
   },
 
   validateString: function validateString(shape, value, context) {
-    if (this.validateType(value, context, ['string'])) {
+    var validTypes = ['string'];
+    if (shape.isJsonValue) {
+      validTypes = validTypes.concat(['number', 'object', 'boolean']);
+    }
+    if (value !== null && this.validateType(value, context, validTypes)) {
       this.validateEnum(shape, value, context);
       this.validateRange(shape, value.length, context, 'string length');
       this.validatePattern(shape, value, context);
@@ -98630,7 +100778,7 @@ AWS.ParamValidator = AWS.util.inherit({
   }
 });
 
-},{"./core":211}],235:[function(require,module,exports){
+},{"./core":216}],240:[function(require,module,exports){
 var AWS = require('../core');
 var rest = require('../protocol/rest');
 
@@ -98702,7 +100850,7 @@ AWS.Polly.Presigner = AWS.util.inherit({
     }
 });
 
-},{"../core":211,"../protocol/rest":238}],236:[function(require,module,exports){
+},{"../core":216,"../protocol/rest":243}],241:[function(require,module,exports){
 var util = require('../util');
 var JsonBuilder = require('../json/builder');
 var JsonParser = require('../json/parser');
@@ -98771,7 +100919,7 @@ module.exports = {
   extractData: extractData
 };
 
-},{"../json/builder":226,"../json/parser":227,"../util":272}],237:[function(require,module,exports){
+},{"../json/builder":231,"../json/parser":232,"../util":277}],242:[function(require,module,exports){
 var AWS = require('../core');
 var util = require('../util');
 var QueryParamSerializer = require('../query/query_param_serializer');
@@ -98874,7 +101022,7 @@ module.exports = {
   extractData: extractData
 };
 
-},{"../core":211,"../model/shape":233,"../query/query_param_serializer":241,"../util":272}],238:[function(require,module,exports){
+},{"../core":216,"../model/shape":238,"../query/query_param_serializer":246,"../util":277}],243:[function(require,module,exports){
 var util = require('../util');
 
 function populateMethod(req) {
@@ -98955,6 +101103,9 @@ function populateHeaders(req) {
       });
     } else if (member.location === 'header') {
       value = member.toWireFormat(value).toString();
+      if (member.isJsonValue) {
+        value = util.base64.encode(value);
+      }
       req.httpRequest.headers[member.name] = value;
     }
   });
@@ -98995,7 +101146,10 @@ function extractData(resp) {
       });
     } else if (member.location === 'header') {
       if (headers[header] !== undefined) {
-        data[name] = headers[header];
+        var value = member.isJsonValue ?
+          util.base64.decode(headers[header]) :
+          headers[header];
+        data[name] = member.toType(value);
       }
     } else if (member.location === 'statusCode') {
       data[name] = parseInt(r.statusCode, 10);
@@ -99012,7 +101166,7 @@ module.exports = {
   generateURI: generateURI
 };
 
-},{"../util":272}],239:[function(require,module,exports){
+},{"../util":277}],244:[function(require,module,exports){
 var util = require('../util');
 var Rest = require('./rest');
 var Json = require('./json');
@@ -99080,7 +101234,7 @@ module.exports = {
   extractData: extractData
 };
 
-},{"../json/builder":226,"../json/parser":227,"../util":272,"./json":236,"./rest":238}],240:[function(require,module,exports){
+},{"../json/builder":231,"../json/parser":232,"../util":277,"./json":241,"./rest":243}],245:[function(require,module,exports){
 var AWS = require('../core');
 var util = require('../util');
 var Rest = require('./rest');
@@ -99177,7 +101331,7 @@ module.exports = {
   extractData: extractData
 };
 
-},{"../core":211,"../util":272,"./rest":238}],241:[function(require,module,exports){
+},{"../core":216,"../util":277,"./rest":243}],246:[function(require,module,exports){
 var util = require('../util');
 
 function QueryParamSerializer() {
@@ -99259,7 +101413,7 @@ function serializeMember(name, value, rules, fn) {
 
 module.exports = QueryParamSerializer;
 
-},{"../util":272}],242:[function(require,module,exports){
+},{"../util":277}],247:[function(require,module,exports){
 var util = require('./util');
 var regionConfig = require('./region_config_data.json');
 
@@ -99326,7 +101480,7 @@ function configureEndpoint(service) {
 
 module.exports = configureEndpoint;
 
-},{"./region_config_data.json":243,"./util":272}],243:[function(require,module,exports){
+},{"./region_config_data.json":248,"./util":277}],248:[function(require,module,exports){
 module.exports={
   "rules": {
     "*/*": {
@@ -99391,7 +101545,7 @@ module.exports={
   }
 }
 
-},{}],244:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 (function (process){
 var AWS = require('./core');
 var AcceptorStateMachine = require('./state_machine');
@@ -99784,7 +101938,7 @@ AWS.util.addPromises(AWS.Request);
 AWS.util.mixin(AWS.Request, AWS.SequentialExecutor);
 
 }).call(this,require('_process'))
-},{"./core":211,"./state_machine":271,"_process":277,"jmespath":295}],245:[function(require,module,exports){
+},{"./core":216,"./state_machine":276,"_process":341,"jmespath":292}],250:[function(require,module,exports){
 
 
 var AWS = require('./core');
@@ -99895,6 +102049,17 @@ AWS.ResourceWaiter = inherit({
       callback = params; params = undefined;
     }
 
+    if (params && params.$waiter) {
+      params = AWS.util.copy(params);
+      if (typeof params.$waiter.delay === 'number') {
+        this.config.delay = params.$waiter.delay;
+      }
+      if (typeof params.$waiter.maxAttempts === 'number') {
+        this.config.maxAttempts = params.$waiter.maxAttempts;
+      }
+      delete params.$waiter;
+    }
+
     var request = this.service.makeRequest(this.config.operation, params);
     request._waiter = this;
     request.response.maxRetries = this.config.maxAttempts;
@@ -99928,11 +102093,11 @@ AWS.ResourceWaiter = inherit({
       });
     }
 
-    this.config = this.service.api.waiters[state];
+    this.config = AWS.util.copy(this.service.api.waiters[state]);
   }
 });
 
-},{"./core":211,"jmespath":295}],246:[function(require,module,exports){
+},{"./core":216,"jmespath":292}],251:[function(require,module,exports){
 var AWS = require('./core');
 var inherit = AWS.util.inherit;
 var jmespath = require('jmespath');
@@ -100020,7 +102185,7 @@ AWS.Response = inherit({
 
 });
 
-},{"./core":211,"jmespath":295}],247:[function(require,module,exports){
+},{"./core":216,"jmespath":292}],252:[function(require,module,exports){
 var AWS = require('../core');
 var byteLength = AWS.util.string.byteLength;
 var Buffer = AWS.util.Buffer;
@@ -100051,6 +102216,13 @@ AWS.S3.ManagedUpload = AWS.util.inherit({
     if (options.queueSize) this.queueSize = options.queueSize;
     if (options.partSize) this.partSize = options.partSize;
     if (options.leavePartsOnError) this.leavePartsOnError = true;
+    if (options.tags) {
+      if (!Array.isArray(options.tags)) {
+        throw new Error('Tags must be specified as an array; ' +
+          typeof options.tags + ' provided.');
+      }
+      this.tags = options.tags;
+    }
 
     if (this.partSize < this.minPartSize) {
       throw new Error('partSize must be greater than ' +
@@ -100284,7 +102456,11 @@ AWS.S3.ManagedUpload = AWS.util.inherit({
 
     var partNumber = ++self.totalPartNumbers;
     if (self.isDoneChunking && partNumber === 1) {
-      var req = self.service.putObject({Body: chunk});
+      var params = {Body: chunk};
+      if (this.tags) {
+        params.Tagging = this.getTaggingHeader();
+      }
+      var req = self.service.putObject(params);
       req._managedUpload = self;
       req.on('httpUploadProgress', self.progress).send(self.finishSinglePart);
       return null;
@@ -100321,6 +102497,17 @@ AWS.S3.ManagedUpload = AWS.util.inherit({
     } else { // multipart is created, just send
       self.uploadPart(chunk, partNumber);
     }
+  },
+
+
+  getTaggingHeader: function getTaggingHeader() {
+    var kvPairStrings = [];
+    for (var i = 0; i < this.tags.length; i++) {
+      kvPairStrings.push(AWS.util.uriEscape(this.tags[i].Key) + '=' +
+        AWS.util.uriEscape(this.tags[i].Value));
+    }
+
+    return kvPairStrings.join('&');
   },
 
 
@@ -100410,8 +102597,28 @@ AWS.S3.ManagedUpload = AWS.util.inherit({
     var self = this;
     var completeParams = { MultipartUpload: { Parts: self.completeInfo.slice(1) } };
     self.service.completeMultipartUpload(completeParams, function(err, data) {
-      if (err) return self.cleanup(err);
-      else self.callback(err, data);
+      if (err) {
+        return self.cleanup(err);
+      }
+
+      if (data && typeof data.Location === 'string') {
+        data.Location = data.Location.replace(/%2F/g, '/');
+      }
+
+      if (Array.isArray(self.tags)) {
+        self.service.putObjectTagging(
+          {Tagging: {TagSet: self.tags}},
+          function(e, d) {
+            if (e) {
+              self.callback(e);
+            } else {
+              self.callback(e, data);
+            }
+          }
+        );
+      } else {
+        self.callback(err, data);
+      }
     });
   },
 
@@ -100465,7 +102672,7 @@ AWS.util.addPromises(AWS.S3.ManagedUpload);
 
 module.exports = AWS.S3.ManagedUpload;
 
-},{"../core":211}],248:[function(require,module,exports){
+},{"../core":216}],253:[function(require,module,exports){
 var AWS = require('./core');
 
 
@@ -100614,7 +102821,7 @@ AWS.SequentialExecutor.prototype.addListener = AWS.SequentialExecutor.prototype.
 
 module.exports = AWS.SequentialExecutor;
 
-},{"./core":211}],249:[function(require,module,exports){
+},{"./core":216}],254:[function(require,module,exports){
 var AWS = require('./core');
 var Api = require('./model/api');
 var regionConfig = require('./region_config');
@@ -100817,10 +103024,14 @@ AWS.Service = inherit({
   },
 
 
-  getSignerClass: function getSignerClass() {
+  getSignerClass: function getSignerClass(request) {
     var version;
+    var operation = request ? request.service.api.operations[request.operation] : null;
+    var authtype = operation ? operation.authtype : '';
     if (this.config.signatureVersion) {
       version = this.config.signatureVersion;
+    } else if (authtype === 'v4' || authtype === 'v4-unsigned-body') {
+      version = 'v4';
     } else {
       version = this.api.signatureVersion;
     }
@@ -101044,7 +103255,8 @@ AWS.util.update(AWS.Service, {
 });
 
 module.exports = AWS.Service;
-},{"./core":211,"./model/api":228,"./region_config":242}],250:[function(require,module,exports){
+
+},{"./core":216,"./model/api":233,"./region_config":247}],255:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.APIGateway.prototype, {
@@ -101074,7 +103286,7 @@ AWS.util.update(AWS.APIGateway.prototype, {
 });
 
 
-},{"../core":211}],251:[function(require,module,exports){
+},{"../core":216}],256:[function(require,module,exports){
 var AWS = require('../core');
 
 require('../cloudfront/signer');
@@ -101087,7 +103299,7 @@ AWS.util.update(AWS.CloudFront.prototype, {
 
 });
 
-},{"../cloudfront/signer":209,"../core":211}],252:[function(require,module,exports){
+},{"../cloudfront/signer":214,"../core":216}],257:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.CognitoIdentity.prototype, {
@@ -101104,7 +103316,7 @@ AWS.util.update(AWS.CognitoIdentity.prototype, {
   }
 });
 
-},{"../core":211}],253:[function(require,module,exports){
+},{"../core":216}],258:[function(require,module,exports){
 var AWS = require('../core');
 require('../dynamodb/document_client');
 
@@ -101144,12 +103356,17 @@ AWS.util.update(AWS.DynamoDB.prototype, {
 
 
   retryDelays: function retryDelays(retryCount) {
-    var delay = retryCount > 0 ? (50 * Math.pow(2, retryCount - 1)) : 0;
+    var retryDelayOptions = AWS.util.copy(this.config.retryDelayOptions);
+
+    if (typeof retryDelayOptions.base !== 'number') {
+        retryDelayOptions.base = 50; // default for dynamodb
+    }
+    var delay = AWS.util.calculateRetryDelay(retryCount, retryDelayOptions);
     return delay;
   }
 });
 
-},{"../core":211,"../dynamodb/document_client":219}],254:[function(require,module,exports){
+},{"../core":216,"../dynamodb/document_client":224}],259:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.EC2.prototype, {
@@ -101206,7 +103423,7 @@ AWS.util.update(AWS.EC2.prototype, {
   }
 });
 
-},{"../core":211}],255:[function(require,module,exports){
+},{"../core":216}],260:[function(require,module,exports){
 var AWS = require('../core');
 
 
@@ -101237,7 +103454,7 @@ AWS.util.update(AWS.IotData.prototype, {
 
 });
 
-},{"../core":211}],256:[function(require,module,exports){
+},{"../core":216}],261:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.MachineLearning.prototype, {
@@ -101258,9 +103475,9 @@ AWS.util.update(AWS.MachineLearning.prototype, {
 
 });
 
-},{"../core":211}],257:[function(require,module,exports){
+},{"../core":216}],262:[function(require,module,exports){
 require('../polly/presigner');
-},{"../polly/presigner":235}],258:[function(require,module,exports){
+},{"../polly/presigner":240}],263:[function(require,module,exports){
 var AWS = require('../core');
 
 
@@ -101314,7 +103531,7 @@ var AWS = require('../core');
      });
    }
  });
-},{"../core":211}],259:[function(require,module,exports){
+},{"../core":216}],264:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.Route53.prototype, {
@@ -101341,7 +103558,7 @@ AWS.util.update(AWS.Route53.prototype, {
   }
 });
 
-},{"../core":211}],260:[function(require,module,exports){
+},{"../core":216}],265:[function(require,module,exports){
 var AWS = require('../core');
 var v4Credentials = require('../signers/v4_credentials');
 
@@ -102071,7 +104288,7 @@ AWS.util.update(AWS.S3.prototype, {
   }
 });
 
-},{"../core":211,"../s3/managed_upload":247,"../signers/v4_credentials":270}],261:[function(require,module,exports){
+},{"../core":216,"../s3/managed_upload":252,"../signers/v4_credentials":275}],266:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.SQS.prototype, {
@@ -102186,7 +104403,7 @@ AWS.util.update(AWS.SQS.prototype, {
   }
 });
 
-},{"../core":211}],262:[function(require,module,exports){
+},{"../core":216}],267:[function(require,module,exports){
 var AWS = require('../core');
 
 AWS.util.update(AWS.STS.prototype, {
@@ -102211,7 +104428,7 @@ AWS.util.update(AWS.STS.prototype, {
   }
 });
 
-},{"../core":211}],263:[function(require,module,exports){
+},{"../core":216}],268:[function(require,module,exports){
 var AWS = require('../core');
 var inherit = AWS.util.inherit;
 
@@ -102316,7 +104533,7 @@ AWS.Signers.Presign = inherit({
 
 module.exports = AWS.Signers.Presign;
 
-},{"../core":211}],264:[function(require,module,exports){
+},{"../core":216}],269:[function(require,module,exports){
 var AWS = require('../core');
 
 var inherit = AWS.util.inherit;
@@ -102354,7 +104571,7 @@ require('./v4');
 require('./s3');
 require('./presign');
 
-},{"../core":211,"./presign":263,"./s3":265,"./v2":266,"./v3":267,"./v3https":268,"./v4":269}],265:[function(require,module,exports){
+},{"../core":216,"./presign":268,"./s3":270,"./v2":271,"./v3":272,"./v3https":273,"./v4":274}],270:[function(require,module,exports){
 var AWS = require('../core');
 var inherit = AWS.util.inherit;
 
@@ -102516,7 +104733,7 @@ AWS.Signers.S3 = inherit(AWS.Signers.RequestSigner, {
 
 module.exports = AWS.Signers.S3;
 
-},{"../core":211}],266:[function(require,module,exports){
+},{"../core":216}],271:[function(require,module,exports){
 var AWS = require('../core');
 var inherit = AWS.util.inherit;
 
@@ -102561,7 +104778,7 @@ AWS.Signers.V2 = inherit(AWS.Signers.RequestSigner, {
 
 module.exports = AWS.Signers.V2;
 
-},{"../core":211}],267:[function(require,module,exports){
+},{"../core":216}],272:[function(require,module,exports){
 var AWS = require('../core');
 var inherit = AWS.util.inherit;
 
@@ -102635,7 +104852,7 @@ AWS.Signers.V3 = inherit(AWS.Signers.RequestSigner, {
 
 module.exports = AWS.Signers.V3;
 
-},{"../core":211}],268:[function(require,module,exports){
+},{"../core":216}],273:[function(require,module,exports){
 var AWS = require('../core');
 var inherit = AWS.util.inherit;
 
@@ -102657,7 +104874,7 @@ AWS.Signers.V3Https = inherit(AWS.Signers.V3, {
 
 module.exports = AWS.Signers.V3Https;
 
-},{"../core":211,"./v3":267}],269:[function(require,module,exports){
+},{"../core":216,"./v3":272}],274:[function(require,module,exports){
 var AWS = require('../core');
 var v4Credentials = require('./v4_credentials');
 var inherit = AWS.util.inherit;
@@ -102667,10 +104884,12 @@ var expiresHeader = 'presigned-expires';
 
 
 AWS.Signers.V4 = inherit(AWS.Signers.RequestSigner, {
-  constructor: function V4(request, serviceName, signatureCache) {
+  constructor: function V4(request, serviceName, options) {
     AWS.Signers.RequestSigner.call(this, request);
     this.serviceName = serviceName;
-    this.signatureCache = signatureCache;
+    options = options || {};
+    this.signatureCache = typeof options.signatureCache === 'boolean' ? options.signatureCache : true;
+    this.operation = options.operation;
   },
 
   algorithm: 'AWS4-HMAC-SHA256',
@@ -102823,10 +105042,11 @@ AWS.Signers.V4 = inherit(AWS.Signers.RequestSigner, {
   },
 
   hexEncodedBodyHash: function hexEncodedBodyHash() {
-    if (this.isPresigned() && this.serviceName === 's3' && !this.request.body) {
+    var request = this.request;
+    if (this.isPresigned() && this.serviceName === 's3' && !request.body) {
       return 'UNSIGNED-PAYLOAD';
-    } else if (this.request.headers['X-Amz-Content-Sha256']) {
-      return this.request.headers['X-Amz-Content-Sha256'];
+    } else if (request.headers['X-Amz-Content-Sha256']) {
+      return request.headers['X-Amz-Content-Sha256'];
     } else {
       return this.hexEncodedHash(this.request.body || '');
     }
@@ -102855,7 +105075,7 @@ AWS.Signers.V4 = inherit(AWS.Signers.RequestSigner, {
 
 module.exports = AWS.Signers.V4;
 
-},{"../core":211,"./v4_credentials":270}],270:[function(require,module,exports){
+},{"../core":216,"./v4_credentials":275}],275:[function(require,module,exports){
 var AWS = require('../core');
 
 
@@ -102924,7 +105144,7 @@ module.exports = {
   }
 };
 
-},{"../core":211}],271:[function(require,module,exports){
+},{"../core":216}],276:[function(require,module,exports){
 function AcceptorStateMachine(states, state) {
   this.currentState = state || null;
   this.states = states || {};
@@ -102968,7 +105188,7 @@ AcceptorStateMachine.prototype.addState = function addState(name, acceptState, f
 
 module.exports = AcceptorStateMachine;
 
-},{}],272:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 (function (process){
 
 var AWS;
@@ -103711,7 +105931,7 @@ var util = {
     if (typeof customBackoff === 'function') {
       return customBackoff(retryCount);
     }
-    var base = retryDelayOptions.base || 100;
+    var base = typeof retryDelayOptions.base === 'number' ? retryDelayOptions.base : 100;
     var delay = Math.random() * (Math.pow(2, retryCount) * base);
     return delay;
   },
@@ -103770,7 +105990,7 @@ var util = {
 module.exports = util;
 
 }).call(this,require('_process'))
-},{"../apis/metadata.json":92,"./core":211,"_process":277,"fs":275,"uuid":301}],273:[function(require,module,exports){
+},{"../apis/metadata.json":97,"./core":216,"_process":341,"fs":281,"uuid":354}],278:[function(require,module,exports){
 var util = require('../util');
 var Shape = require('../model/shape');
 
@@ -103955,7 +106175,7 @@ function parseUnknown(xml) {
 
 module.exports = DomXmlParser;
 
-},{"../model/shape":233,"../util":272}],274:[function(require,module,exports){
+},{"../model/shape":238,"../util":277}],279:[function(require,module,exports){
 var util = require('../util');
 var builder = require('xmlbuilder');
 
@@ -104043,1511 +106263,116 @@ function applyNamespaces(xml, shape) {
 
 module.exports = XmlBuilder;
 
-},{"../util":272,"xmlbuilder":318}],275:[function(require,module,exports){
+},{"../util":277,"xmlbuilder":371}],280:[function(require,module,exports){
+'use strict'
 
-},{}],276:[function(require,module,exports){
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
 
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
 
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-EventEmitter.defaultMaxListeners = 10;
-
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      } else {
-        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-        err.context = er;
-        throw err;
-      }
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      default:
-        args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    args = Array.prototype.slice.call(arguments, 1);
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    this._events[type].push(listener);
-  else
-    this._events[type] = [this._events[type], listener];
-
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else if (listeners) {
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.prototype.listenerCount = function(type) {
-  if (this._events) {
-    var evlistener = this._events[type];
-
-    if (isFunction(evlistener))
-      return 1;
-    else if (evlistener)
-      return evlistener.length;
-  }
-  return 0;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  return emitter.listenerCount(type);
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
 }
 
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],277:[function(require,module,exports){
-var process = module.exports = {};
-
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        return setTimeout(fun, 0);
-    }
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        return clearTimeout(marker);
-    }
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],278:[function(require,module,exports){
-(function (global){
-
-;(function(root) {
-
-
-	var freeExports = typeof exports == 'object' && exports &&
-		!exports.nodeType && exports;
-	var freeModule = typeof module == 'object' && module &&
-		!module.nodeType && module;
-	var freeGlobal = typeof global == 'object' && global;
-	if (
-		freeGlobal.global === freeGlobal ||
-		freeGlobal.window === freeGlobal ||
-		freeGlobal.self === freeGlobal
-	) {
-		root = freeGlobal;
-	}
-
-
-	var punycode,
-
-
-	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
-
-
-	base = 36,
-	tMin = 1,
-	tMax = 26,
-	skew = 38,
-	damp = 700,
-	initialBias = 72,
-	initialN = 128, // 0x80
-	delimiter = '-', // '\x2D'
-
-
-	regexPunycode = /^xn--/,
-	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
-
-
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-
-	baseMinusTMin = base - tMin,
-	floor = Math.floor,
-	stringFromCharCode = String.fromCharCode,
-
-
-	key;
-
-
-
-
-	function error(type) {
-		throw new RangeError(errors[type]);
-	}
-
-
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-
-	function ucs2encode(array) {
-		return map(array, function(value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-
-	function digitToBasic(digit, flag) {
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-
-	function decode(input) {
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-
-		    baseMinusT;
-
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
-
-			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			output.splice(i++, 0, n);
-
-		}
-
-		return ucs2encode(output);
-	}
-
-
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-
-		    inputLength,
-
-		    handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		input = ucs2decode(input);
-
-		inputLength = input.length;
-
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		while (handledCPCount < inputLength) {
-
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					for (q = delta, k = base; /* no condition */; k += base) {
-						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-
-		}
-		return output.join('');
-	}
-
-
-	function toUnicode(input) {
-		return mapDomain(input, function(string) {
-			return regexPunycode.test(string)
-				? decode(string.slice(4).toLowerCase())
-				: string;
-		});
-	}
-
-
-	function toASCII(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	}
-
-
-
-
-	punycode = {
-
-		'version': '1.4.1',
-
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-
-	if (
-		typeof define == 'function' &&
-		typeof define.amd == 'object' &&
-		define.amd
-	) {
-		define('punycode', function() {
-			return punycode;
-		});
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) {
-			freeModule.exports = punycode;
-		} else {
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else {
-		root.punycode = punycode;
-	}
-
-}(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],279:[function(require,module,exports){
-
-'use strict';
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],280:[function(require,module,exports){
-
-'use strict';
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
 }
 
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+function byteLength (b64) {
+  return b64.length * 3 / 4 - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
   }
-  return res;
-};
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
 
 },{}],281:[function(require,module,exports){
-'use strict';
 
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":279,"./encode":280}],282:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],283:[function(require,module,exports){
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],284:[function(require,module,exports){
-(function (process,global){
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-
-exports.deprecate = function(fn, msg) {
-  if (isUndefined(global.process)) {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function() {};
-    }
-  }
-  return debugs[set];
-};
-
-
-
-
-function inspect(obj, opts) {
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    ctx.showHidden = opts;
-  } else if (opts) {
-    exports._extend(ctx, opts);
-  }
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-
-inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
-};
-
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  'regexp': 'red'
-};
-
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function(val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-
-function formatValue(ctx, value, recurseTimes) {
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
-      value.inspect !== exports.inspect &&
-      !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '', array = false, braces = ['{', '}'];
-
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
-  if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
-  if (isNull(value))
-    return ctx.stylize('null', 'null');
-}
-
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
-    }
-  });
-  return output;
-}
-
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'")
-                 .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] +
-           (base === '' ? '' : base + '\n ') +
-           ' ' +
-           output.join(',\n  ') +
-           ' ' +
-           braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = require('./support/isBuffer');
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-
-exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-
-
-exports.inherits = require('inherits');
-
-exports._extend = function(origin, add) {
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":283,"_process":277,"inherits":282}],285:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 (function (global){
 
 
@@ -107202,207 +108027,7 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":286,"ieee754":287,"isarray":288}],286:[function(require,module,exports){
-'use strict'
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-for (var i = 0, len = code.length; i < len; ++i) {
-  lookup[i] = code[i]
-  revLookup[code.charCodeAt(i)] = i
-}
-
-revLookup['-'.charCodeAt(0)] = 62
-revLookup['_'.charCodeAt(0)] = 63
-
-function placeHoldersCount (b64) {
-  var len = b64.length
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-}
-
-function byteLength (b64) {
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
-}
-
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
-
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
-  }
-
-  parts.push(output)
-
-  return parts.join('')
-}
-
-},{}],287:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-},{}],288:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],289:[function(require,module,exports){
+},{"base64-js":280,"ieee754":290,"isarray":291}],283:[function(require,module,exports){
 var Buffer = require('buffer').Buffer;
 var intSize = 4;
 var zeroBuffer = new Buffer(intSize); zeroBuffer.fill(0);
@@ -107439,7 +108064,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 
 module.exports = { hash: hash };
 
-},{"buffer":285}],290:[function(require,module,exports){
+},{"buffer":282}],284:[function(require,module,exports){
 var Buffer = require('buffer').Buffer
 var sha = require('./sha')
 var sha256 = require('./sha256')
@@ -107537,7 +108162,7 @@ each(['createCredentials'
   }
 })
 
-},{"./md5":291,"./rng":292,"./sha":293,"./sha256":294,"buffer":285}],291:[function(require,module,exports){
+},{"./md5":285,"./rng":286,"./sha":287,"./sha256":288,"buffer":282}],285:[function(require,module,exports){
 
 
 var helpers = require('./helpers');
@@ -107684,7 +108309,7 @@ module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
 
-},{"./helpers":289}],292:[function(require,module,exports){
+},{"./helpers":283}],286:[function(require,module,exports){
 (function() {
   var _global = this;
 
@@ -107714,7 +108339,7 @@ module.exports = function md5(buf) {
 
 }())
 
-},{}],293:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 
 
 var helpers = require('./helpers');
@@ -107798,7 +108423,7 @@ module.exports = function sha1(buf) {
   return helpers.hash(buf, core_sha1, 20, true);
 };
 
-},{"./helpers":289}],294:[function(require,module,exports){
+},{"./helpers":283}],288:[function(require,module,exports){
 
 
 
@@ -107873,7 +108498,364 @@ module.exports = function sha256(buf) {
   return helpers.hash(buf, core_sha256, 32, true);
 };
 
-},{"./helpers":289}],295:[function(require,module,exports){
+},{"./helpers":283}],289:[function(require,module,exports){
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+EventEmitter.defaultMaxListeners = 10;
+
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
+      }
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    this._events[type].push(listener);
+  else
+    this._events[type] = [this._events[type], listener];
+
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],290:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],291:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],292:[function(require,module,exports){
 (function(exports) {
   "use strict";
 
@@ -109456,7 +110438,1900 @@ module.exports = function sha256(buf) {
   exports.strictDeepEqual = strictDeepEqual;
 })(typeof exports === "undefined" ? this.jmespath = {} : exports);
 
-},{}],296:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
+var arrayEvery = require('../internal/arrayEvery'),
+    baseCallback = require('../internal/baseCallback'),
+    baseEvery = require('../internal/baseEvery'),
+    isArray = require('../lang/isArray');
+
+
+function every(collection, predicate, thisArg) {
+  var func = isArray(collection) ? arrayEvery : baseEvery;
+  if (typeof predicate != 'function' || typeof thisArg != 'undefined') {
+    predicate = baseCallback(predicate, thisArg, 3);
+  }
+  return func(collection, predicate);
+}
+
+module.exports = every;
+
+},{"../internal/arrayEvery":294,"../internal/baseCallback":296,"../internal/baseEvery":300,"../lang/isArray":327}],294:[function(require,module,exports){
+
+function arrayEvery(array, predicate) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (!predicate(array[index], index, array)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+module.exports = arrayEvery;
+
+},{}],295:[function(require,module,exports){
+var baseCopy = require('./baseCopy'),
+    keys = require('../object/keys');
+
+
+function baseAssign(object, source, customizer) {
+  var props = keys(source);
+  if (!customizer) {
+    return baseCopy(source, object, props);
+  }
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index],
+        value = object[key],
+        result = customizer(value, source[key], key, object, source);
+
+    if ((result === result ? (result !== value) : (value === value)) ||
+        (typeof value == 'undefined' && !(key in object))) {
+      object[key] = result;
+    }
+  }
+  return object;
+}
+
+module.exports = baseAssign;
+
+},{"../object/keys":336,"./baseCopy":297}],296:[function(require,module,exports){
+var baseMatches = require('./baseMatches'),
+    baseMatchesProperty = require('./baseMatchesProperty'),
+    baseProperty = require('./baseProperty'),
+    bindCallback = require('./bindCallback'),
+    identity = require('../utility/identity'),
+    isBindable = require('./isBindable');
+
+
+function baseCallback(func, thisArg, argCount) {
+  var type = typeof func;
+  if (type == 'function') {
+    return (typeof thisArg != 'undefined' && isBindable(func))
+      ? bindCallback(func, thisArg, argCount)
+      : func;
+  }
+  if (func == null) {
+    return identity;
+  }
+  if (type == 'object') {
+    return baseMatches(func);
+  }
+  return typeof thisArg == 'undefined'
+    ? baseProperty(func + '')
+    : baseMatchesProperty(func + '', thisArg);
+}
+
+module.exports = baseCallback;
+
+},{"../utility/identity":340,"./baseMatches":307,"./baseMatchesProperty":308,"./baseProperty":309,"./bindCallback":312,"./isBindable":317}],297:[function(require,module,exports){
+
+function baseCopy(source, object, props) {
+  if (!props) {
+    props = object;
+    object = {};
+  }
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+    object[key] = source[key];
+  }
+  return object;
+}
+
+module.exports = baseCopy;
+
+},{}],298:[function(require,module,exports){
+(function (global){
+var isObject = require('../lang/isObject');
+
+
+var baseCreate = (function() {
+  function Object() {}
+  return function(prototype) {
+    if (isObject(prototype)) {
+      Object.prototype = prototype;
+      var result = new Object;
+      Object.prototype = null;
+    }
+    return result || global.Object();
+  };
+}());
+
+module.exports = baseCreate;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../lang/isObject":331}],299:[function(require,module,exports){
+var baseForOwn = require('./baseForOwn'),
+    isLength = require('./isLength'),
+    toObject = require('./toObject');
+
+
+function baseEach(collection, iteratee) {
+  var length = collection ? collection.length : 0;
+  if (!isLength(length)) {
+    return baseForOwn(collection, iteratee);
+  }
+  var index = -1,
+      iterable = toObject(collection);
+
+  while (++index < length) {
+    if (iteratee(iterable[index], index, iterable) === false) {
+      break;
+    }
+  }
+  return collection;
+}
+
+module.exports = baseEach;
+
+},{"./baseForOwn":302,"./isLength":320,"./toObject":325}],300:[function(require,module,exports){
+var baseEach = require('./baseEach');
+
+
+function baseEvery(collection, predicate) {
+  var result = true;
+  baseEach(collection, function(value, index, collection) {
+    result = !!predicate(value, index, collection);
+    return result;
+  });
+  return result;
+}
+
+module.exports = baseEvery;
+
+},{"./baseEach":299}],301:[function(require,module,exports){
+var toObject = require('./toObject');
+
+
+function baseFor(object, iteratee, keysFunc) {
+  var index = -1,
+      iterable = toObject(object),
+      props = keysFunc(object),
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+    if (iteratee(iterable[key], key, iterable) === false) {
+      break;
+    }
+  }
+  return object;
+}
+
+module.exports = baseFor;
+
+},{"./toObject":325}],302:[function(require,module,exports){
+var baseFor = require('./baseFor'),
+    keys = require('../object/keys');
+
+
+function baseForOwn(object, iteratee) {
+  return baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+},{"../object/keys":336,"./baseFor":301}],303:[function(require,module,exports){
+var baseIsEqualDeep = require('./baseIsEqualDeep');
+
+
+function baseIsEqual(value, other, customizer, isWhere, stackA, stackB) {
+  if (value === other) {
+    return value !== 0 || (1 / value == 1 / other);
+  }
+  var valType = typeof value,
+      othType = typeof other;
+
+  if ((valType != 'function' && valType != 'object' && othType != 'function' && othType != 'object') ||
+      value == null || other == null) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isWhere, stackA, stackB);
+}
+
+module.exports = baseIsEqual;
+
+},{"./baseIsEqualDeep":304}],304:[function(require,module,exports){
+var equalArrays = require('./equalArrays'),
+    equalByTag = require('./equalByTag'),
+    equalObjects = require('./equalObjects'),
+    isArray = require('../lang/isArray'),
+    isTypedArray = require('../lang/isTypedArray');
+
+
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+var objToString = objectProto.toString;
+
+
+function baseIsEqualDeep(object, other, equalFunc, customizer, isWhere, stackA, stackB) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = objToString.call(object);
+    if (objTag == argsTag) {
+      objTag = objectTag;
+    } else if (objTag != objectTag) {
+      objIsArr = isTypedArray(object);
+    }
+  }
+  if (!othIsArr) {
+    othTag = objToString.call(other);
+    if (othTag == argsTag) {
+      othTag = objectTag;
+    } else if (othTag != objectTag) {
+      othIsArr = isTypedArray(other);
+    }
+  }
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && !(objIsArr || objIsObj)) {
+    return equalByTag(object, other, objTag);
+  }
+  var valWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+      othWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+  if (valWrapped || othWrapped) {
+    return equalFunc(valWrapped ? object.value() : object, othWrapped ? other.value() : other, customizer, isWhere, stackA, stackB);
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stackA || (stackA = []);
+  stackB || (stackB = []);
+
+  var length = stackA.length;
+  while (length--) {
+    if (stackA[length] == object) {
+      return stackB[length] == other;
+    }
+  }
+  stackA.push(object);
+  stackB.push(other);
+
+  var result = (objIsArr ? equalArrays : equalObjects)(object, other, equalFunc, customizer, isWhere, stackA, stackB);
+
+  stackA.pop();
+  stackB.pop();
+
+  return result;
+}
+
+module.exports = baseIsEqualDeep;
+
+},{"../lang/isArray":327,"../lang/isTypedArray":333,"./equalArrays":314,"./equalByTag":315,"./equalObjects":316}],305:[function(require,module,exports){
+
+function baseIsFunction(value) {
+  return typeof value == 'function' || false;
+}
+
+module.exports = baseIsFunction;
+
+},{}],306:[function(require,module,exports){
+var baseIsEqual = require('./baseIsEqual');
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+function baseIsMatch(object, props, values, strictCompareFlags, customizer) {
+  var length = props.length;
+  if (object == null) {
+    return !length;
+  }
+  var index = -1,
+      noCustomizer = !customizer;
+
+  while (++index < length) {
+    if ((noCustomizer && strictCompareFlags[index])
+          ? values[index] !== object[props[index]]
+          : !hasOwnProperty.call(object, props[index])
+        ) {
+      return false;
+    }
+  }
+  index = -1;
+  while (++index < length) {
+    var key = props[index];
+    if (noCustomizer && strictCompareFlags[index]) {
+      var result = hasOwnProperty.call(object, key);
+    } else {
+      var objValue = object[key],
+          srcValue = values[index];
+
+      result = customizer ? customizer(objValue, srcValue, key) : undefined;
+      if (typeof result == 'undefined') {
+        result = baseIsEqual(srcValue, objValue, customizer, true);
+      }
+    }
+    if (!result) {
+      return false;
+    }
+  }
+  return true;
+}
+
+module.exports = baseIsMatch;
+
+},{"./baseIsEqual":303}],307:[function(require,module,exports){
+var baseIsMatch = require('./baseIsMatch'),
+    isStrictComparable = require('./isStrictComparable'),
+    keys = require('../object/keys');
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+function baseMatches(source) {
+  var props = keys(source),
+      length = props.length;
+
+  if (length == 1) {
+    var key = props[0],
+        value = source[key];
+
+    if (isStrictComparable(value)) {
+      return function(object) {
+        return object != null && object[key] === value && hasOwnProperty.call(object, key);
+      };
+    }
+  }
+  var values = Array(length),
+      strictCompareFlags = Array(length);
+
+  while (length--) {
+    value = source[props[length]];
+    values[length] = value;
+    strictCompareFlags[length] = isStrictComparable(value);
+  }
+  return function(object) {
+    return baseIsMatch(object, props, values, strictCompareFlags);
+  };
+}
+
+module.exports = baseMatches;
+
+},{"../object/keys":336,"./baseIsMatch":306,"./isStrictComparable":322}],308:[function(require,module,exports){
+var baseIsEqual = require('./baseIsEqual'),
+    isStrictComparable = require('./isStrictComparable');
+
+
+function baseMatchesProperty(key, value) {
+  if (isStrictComparable(value)) {
+    return function(object) {
+      return object != null && object[key] === value;
+    };
+  }
+  return function(object) {
+    return object != null && baseIsEqual(value, object[key], null, true);
+  };
+}
+
+module.exports = baseMatchesProperty;
+
+},{"./baseIsEqual":303,"./isStrictComparable":322}],309:[function(require,module,exports){
+
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+module.exports = baseProperty;
+
+},{}],310:[function(require,module,exports){
+var identity = require('../utility/identity'),
+    metaMap = require('./metaMap');
+
+
+var baseSetData = !metaMap ? identity : function(func, data) {
+  metaMap.set(func, data);
+  return func;
+};
+
+module.exports = baseSetData;
+
+},{"../utility/identity":340,"./metaMap":323}],311:[function(require,module,exports){
+
+function baseToString(value) {
+  if (typeof value == 'string') {
+    return value;
+  }
+  return value == null ? '' : (value + '');
+}
+
+module.exports = baseToString;
+
+},{}],312:[function(require,module,exports){
+var identity = require('../utility/identity');
+
+
+function bindCallback(func, thisArg, argCount) {
+  if (typeof func != 'function') {
+    return identity;
+  }
+  if (typeof thisArg == 'undefined') {
+    return func;
+  }
+  switch (argCount) {
+    case 1: return function(value) {
+      return func.call(thisArg, value);
+    };
+    case 3: return function(value, index, collection) {
+      return func.call(thisArg, value, index, collection);
+    };
+    case 4: return function(accumulator, value, index, collection) {
+      return func.call(thisArg, accumulator, value, index, collection);
+    };
+    case 5: return function(value, other, key, object, source) {
+      return func.call(thisArg, value, other, key, object, source);
+    };
+  }
+  return function() {
+    return func.apply(thisArg, arguments);
+  };
+}
+
+module.exports = bindCallback;
+
+},{"../utility/identity":340}],313:[function(require,module,exports){
+var bindCallback = require('./bindCallback'),
+    isIterateeCall = require('./isIterateeCall');
+
+
+function createAssigner(assigner) {
+  return function() {
+    var args = arguments,
+        length = args.length,
+        object = args[0];
+
+    if (length < 2 || object == null) {
+      return object;
+    }
+    var customizer = args[length - 2],
+        thisArg = args[length - 1],
+        guard = args[3];
+
+    if (length > 3 && typeof customizer == 'function') {
+      customizer = bindCallback(customizer, thisArg, 5);
+      length -= 2;
+    } else {
+      customizer = (length > 2 && typeof thisArg == 'function') ? thisArg : null;
+      length -= (customizer ? 1 : 0);
+    }
+    if (guard && isIterateeCall(args[1], args[2], guard)) {
+      customizer = length == 3 ? null : customizer;
+      length = 2;
+    }
+    var index = 0;
+    while (++index < length) {
+      var source = args[index];
+      if (source) {
+        assigner(object, source, customizer);
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createAssigner;
+
+},{"./bindCallback":312,"./isIterateeCall":319}],314:[function(require,module,exports){
+
+function equalArrays(array, other, equalFunc, customizer, isWhere, stackA, stackB) {
+  var index = -1,
+      arrLength = array.length,
+      othLength = other.length,
+      result = true;
+
+  if (arrLength != othLength && !(isWhere && othLength > arrLength)) {
+    return false;
+  }
+  while (result && ++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    result = undefined;
+    if (customizer) {
+      result = isWhere
+        ? customizer(othValue, arrValue, index)
+        : customizer(arrValue, othValue, index);
+    }
+    if (typeof result == 'undefined') {
+      if (isWhere) {
+        var othIndex = othLength;
+        while (othIndex--) {
+          othValue = other[othIndex];
+          result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isWhere, stackA, stackB);
+          if (result) {
+            break;
+          }
+        }
+      } else {
+        result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isWhere, stackA, stackB);
+      }
+    }
+  }
+  return !!result;
+}
+
+module.exports = equalArrays;
+
+},{}],315:[function(require,module,exports){
+
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    stringTag = '[object String]';
+
+
+function equalByTag(object, other, tag) {
+  switch (tag) {
+    case boolTag:
+    case dateTag:
+      return +object == +other;
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case numberTag:
+      return (object != +object)
+        ? other != +other
+        : (object == 0 ? ((1 / object) == (1 / other)) : object == +other);
+
+    case regexpTag:
+    case stringTag:
+      return object == (other + '');
+  }
+  return false;
+}
+
+module.exports = equalByTag;
+
+},{}],316:[function(require,module,exports){
+var keys = require('../object/keys');
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+function equalObjects(object, other, equalFunc, customizer, isWhere, stackA, stackB) {
+  var objProps = keys(object),
+      objLength = objProps.length,
+      othProps = keys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isWhere) {
+    return false;
+  }
+  var hasCtor,
+      index = -1;
+
+  while (++index < objLength) {
+    var key = objProps[index],
+        result = hasOwnProperty.call(other, key);
+
+    if (result) {
+      var objValue = object[key],
+          othValue = other[key];
+
+      result = undefined;
+      if (customizer) {
+        result = isWhere
+          ? customizer(othValue, objValue, key)
+          : customizer(objValue, othValue, key);
+      }
+      if (typeof result == 'undefined') {
+        result = (objValue && objValue === othValue) || equalFunc(objValue, othValue, customizer, isWhere, stackA, stackB);
+      }
+    }
+    if (!result) {
+      return false;
+    }
+    hasCtor || (hasCtor = key == 'constructor');
+  }
+  if (!hasCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+module.exports = equalObjects;
+
+},{"../object/keys":336}],317:[function(require,module,exports){
+var baseSetData = require('./baseSetData'),
+    isNative = require('../lang/isNative'),
+    support = require('../support');
+
+
+var reFuncName = /^\s*function[ \n\r\t]+\w/;
+
+
+var reThis = /\bthis\b/;
+
+
+var fnToString = Function.prototype.toString;
+
+
+function isBindable(func) {
+  var result = !(support.funcNames ? func.name : support.funcDecomp);
+
+  if (!result) {
+    var source = fnToString.call(func);
+    if (!support.funcNames) {
+      result = !reFuncName.test(source);
+    }
+    if (!result) {
+      result = reThis.test(source) || isNative(func);
+      baseSetData(func, result);
+    }
+  }
+  return result;
+}
+
+module.exports = isBindable;
+
+},{"../lang/isNative":330,"../support":339,"./baseSetData":310}],318:[function(require,module,exports){
+
+var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
+
+
+function isIndex(value, length) {
+  value = +value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = isIndex;
+
+},{}],319:[function(require,module,exports){
+var isIndex = require('./isIndex'),
+    isLength = require('./isLength'),
+    isObject = require('../lang/isObject');
+
+
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number') {
+    var length = object.length,
+        prereq = isLength(length) && isIndex(index, length);
+  } else {
+    prereq = type == 'string' && index in object;
+  }
+  if (prereq) {
+    var other = object[index];
+    return value === value ? (value === other) : (other !== other);
+  }
+  return false;
+}
+
+module.exports = isIterateeCall;
+
+},{"../lang/isObject":331,"./isIndex":318,"./isLength":320}],320:[function(require,module,exports){
+
+var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
+
+
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+},{}],321:[function(require,module,exports){
+
+function isObjectLike(value) {
+  return (value && typeof value == 'object') || false;
+}
+
+module.exports = isObjectLike;
+
+},{}],322:[function(require,module,exports){
+var isObject = require('../lang/isObject');
+
+
+function isStrictComparable(value) {
+  return value === value && (value === 0 ? ((1 / value) > 0) : !isObject(value));
+}
+
+module.exports = isStrictComparable;
+
+},{"../lang/isObject":331}],323:[function(require,module,exports){
+(function (global){
+var isNative = require('../lang/isNative');
+
+
+var WeakMap = isNative(WeakMap = global.WeakMap) && WeakMap;
+
+
+var metaMap = WeakMap && new WeakMap;
+
+module.exports = metaMap;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../lang/isNative":330}],324:[function(require,module,exports){
+var isArguments = require('../lang/isArguments'),
+    isArray = require('../lang/isArray'),
+    isIndex = require('./isIndex'),
+    isLength = require('./isLength'),
+    keysIn = require('../object/keysIn'),
+    support = require('../support');
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+function shimKeys(object) {
+  var props = keysIn(object),
+      propsLength = props.length,
+      length = propsLength && object.length;
+
+  var allowIndexes = length && isLength(length) &&
+    (isArray(object) || (support.nonEnumArgs && isArguments(object)));
+
+  var index = -1,
+      result = [];
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = shimKeys;
+
+},{"../lang/isArguments":326,"../lang/isArray":327,"../object/keysIn":337,"../support":339,"./isIndex":318,"./isLength":320}],325:[function(require,module,exports){
+var isObject = require('../lang/isObject');
+
+
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+module.exports = toObject;
+
+},{"../lang/isObject":331}],326:[function(require,module,exports){
+var isLength = require('../internal/isLength'),
+    isObjectLike = require('../internal/isObjectLike');
+
+
+var argsTag = '[object Arguments]';
+
+
+var objectProto = Object.prototype;
+
+
+var objToString = objectProto.toString;
+
+
+function isArguments(value) {
+  var length = isObjectLike(value) ? value.length : undefined;
+  return (isLength(length) && objToString.call(value) == argsTag) || false;
+}
+
+module.exports = isArguments;
+
+},{"../internal/isLength":320,"../internal/isObjectLike":321}],327:[function(require,module,exports){
+var isLength = require('../internal/isLength'),
+    isNative = require('./isNative'),
+    isObjectLike = require('../internal/isObjectLike');
+
+
+var arrayTag = '[object Array]';
+
+
+var objectProto = Object.prototype;
+
+
+var objToString = objectProto.toString;
+
+
+var nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray;
+
+
+var isArray = nativeIsArray || function(value) {
+  return (isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag) || false;
+};
+
+module.exports = isArray;
+
+},{"../internal/isLength":320,"../internal/isObjectLike":321,"./isNative":330}],328:[function(require,module,exports){
+var isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isFunction = require('./isFunction'),
+    isLength = require('../internal/isLength'),
+    isObjectLike = require('../internal/isObjectLike'),
+    isString = require('./isString'),
+    keys = require('../object/keys');
+
+
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  var length = value.length;
+  if (isLength(length) && (isArray(value) || isString(value) || isArguments(value) ||
+      (isObjectLike(value) && isFunction(value.splice)))) {
+    return !length;
+  }
+  return !keys(value).length;
+}
+
+module.exports = isEmpty;
+
+},{"../internal/isLength":320,"../internal/isObjectLike":321,"../object/keys":336,"./isArguments":326,"./isArray":327,"./isFunction":329,"./isString":332}],329:[function(require,module,exports){
+(function (global){
+var baseIsFunction = require('../internal/baseIsFunction'),
+    isNative = require('./isNative');
+
+
+var funcTag = '[object Function]';
+
+
+var objectProto = Object.prototype;
+
+
+var objToString = objectProto.toString;
+
+
+var Uint8Array = isNative(Uint8Array = global.Uint8Array) && Uint8Array;
+
+
+var isFunction = !(baseIsFunction(/x/) || (Uint8Array && !baseIsFunction(Uint8Array))) ? baseIsFunction : function(value) {
+  return objToString.call(value) == funcTag;
+};
+
+module.exports = isFunction;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../internal/baseIsFunction":305,"./isNative":330}],330:[function(require,module,exports){
+var escapeRegExp = require('../string/escapeRegExp'),
+    isObjectLike = require('../internal/isObjectLike');
+
+
+var funcTag = '[object Function]';
+
+
+var reHostCtor = /^\[object .+?Constructor\]$/;
+
+
+var objectProto = Object.prototype;
+
+
+var fnToString = Function.prototype.toString;
+
+
+var objToString = objectProto.toString;
+
+
+var reNative = RegExp('^' +
+  escapeRegExp(objToString)
+  .replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (objToString.call(value) == funcTag) {
+    return reNative.test(fnToString.call(value));
+  }
+  return (isObjectLike(value) && reHostCtor.test(value)) || false;
+}
+
+module.exports = isNative;
+
+},{"../internal/isObjectLike":321,"../string/escapeRegExp":338}],331:[function(require,module,exports){
+
+function isObject(value) {
+  var type = typeof value;
+  return type == 'function' || (value && type == 'object') || false;
+}
+
+module.exports = isObject;
+
+},{}],332:[function(require,module,exports){
+var isObjectLike = require('../internal/isObjectLike');
+
+
+var stringTag = '[object String]';
+
+
+var objectProto = Object.prototype;
+
+
+var objToString = objectProto.toString;
+
+
+function isString(value) {
+  return typeof value == 'string' || (isObjectLike(value) && objToString.call(value) == stringTag) || false;
+}
+
+module.exports = isString;
+
+},{"../internal/isObjectLike":321}],333:[function(require,module,exports){
+var isLength = require('../internal/isLength'),
+    isObjectLike = require('../internal/isObjectLike');
+
+
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dateTag] = typedArrayTags[errorTag] =
+typedArrayTags[funcTag] = typedArrayTags[mapTag] =
+typedArrayTags[numberTag] = typedArrayTags[objectTag] =
+typedArrayTags[regexpTag] = typedArrayTags[setTag] =
+typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+
+
+var objectProto = Object.prototype;
+
+
+var objToString = objectProto.toString;
+
+
+function isTypedArray(value) {
+  return (isObjectLike(value) && isLength(value.length) && typedArrayTags[objToString.call(value)]) || false;
+}
+
+module.exports = isTypedArray;
+
+},{"../internal/isLength":320,"../internal/isObjectLike":321}],334:[function(require,module,exports){
+var baseAssign = require('../internal/baseAssign'),
+    createAssigner = require('../internal/createAssigner');
+
+
+var assign = createAssigner(baseAssign);
+
+module.exports = assign;
+
+},{"../internal/baseAssign":295,"../internal/createAssigner":313}],335:[function(require,module,exports){
+var baseCopy = require('../internal/baseCopy'),
+    baseCreate = require('../internal/baseCreate'),
+    isIterateeCall = require('../internal/isIterateeCall'),
+    keys = require('./keys');
+
+
+function create(prototype, properties, guard) {
+  var result = baseCreate(prototype);
+  if (guard && isIterateeCall(prototype, properties, guard)) {
+    properties = null;
+  }
+  return properties ? baseCopy(properties, result, keys(properties)) : result;
+}
+
+module.exports = create;
+
+},{"../internal/baseCopy":297,"../internal/baseCreate":298,"../internal/isIterateeCall":319,"./keys":336}],336:[function(require,module,exports){
+var isLength = require('../internal/isLength'),
+    isNative = require('../lang/isNative'),
+    isObject = require('../lang/isObject'),
+    shimKeys = require('../internal/shimKeys');
+
+
+var nativeKeys = isNative(nativeKeys = Object.keys) && nativeKeys;
+
+
+var keys = !nativeKeys ? shimKeys : function(object) {
+  if (object) {
+    var Ctor = object.constructor,
+        length = object.length;
+  }
+  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+      (typeof object != 'function' && (length && isLength(length)))) {
+    return shimKeys(object);
+  }
+  return isObject(object) ? nativeKeys(object) : [];
+};
+
+module.exports = keys;
+
+},{"../internal/isLength":320,"../internal/shimKeys":324,"../lang/isNative":330,"../lang/isObject":331}],337:[function(require,module,exports){
+var isArguments = require('../lang/isArguments'),
+    isArray = require('../lang/isArray'),
+    isIndex = require('../internal/isIndex'),
+    isLength = require('../internal/isLength'),
+    isObject = require('../lang/isObject'),
+    support = require('../support');
+
+
+var objectProto = Object.prototype;
+
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+
+function keysIn(object) {
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || (support.nonEnumArgs && isArguments(object))) && length) || 0;
+
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keysIn;
+
+},{"../internal/isIndex":318,"../internal/isLength":320,"../lang/isArguments":326,"../lang/isArray":327,"../lang/isObject":331,"../support":339}],338:[function(require,module,exports){
+var baseToString = require('../internal/baseToString');
+
+
+var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
+    reHasRegExpChars = RegExp(reRegExpChars.source);
+
+
+function escapeRegExp(string) {
+  string = baseToString(string);
+  return (string && reHasRegExpChars.test(string))
+    ? string.replace(reRegExpChars, '\\$&')
+    : string;
+}
+
+module.exports = escapeRegExp;
+
+},{"../internal/baseToString":311}],339:[function(require,module,exports){
+(function (global){
+var isNative = require('./lang/isNative');
+
+
+var reThis = /\bthis\b/;
+
+
+var objectProto = Object.prototype;
+
+
+var document = (document = global.window) && document.document;
+
+
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+
+var support = {};
+
+(function(x) {
+
+
+  support.funcDecomp = !isNative(global.WinRTError) && reThis.test(function() { return this; });
+
+
+  support.funcNames = typeof Function.name == 'string';
+
+
+  try {
+    support.dom = document.createDocumentFragment().nodeType === 11;
+  } catch(e) {
+    support.dom = false;
+  }
+
+
+  try {
+    support.nonEnumArgs = !propertyIsEnumerable.call(arguments, 1);
+  } catch(e) {
+    support.nonEnumArgs = true;
+  }
+}(0, 0));
+
+module.exports = support;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./lang/isNative":330}],340:[function(require,module,exports){
+
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+},{}],341:[function(require,module,exports){
+var process = module.exports = {};
+
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        return setTimeout(fun, 0);
+    }
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        return clearTimeout(marker);
+    }
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],342:[function(require,module,exports){
+(function (global){
+
+;(function(root) {
+
+
+	var freeExports = typeof exports == 'object' && exports &&
+		!exports.nodeType && exports;
+	var freeModule = typeof module == 'object' && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+
+	var punycode,
+
+
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+
+	key;
+
+
+
+
+	function error(type) {
+		throw RangeError(errors[type]);
+	}
+
+
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+
+	function digitToBasic(digit, flag) {
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+
+	function decode(input) {
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+
+		    baseMinusT;
+
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+
+		    inputLength,
+
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		input = ucs2decode(input);
+
+		inputLength = input.length;
+
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		while (handledCPCount < inputLength) {
+
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+
+
+
+	punycode = {
+
+		'version': '1.3.2',
+
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define('punycode', function() {
+			return punycode;
+		});
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) { // in Node.js or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else { // in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else { // in Rhino or a web browser
+		root.punycode = punycode;
+	}
+
+}(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],343:[function(require,module,exports){
+
+'use strict';
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+},{}],344:[function(require,module,exports){
+
+'use strict';
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+},{}],345:[function(require,module,exports){
+'use strict';
+
+exports.decode = exports.parse = require('./decode');
+exports.encode = exports.stringify = require('./encode');
+
+},{"./decode":343,"./encode":344}],346:[function(require,module,exports){
 
 'use strict';
 
@@ -109514,7 +112389,7 @@ module.exports = function(qs, sep, eq, options) {
   return obj;
 };
 
-},{}],297:[function(require,module,exports){
+},{}],347:[function(require,module,exports){
 
 'use strict';
 
@@ -109560,9 +112435,9 @@ module.exports = function(obj, sep, eq, name) {
          encodeURIComponent(stringifyPrimitive(obj));
 };
 
-},{}],298:[function(require,module,exports){
-arguments[4][281][0].apply(exports,arguments)
-},{"./decode":296,"./encode":297,"dup":281}],299:[function(require,module,exports){
+},{}],348:[function(require,module,exports){
+arguments[4][345][0].apply(exports,arguments)
+},{"./decode":346,"./encode":347,"dup":345}],349:[function(require,module,exports){
 
 var punycode = require('punycode');
 
@@ -110129,7 +113004,557 @@ function isNullOrUndefined(arg) {
   return  arg == null;
 }
 
-},{"punycode":278,"querystring":281}],300:[function(require,module,exports){
+},{"punycode":342,"querystring":345}],350:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],351:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],352:[function(require,module,exports){
+(function (process,global){
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+exports.deprecate = function(fn, msg) {
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+
+
+function inspect(obj, opts) {
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    ctx.showHidden = opts;
+  } else if (opts) {
+    exports._extend(ctx, opts);
+  }
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      value.inspect !== exports.inspect &&
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+
+exports.inherits = require('inherits');
+
+exports._extend = function(origin, add) {
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":351,"_process":341,"inherits":350}],353:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -110159,7 +113584,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],301:[function(require,module,exports){
+},{}],354:[function(require,module,exports){
 var _rng = require('./lib/rng');
 
 var _byteToHex = [];
@@ -110281,7 +113706,7 @@ uuid.v4 = v4;
 
 module.exports = uuid;
 
-},{"./lib/rng":300}],302:[function(require,module,exports){
+},{"./lib/rng":353}],355:[function(require,module,exports){
 (function() {
   var XMLAttribute, create;
 
@@ -110314,7 +113739,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/object/create":361}],303:[function(require,module,exports){
+},{"lodash/object/create":335}],356:[function(require,module,exports){
 (function() {
   var XMLBuilder, XMLDeclaration, XMLDocType, XMLElement, XMLStringifier;
 
@@ -110384,7 +113809,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLDeclaration":310,"./XMLDocType":311,"./XMLElement":312,"./XMLStringifier":316}],304:[function(require,module,exports){
+},{"./XMLDeclaration":363,"./XMLDocType":364,"./XMLElement":365,"./XMLStringifier":369}],357:[function(require,module,exports){
 (function() {
   var XMLCData, XMLNode, create,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -110434,7 +113859,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLNode":313,"lodash/object/create":361}],305:[function(require,module,exports){
+},{"./XMLNode":366,"lodash/object/create":335}],358:[function(require,module,exports){
 (function() {
   var XMLComment, XMLNode, create,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -110484,7 +113909,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLNode":313,"lodash/object/create":361}],306:[function(require,module,exports){
+},{"./XMLNode":366,"lodash/object/create":335}],359:[function(require,module,exports){
 (function() {
   var XMLDTDAttList, create;
 
@@ -110557,7 +113982,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/object/create":361}],307:[function(require,module,exports){
+},{"lodash/object/create":335}],360:[function(require,module,exports){
 (function() {
   var XMLDTDElement, create, isArray;
 
@@ -110610,7 +114035,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/lang/isArray":353,"lodash/object/create":361}],308:[function(require,module,exports){
+},{"lodash/lang/isArray":327,"lodash/object/create":335}],361:[function(require,module,exports){
 (function() {
   var XMLDTDEntity, create, isObject;
 
@@ -110699,7 +114124,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/lang/isObject":357,"lodash/object/create":361}],309:[function(require,module,exports){
+},{"lodash/lang/isObject":331,"lodash/object/create":335}],362:[function(require,module,exports){
 (function() {
   var XMLDTDNotation, create;
 
@@ -110760,7 +114185,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/object/create":361}],310:[function(require,module,exports){
+},{"lodash/object/create":335}],363:[function(require,module,exports){
 (function() {
   var XMLDeclaration, XMLNode, create, isObject,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -110834,7 +114259,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLNode":313,"lodash/lang/isObject":357,"lodash/object/create":361}],311:[function(require,module,exports){
+},{"./XMLNode":366,"lodash/lang/isObject":331,"lodash/object/create":335}],364:[function(require,module,exports){
 (function() {
   var XMLCData, XMLComment, XMLDTDAttList, XMLDTDElement, XMLDTDEntity, XMLDTDNotation, XMLDocType, XMLProcessingInstruction, create, isObject;
 
@@ -111027,7 +114452,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLCData":304,"./XMLComment":305,"./XMLDTDAttList":306,"./XMLDTDElement":307,"./XMLDTDEntity":308,"./XMLDTDNotation":309,"./XMLProcessingInstruction":314,"lodash/lang/isObject":357,"lodash/object/create":361}],312:[function(require,module,exports){
+},{"./XMLCData":357,"./XMLComment":358,"./XMLDTDAttList":359,"./XMLDTDElement":360,"./XMLDTDEntity":361,"./XMLDTDNotation":362,"./XMLProcessingInstruction":367,"lodash/lang/isObject":331,"lodash/object/create":335}],365:[function(require,module,exports){
 (function() {
   var XMLAttribute, XMLElement, XMLNode, XMLProcessingInstruction, create, every, isArray, isFunction, isObject,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -111242,7 +114667,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLAttribute":302,"./XMLNode":313,"./XMLProcessingInstruction":314,"lodash/collection/every":319,"lodash/lang/isArray":353,"lodash/lang/isFunction":355,"lodash/lang/isObject":357,"lodash/object/create":361}],313:[function(require,module,exports){
+},{"./XMLAttribute":355,"./XMLNode":366,"./XMLProcessingInstruction":367,"lodash/collection/every":293,"lodash/lang/isArray":327,"lodash/lang/isFunction":329,"lodash/lang/isObject":331,"lodash/object/create":335}],366:[function(require,module,exports){
 (function() {
   var XMLCData, XMLComment, XMLDeclaration, XMLDocType, XMLElement, XMLNode, XMLRaw, XMLText, isArray, isEmpty, isFunction, isObject,
     hasProp = {}.hasOwnProperty;
@@ -111577,7 +115002,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLCData":304,"./XMLComment":305,"./XMLDeclaration":310,"./XMLDocType":311,"./XMLElement":312,"./XMLRaw":315,"./XMLText":317,"lodash/lang/isArray":353,"lodash/lang/isEmpty":354,"lodash/lang/isFunction":355,"lodash/lang/isObject":357}],314:[function(require,module,exports){
+},{"./XMLCData":357,"./XMLComment":358,"./XMLDeclaration":363,"./XMLDocType":364,"./XMLElement":365,"./XMLRaw":368,"./XMLText":370,"lodash/lang/isArray":327,"lodash/lang/isEmpty":328,"lodash/lang/isFunction":329,"lodash/lang/isObject":331}],367:[function(require,module,exports){
 (function() {
   var XMLProcessingInstruction, create;
 
@@ -111629,7 +115054,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"lodash/object/create":361}],315:[function(require,module,exports){
+},{"lodash/object/create":335}],368:[function(require,module,exports){
 (function() {
   var XMLNode, XMLRaw, create,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -111679,7 +115104,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLNode":313,"lodash/object/create":361}],316:[function(require,module,exports){
+},{"./XMLNode":366,"lodash/object/create":335}],369:[function(require,module,exports){
 (function() {
   var XMLStringifier,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -111847,7 +115272,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{}],317:[function(require,module,exports){
+},{}],370:[function(require,module,exports){
 (function() {
   var XMLNode, XMLText, create,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -111897,7 +115322,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLNode":313,"lodash/object/create":361}],318:[function(require,module,exports){
+},{"./XMLNode":366,"lodash/object/create":335}],371:[function(require,module,exports){
 (function() {
   var XMLBuilder, assign;
 
@@ -111912,1212 +115337,7 @@ module.exports = uuid;
 
 }).call(this);
 
-},{"./XMLBuilder":303,"lodash/object/assign":360}],319:[function(require,module,exports){
-var arrayEvery = require('../internal/arrayEvery'),
-    baseCallback = require('../internal/baseCallback'),
-    baseEvery = require('../internal/baseEvery'),
-    isArray = require('../lang/isArray');
-
-
-function every(collection, predicate, thisArg) {
-  var func = isArray(collection) ? arrayEvery : baseEvery;
-  if (typeof predicate != 'function' || typeof thisArg != 'undefined') {
-    predicate = baseCallback(predicate, thisArg, 3);
-  }
-  return func(collection, predicate);
-}
-
-module.exports = every;
-
-},{"../internal/arrayEvery":320,"../internal/baseCallback":322,"../internal/baseEvery":326,"../lang/isArray":353}],320:[function(require,module,exports){
-
-function arrayEvery(array, predicate) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (!predicate(array[index], index, array)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = arrayEvery;
-
-},{}],321:[function(require,module,exports){
-var baseCopy = require('./baseCopy'),
-    keys = require('../object/keys');
-
-
-function baseAssign(object, source, customizer) {
-  var props = keys(source);
-  if (!customizer) {
-    return baseCopy(source, object, props);
-  }
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index],
-        value = object[key],
-        result = customizer(value, source[key], key, object, source);
-
-    if ((result === result ? (result !== value) : (value === value)) ||
-        (typeof value == 'undefined' && !(key in object))) {
-      object[key] = result;
-    }
-  }
-  return object;
-}
-
-module.exports = baseAssign;
-
-},{"../object/keys":362,"./baseCopy":323}],322:[function(require,module,exports){
-var baseMatches = require('./baseMatches'),
-    baseMatchesProperty = require('./baseMatchesProperty'),
-    baseProperty = require('./baseProperty'),
-    bindCallback = require('./bindCallback'),
-    identity = require('../utility/identity'),
-    isBindable = require('./isBindable');
-
-
-function baseCallback(func, thisArg, argCount) {
-  var type = typeof func;
-  if (type == 'function') {
-    return (typeof thisArg != 'undefined' && isBindable(func))
-      ? bindCallback(func, thisArg, argCount)
-      : func;
-  }
-  if (func == null) {
-    return identity;
-  }
-  if (type == 'object') {
-    return baseMatches(func);
-  }
-  return typeof thisArg == 'undefined'
-    ? baseProperty(func + '')
-    : baseMatchesProperty(func + '', thisArg);
-}
-
-module.exports = baseCallback;
-
-},{"../utility/identity":366,"./baseMatches":333,"./baseMatchesProperty":334,"./baseProperty":335,"./bindCallback":338,"./isBindable":343}],323:[function(require,module,exports){
-
-function baseCopy(source, object, props) {
-  if (!props) {
-    props = object;
-    object = {};
-  }
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-    object[key] = source[key];
-  }
-  return object;
-}
-
-module.exports = baseCopy;
-
-},{}],324:[function(require,module,exports){
-(function (global){
-var isObject = require('../lang/isObject');
-
-
-var baseCreate = (function() {
-  function Object() {}
-  return function(prototype) {
-    if (isObject(prototype)) {
-      Object.prototype = prototype;
-      var result = new Object;
-      Object.prototype = null;
-    }
-    return result || global.Object();
-  };
-}());
-
-module.exports = baseCreate;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../lang/isObject":357}],325:[function(require,module,exports){
-var baseForOwn = require('./baseForOwn'),
-    isLength = require('./isLength'),
-    toObject = require('./toObject');
-
-
-function baseEach(collection, iteratee) {
-  var length = collection ? collection.length : 0;
-  if (!isLength(length)) {
-    return baseForOwn(collection, iteratee);
-  }
-  var index = -1,
-      iterable = toObject(collection);
-
-  while (++index < length) {
-    if (iteratee(iterable[index], index, iterable) === false) {
-      break;
-    }
-  }
-  return collection;
-}
-
-module.exports = baseEach;
-
-},{"./baseForOwn":328,"./isLength":346,"./toObject":351}],326:[function(require,module,exports){
-var baseEach = require('./baseEach');
-
-
-function baseEvery(collection, predicate) {
-  var result = true;
-  baseEach(collection, function(value, index, collection) {
-    result = !!predicate(value, index, collection);
-    return result;
-  });
-  return result;
-}
-
-module.exports = baseEvery;
-
-},{"./baseEach":325}],327:[function(require,module,exports){
-var toObject = require('./toObject');
-
-
-function baseFor(object, iteratee, keysFunc) {
-  var index = -1,
-      iterable = toObject(object),
-      props = keysFunc(object),
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-    if (iteratee(iterable[key], key, iterable) === false) {
-      break;
-    }
-  }
-  return object;
-}
-
-module.exports = baseFor;
-
-},{"./toObject":351}],328:[function(require,module,exports){
-var baseFor = require('./baseFor'),
-    keys = require('../object/keys');
-
-
-function baseForOwn(object, iteratee) {
-  return baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-},{"../object/keys":362,"./baseFor":327}],329:[function(require,module,exports){
-var baseIsEqualDeep = require('./baseIsEqualDeep');
-
-
-function baseIsEqual(value, other, customizer, isWhere, stackA, stackB) {
-  if (value === other) {
-    return value !== 0 || (1 / value == 1 / other);
-  }
-  var valType = typeof value,
-      othType = typeof other;
-
-  if ((valType != 'function' && valType != 'object' && othType != 'function' && othType != 'object') ||
-      value == null || other == null) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isWhere, stackA, stackB);
-}
-
-module.exports = baseIsEqual;
-
-},{"./baseIsEqualDeep":330}],330:[function(require,module,exports){
-var equalArrays = require('./equalArrays'),
-    equalByTag = require('./equalByTag'),
-    equalObjects = require('./equalObjects'),
-    isArray = require('../lang/isArray'),
-    isTypedArray = require('../lang/isTypedArray');
-
-
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-var objToString = objectProto.toString;
-
-
-function baseIsEqualDeep(object, other, equalFunc, customizer, isWhere, stackA, stackB) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = arrayTag,
-      othTag = arrayTag;
-
-  if (!objIsArr) {
-    objTag = objToString.call(object);
-    if (objTag == argsTag) {
-      objTag = objectTag;
-    } else if (objTag != objectTag) {
-      objIsArr = isTypedArray(object);
-    }
-  }
-  if (!othIsArr) {
-    othTag = objToString.call(other);
-    if (othTag == argsTag) {
-      othTag = objectTag;
-    } else if (othTag != objectTag) {
-      othIsArr = isTypedArray(other);
-    }
-  }
-  var objIsObj = objTag == objectTag,
-      othIsObj = othTag == objectTag,
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && !(objIsArr || objIsObj)) {
-    return equalByTag(object, other, objTag);
-  }
-  var valWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-      othWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-  if (valWrapped || othWrapped) {
-    return equalFunc(valWrapped ? object.value() : object, othWrapped ? other.value() : other, customizer, isWhere, stackA, stackB);
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stackA || (stackA = []);
-  stackB || (stackB = []);
-
-  var length = stackA.length;
-  while (length--) {
-    if (stackA[length] == object) {
-      return stackB[length] == other;
-    }
-  }
-  stackA.push(object);
-  stackB.push(other);
-
-  var result = (objIsArr ? equalArrays : equalObjects)(object, other, equalFunc, customizer, isWhere, stackA, stackB);
-
-  stackA.pop();
-  stackB.pop();
-
-  return result;
-}
-
-module.exports = baseIsEqualDeep;
-
-},{"../lang/isArray":353,"../lang/isTypedArray":359,"./equalArrays":340,"./equalByTag":341,"./equalObjects":342}],331:[function(require,module,exports){
-
-function baseIsFunction(value) {
-  return typeof value == 'function' || false;
-}
-
-module.exports = baseIsFunction;
-
-},{}],332:[function(require,module,exports){
-var baseIsEqual = require('./baseIsEqual');
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-function baseIsMatch(object, props, values, strictCompareFlags, customizer) {
-  var length = props.length;
-  if (object == null) {
-    return !length;
-  }
-  var index = -1,
-      noCustomizer = !customizer;
-
-  while (++index < length) {
-    if ((noCustomizer && strictCompareFlags[index])
-          ? values[index] !== object[props[index]]
-          : !hasOwnProperty.call(object, props[index])
-        ) {
-      return false;
-    }
-  }
-  index = -1;
-  while (++index < length) {
-    var key = props[index];
-    if (noCustomizer && strictCompareFlags[index]) {
-      var result = hasOwnProperty.call(object, key);
-    } else {
-      var objValue = object[key],
-          srcValue = values[index];
-
-      result = customizer ? customizer(objValue, srcValue, key) : undefined;
-      if (typeof result == 'undefined') {
-        result = baseIsEqual(srcValue, objValue, customizer, true);
-      }
-    }
-    if (!result) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
-
-},{"./baseIsEqual":329}],333:[function(require,module,exports){
-var baseIsMatch = require('./baseIsMatch'),
-    isStrictComparable = require('./isStrictComparable'),
-    keys = require('../object/keys');
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-function baseMatches(source) {
-  var props = keys(source),
-      length = props.length;
-
-  if (length == 1) {
-    var key = props[0],
-        value = source[key];
-
-    if (isStrictComparable(value)) {
-      return function(object) {
-        return object != null && object[key] === value && hasOwnProperty.call(object, key);
-      };
-    }
-  }
-  var values = Array(length),
-      strictCompareFlags = Array(length);
-
-  while (length--) {
-    value = source[props[length]];
-    values[length] = value;
-    strictCompareFlags[length] = isStrictComparable(value);
-  }
-  return function(object) {
-    return baseIsMatch(object, props, values, strictCompareFlags);
-  };
-}
-
-module.exports = baseMatches;
-
-},{"../object/keys":362,"./baseIsMatch":332,"./isStrictComparable":348}],334:[function(require,module,exports){
-var baseIsEqual = require('./baseIsEqual'),
-    isStrictComparable = require('./isStrictComparable');
-
-
-function baseMatchesProperty(key, value) {
-  if (isStrictComparable(value)) {
-    return function(object) {
-      return object != null && object[key] === value;
-    };
-  }
-  return function(object) {
-    return object != null && baseIsEqual(value, object[key], null, true);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-},{"./baseIsEqual":329,"./isStrictComparable":348}],335:[function(require,module,exports){
-
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-},{}],336:[function(require,module,exports){
-var identity = require('../utility/identity'),
-    metaMap = require('./metaMap');
-
-
-var baseSetData = !metaMap ? identity : function(func, data) {
-  metaMap.set(func, data);
-  return func;
-};
-
-module.exports = baseSetData;
-
-},{"../utility/identity":366,"./metaMap":349}],337:[function(require,module,exports){
-
-function baseToString(value) {
-  if (typeof value == 'string') {
-    return value;
-  }
-  return value == null ? '' : (value + '');
-}
-
-module.exports = baseToString;
-
-},{}],338:[function(require,module,exports){
-var identity = require('../utility/identity');
-
-
-function bindCallback(func, thisArg, argCount) {
-  if (typeof func != 'function') {
-    return identity;
-  }
-  if (typeof thisArg == 'undefined') {
-    return func;
-  }
-  switch (argCount) {
-    case 1: return function(value) {
-      return func.call(thisArg, value);
-    };
-    case 3: return function(value, index, collection) {
-      return func.call(thisArg, value, index, collection);
-    };
-    case 4: return function(accumulator, value, index, collection) {
-      return func.call(thisArg, accumulator, value, index, collection);
-    };
-    case 5: return function(value, other, key, object, source) {
-      return func.call(thisArg, value, other, key, object, source);
-    };
-  }
-  return function() {
-    return func.apply(thisArg, arguments);
-  };
-}
-
-module.exports = bindCallback;
-
-},{"../utility/identity":366}],339:[function(require,module,exports){
-var bindCallback = require('./bindCallback'),
-    isIterateeCall = require('./isIterateeCall');
-
-
-function createAssigner(assigner) {
-  return function() {
-    var args = arguments,
-        length = args.length,
-        object = args[0];
-
-    if (length < 2 || object == null) {
-      return object;
-    }
-    var customizer = args[length - 2],
-        thisArg = args[length - 1],
-        guard = args[3];
-
-    if (length > 3 && typeof customizer == 'function') {
-      customizer = bindCallback(customizer, thisArg, 5);
-      length -= 2;
-    } else {
-      customizer = (length > 2 && typeof thisArg == 'function') ? thisArg : null;
-      length -= (customizer ? 1 : 0);
-    }
-    if (guard && isIterateeCall(args[1], args[2], guard)) {
-      customizer = length == 3 ? null : customizer;
-      length = 2;
-    }
-    var index = 0;
-    while (++index < length) {
-      var source = args[index];
-      if (source) {
-        assigner(object, source, customizer);
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createAssigner;
-
-},{"./bindCallback":338,"./isIterateeCall":345}],340:[function(require,module,exports){
-
-function equalArrays(array, other, equalFunc, customizer, isWhere, stackA, stackB) {
-  var index = -1,
-      arrLength = array.length,
-      othLength = other.length,
-      result = true;
-
-  if (arrLength != othLength && !(isWhere && othLength > arrLength)) {
-    return false;
-  }
-  while (result && ++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index];
-
-    result = undefined;
-    if (customizer) {
-      result = isWhere
-        ? customizer(othValue, arrValue, index)
-        : customizer(arrValue, othValue, index);
-    }
-    if (typeof result == 'undefined') {
-      if (isWhere) {
-        var othIndex = othLength;
-        while (othIndex--) {
-          othValue = other[othIndex];
-          result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isWhere, stackA, stackB);
-          if (result) {
-            break;
-          }
-        }
-      } else {
-        result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isWhere, stackA, stackB);
-      }
-    }
-  }
-  return !!result;
-}
-
-module.exports = equalArrays;
-
-},{}],341:[function(require,module,exports){
-
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    stringTag = '[object String]';
-
-
-function equalByTag(object, other, tag) {
-  switch (tag) {
-    case boolTag:
-    case dateTag:
-      return +object == +other;
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case numberTag:
-      return (object != +object)
-        ? other != +other
-        : (object == 0 ? ((1 / object) == (1 / other)) : object == +other);
-
-    case regexpTag:
-    case stringTag:
-      return object == (other + '');
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-},{}],342:[function(require,module,exports){
-var keys = require('../object/keys');
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-function equalObjects(object, other, equalFunc, customizer, isWhere, stackA, stackB) {
-  var objProps = keys(object),
-      objLength = objProps.length,
-      othProps = keys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isWhere) {
-    return false;
-  }
-  var hasCtor,
-      index = -1;
-
-  while (++index < objLength) {
-    var key = objProps[index],
-        result = hasOwnProperty.call(other, key);
-
-    if (result) {
-      var objValue = object[key],
-          othValue = other[key];
-
-      result = undefined;
-      if (customizer) {
-        result = isWhere
-          ? customizer(othValue, objValue, key)
-          : customizer(objValue, othValue, key);
-      }
-      if (typeof result == 'undefined') {
-        result = (objValue && objValue === othValue) || equalFunc(objValue, othValue, customizer, isWhere, stackA, stackB);
-      }
-    }
-    if (!result) {
-      return false;
-    }
-    hasCtor || (hasCtor = key == 'constructor');
-  }
-  if (!hasCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = equalObjects;
-
-},{"../object/keys":362}],343:[function(require,module,exports){
-var baseSetData = require('./baseSetData'),
-    isNative = require('../lang/isNative'),
-    support = require('../support');
-
-
-var reFuncName = /^\s*function[ \n\r\t]+\w/;
-
-
-var reThis = /\bthis\b/;
-
-
-var fnToString = Function.prototype.toString;
-
-
-function isBindable(func) {
-  var result = !(support.funcNames ? func.name : support.funcDecomp);
-
-  if (!result) {
-    var source = fnToString.call(func);
-    if (!support.funcNames) {
-      result = !reFuncName.test(source);
-    }
-    if (!result) {
-      result = reThis.test(source) || isNative(func);
-      baseSetData(func, result);
-    }
-  }
-  return result;
-}
-
-module.exports = isBindable;
-
-},{"../lang/isNative":356,"../support":365,"./baseSetData":336}],344:[function(require,module,exports){
-
-var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
-
-
-function isIndex(value, length) {
-  value = +value;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-module.exports = isIndex;
-
-},{}],345:[function(require,module,exports){
-var isIndex = require('./isIndex'),
-    isLength = require('./isLength'),
-    isObject = require('../lang/isObject');
-
-
-function isIterateeCall(value, index, object) {
-  if (!isObject(object)) {
-    return false;
-  }
-  var type = typeof index;
-  if (type == 'number') {
-    var length = object.length,
-        prereq = isLength(length) && isIndex(index, length);
-  } else {
-    prereq = type == 'string' && index in object;
-  }
-  if (prereq) {
-    var other = object[index];
-    return value === value ? (value === other) : (other !== other);
-  }
-  return false;
-}
-
-module.exports = isIterateeCall;
-
-},{"../lang/isObject":357,"./isIndex":344,"./isLength":346}],346:[function(require,module,exports){
-
-var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
-
-
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = isLength;
-
-},{}],347:[function(require,module,exports){
-
-function isObjectLike(value) {
-  return (value && typeof value == 'object') || false;
-}
-
-module.exports = isObjectLike;
-
-},{}],348:[function(require,module,exports){
-var isObject = require('../lang/isObject');
-
-
-function isStrictComparable(value) {
-  return value === value && (value === 0 ? ((1 / value) > 0) : !isObject(value));
-}
-
-module.exports = isStrictComparable;
-
-},{"../lang/isObject":357}],349:[function(require,module,exports){
-(function (global){
-var isNative = require('../lang/isNative');
-
-
-var WeakMap = isNative(WeakMap = global.WeakMap) && WeakMap;
-
-
-var metaMap = WeakMap && new WeakMap;
-
-module.exports = metaMap;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../lang/isNative":356}],350:[function(require,module,exports){
-var isArguments = require('../lang/isArguments'),
-    isArray = require('../lang/isArray'),
-    isIndex = require('./isIndex'),
-    isLength = require('./isLength'),
-    keysIn = require('../object/keysIn'),
-    support = require('../support');
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-function shimKeys(object) {
-  var props = keysIn(object),
-      propsLength = props.length,
-      length = propsLength && object.length;
-
-  var allowIndexes = length && isLength(length) &&
-    (isArray(object) || (support.nonEnumArgs && isArguments(object)));
-
-  var index = -1,
-      result = [];
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = shimKeys;
-
-},{"../lang/isArguments":352,"../lang/isArray":353,"../object/keysIn":363,"../support":365,"./isIndex":344,"./isLength":346}],351:[function(require,module,exports){
-var isObject = require('../lang/isObject');
-
-
-function toObject(value) {
-  return isObject(value) ? value : Object(value);
-}
-
-module.exports = toObject;
-
-},{"../lang/isObject":357}],352:[function(require,module,exports){
-var isLength = require('../internal/isLength'),
-    isObjectLike = require('../internal/isObjectLike');
-
-
-var argsTag = '[object Arguments]';
-
-
-var objectProto = Object.prototype;
-
-
-var objToString = objectProto.toString;
-
-
-function isArguments(value) {
-  var length = isObjectLike(value) ? value.length : undefined;
-  return (isLength(length) && objToString.call(value) == argsTag) || false;
-}
-
-module.exports = isArguments;
-
-},{"../internal/isLength":346,"../internal/isObjectLike":347}],353:[function(require,module,exports){
-var isLength = require('../internal/isLength'),
-    isNative = require('./isNative'),
-    isObjectLike = require('../internal/isObjectLike');
-
-
-var arrayTag = '[object Array]';
-
-
-var objectProto = Object.prototype;
-
-
-var objToString = objectProto.toString;
-
-
-var nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray;
-
-
-var isArray = nativeIsArray || function(value) {
-  return (isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag) || false;
-};
-
-module.exports = isArray;
-
-},{"../internal/isLength":346,"../internal/isObjectLike":347,"./isNative":356}],354:[function(require,module,exports){
-var isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isFunction = require('./isFunction'),
-    isLength = require('../internal/isLength'),
-    isObjectLike = require('../internal/isObjectLike'),
-    isString = require('./isString'),
-    keys = require('../object/keys');
-
-
-function isEmpty(value) {
-  if (value == null) {
-    return true;
-  }
-  var length = value.length;
-  if (isLength(length) && (isArray(value) || isString(value) || isArguments(value) ||
-      (isObjectLike(value) && isFunction(value.splice)))) {
-    return !length;
-  }
-  return !keys(value).length;
-}
-
-module.exports = isEmpty;
-
-},{"../internal/isLength":346,"../internal/isObjectLike":347,"../object/keys":362,"./isArguments":352,"./isArray":353,"./isFunction":355,"./isString":358}],355:[function(require,module,exports){
-(function (global){
-var baseIsFunction = require('../internal/baseIsFunction'),
-    isNative = require('./isNative');
-
-
-var funcTag = '[object Function]';
-
-
-var objectProto = Object.prototype;
-
-
-var objToString = objectProto.toString;
-
-
-var Uint8Array = isNative(Uint8Array = global.Uint8Array) && Uint8Array;
-
-
-var isFunction = !(baseIsFunction(/x/) || (Uint8Array && !baseIsFunction(Uint8Array))) ? baseIsFunction : function(value) {
-  return objToString.call(value) == funcTag;
-};
-
-module.exports = isFunction;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../internal/baseIsFunction":331,"./isNative":356}],356:[function(require,module,exports){
-var escapeRegExp = require('../string/escapeRegExp'),
-    isObjectLike = require('../internal/isObjectLike');
-
-
-var funcTag = '[object Function]';
-
-
-var reHostCtor = /^\[object .+?Constructor\]$/;
-
-
-var objectProto = Object.prototype;
-
-
-var fnToString = Function.prototype.toString;
-
-
-var objToString = objectProto.toString;
-
-
-var reNative = RegExp('^' +
-  escapeRegExp(objToString)
-  .replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (objToString.call(value) == funcTag) {
-    return reNative.test(fnToString.call(value));
-  }
-  return (isObjectLike(value) && reHostCtor.test(value)) || false;
-}
-
-module.exports = isNative;
-
-},{"../internal/isObjectLike":347,"../string/escapeRegExp":364}],357:[function(require,module,exports){
-
-function isObject(value) {
-  var type = typeof value;
-  return type == 'function' || (value && type == 'object') || false;
-}
-
-module.exports = isObject;
-
-},{}],358:[function(require,module,exports){
-var isObjectLike = require('../internal/isObjectLike');
-
-
-var stringTag = '[object String]';
-
-
-var objectProto = Object.prototype;
-
-
-var objToString = objectProto.toString;
-
-
-function isString(value) {
-  return typeof value == 'string' || (isObjectLike(value) && objToString.call(value) == stringTag) || false;
-}
-
-module.exports = isString;
-
-},{"../internal/isObjectLike":347}],359:[function(require,module,exports){
-var isLength = require('../internal/isLength'),
-    isObjectLike = require('../internal/isObjectLike');
-
-
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-typedArrayTags[dateTag] = typedArrayTags[errorTag] =
-typedArrayTags[funcTag] = typedArrayTags[mapTag] =
-typedArrayTags[numberTag] = typedArrayTags[objectTag] =
-typedArrayTags[regexpTag] = typedArrayTags[setTag] =
-typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
-
-
-var objectProto = Object.prototype;
-
-
-var objToString = objectProto.toString;
-
-
-function isTypedArray(value) {
-  return (isObjectLike(value) && isLength(value.length) && typedArrayTags[objToString.call(value)]) || false;
-}
-
-module.exports = isTypedArray;
-
-},{"../internal/isLength":346,"../internal/isObjectLike":347}],360:[function(require,module,exports){
-var baseAssign = require('../internal/baseAssign'),
-    createAssigner = require('../internal/createAssigner');
-
-
-var assign = createAssigner(baseAssign);
-
-module.exports = assign;
-
-},{"../internal/baseAssign":321,"../internal/createAssigner":339}],361:[function(require,module,exports){
-var baseCopy = require('../internal/baseCopy'),
-    baseCreate = require('../internal/baseCreate'),
-    isIterateeCall = require('../internal/isIterateeCall'),
-    keys = require('./keys');
-
-
-function create(prototype, properties, guard) {
-  var result = baseCreate(prototype);
-  if (guard && isIterateeCall(prototype, properties, guard)) {
-    properties = null;
-  }
-  return properties ? baseCopy(properties, result, keys(properties)) : result;
-}
-
-module.exports = create;
-
-},{"../internal/baseCopy":323,"../internal/baseCreate":324,"../internal/isIterateeCall":345,"./keys":362}],362:[function(require,module,exports){
-var isLength = require('../internal/isLength'),
-    isNative = require('../lang/isNative'),
-    isObject = require('../lang/isObject'),
-    shimKeys = require('../internal/shimKeys');
-
-
-var nativeKeys = isNative(nativeKeys = Object.keys) && nativeKeys;
-
-
-var keys = !nativeKeys ? shimKeys : function(object) {
-  if (object) {
-    var Ctor = object.constructor,
-        length = object.length;
-  }
-  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-      (typeof object != 'function' && (length && isLength(length)))) {
-    return shimKeys(object);
-  }
-  return isObject(object) ? nativeKeys(object) : [];
-};
-
-module.exports = keys;
-
-},{"../internal/isLength":346,"../internal/shimKeys":350,"../lang/isNative":356,"../lang/isObject":357}],363:[function(require,module,exports){
-var isArguments = require('../lang/isArguments'),
-    isArray = require('../lang/isArray'),
-    isIndex = require('../internal/isIndex'),
-    isLength = require('../internal/isLength'),
-    isObject = require('../lang/isObject'),
-    support = require('../support');
-
-
-var objectProto = Object.prototype;
-
-
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || (support.nonEnumArgs && isArguments(object))) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keysIn;
-
-},{"../internal/isIndex":344,"../internal/isLength":346,"../lang/isArguments":352,"../lang/isArray":353,"../lang/isObject":357,"../support":365}],364:[function(require,module,exports){
-var baseToString = require('../internal/baseToString');
-
-
-var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
-    reHasRegExpChars = RegExp(reRegExpChars.source);
-
-
-function escapeRegExp(string) {
-  string = baseToString(string);
-  return (string && reHasRegExpChars.test(string))
-    ? string.replace(reRegExpChars, '\\$&')
-    : string;
-}
-
-module.exports = escapeRegExp;
-
-},{"../internal/baseToString":337}],365:[function(require,module,exports){
-(function (global){
-var isNative = require('./lang/isNative');
-
-
-var reThis = /\bthis\b/;
-
-
-var objectProto = Object.prototype;
-
-
-var document = (document = global.window) && document.document;
-
-
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-
-var support = {};
-
-(function(x) {
-
-
-  support.funcDecomp = !isNative(global.WinRTError) && reThis.test(function() { return this; });
-
-
-  support.funcNames = typeof Function.name == 'string';
-
-
-  try {
-    support.dom = document.createDocumentFragment().nodeType === 11;
-  } catch(e) {
-    support.dom = false;
-  }
-
-
-  try {
-    support.nonEnumArgs = !propertyIsEnumerable.call(arguments, 1);
-  } catch(e) {
-    support.nonEnumArgs = true;
-  }
-}(0, 0));
-
-module.exports = support;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./lang/isNative":356}],366:[function(require,module,exports){
-
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-},{}],367:[function(require,module,exports){
+},{"./XMLBuilder":356,"lodash/object/assign":334}],372:[function(require,module,exports){
 require('./browser_loader');
 
 var AWS = require('./core');
@@ -113128,5 +115348,5 @@ if (typeof self !== 'undefined') self.AWS = AWS;
 
 
 require('../clients/browser_default');
-},{"../clients/browser_default":148,"./browser_loader":208,"./core":211}]},{},[367]);
+},{"../clients/browser_default":153,"./browser_loader":213,"./core":216}]},{},[372]);
 

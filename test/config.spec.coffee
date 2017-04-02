@@ -60,8 +60,6 @@ describe 'AWS.Config', ->
       expect(configure(maxRetries: 2).maxRetries).to.equal(2)
 
   describe 'retryDelayOptions', ->
-    it 'defaults to "base: 100"', ->
-      expect(configure().retryDelayOptions).to.eql({base: 100})
     it 'can set "base" to an integer', ->
       expect(configure(retryDelayOptions: {base: 30}).retryDelayOptions).to.eql({base: 30})
 
@@ -146,7 +144,7 @@ describe 'AWS.Config', ->
       config = new AWS.Config()
       config.update(foo: 10)
       expect(config.foo).to.equal(undefined)
-    
+
     describe 'should allow', ->
       allServices = require('../clients/all')
       for own className, ctor of allServices
@@ -208,6 +206,7 @@ describe 'AWS.Config', ->
       config.getCredentials(spy)
       expect(spy.calls.length).not.to.equal(0)
       expect(spy.calls[0].arguments[0].code).to.equal('CredentialsError')
+      expect(spy.calls[0].arguments[0].name).to.equal('CredentialsError')
       expect(spy.calls[0].arguments[0].message).to.equal(message)
 
     it 'should check credentials for static object first', ->
@@ -220,9 +219,12 @@ describe 'AWS.Config', ->
       expectValid credentials: get: (cb) -> cb()
 
     it 'should error if credentials.get() cannot resolve', ->
+      error = new Error('Error!')
+      error.code = 'FooError'
+      error.name = 'BarError'
       options = credentials:
         constructor: name: 'CustomCredentials'
-        get: (cb) -> cb(new Error('Error!'), null)
+        get: (cb) -> cb(error, null)
       expectError options, 'Could not load credentials from CustomCredentials'
 
     it 'should check credentialProvider if no credentials', ->
@@ -230,8 +232,11 @@ describe 'AWS.Config', ->
         resolve: (cb) -> cb(null, accessKeyId: 'key', secretAccessKey: 'secret')
 
     it 'should error if credentialProvider fails to resolve', ->
+      error = new Error('Error!')
+      error.code = 'FooError'
+      error.name = 'BarError'
       options = credentials: null, credentialProvider:
-        resolve: (cb) -> cb(new Error('Error!'), null)
+        resolve: (cb) -> cb(error, null)
       expectError options, 'Could not load credentials from any providers'
 
     it 'should error if no credentials or credentialProvider', ->
@@ -256,7 +261,7 @@ describe 'AWS.config', ->
       expect(utilSpy.calls.length).to.equal(1)
       expect(Array.isArray(utilSpy.calls[0].arguments[0])).to.be.true
       expect(utilSpy.calls[0].arguments[0].length).to.equal(4)
-    
+
     if typeof Promise != 'undefined'
       it 'reverts to native promises when null is passed', ->
         # create fake promise constructor
