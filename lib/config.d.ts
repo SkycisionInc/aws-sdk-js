@@ -4,7 +4,7 @@ import {AWSError} from './error';
 import {Credentials, CredentialsOptions} from './credentials';
 import {CredentialProviderChain} from './credentials/credential_provider_chain';
 import {ConfigurationServicePlaceholders, ConfigurationServiceApiVersions} from './config_service_placeholders';
-import {CognitoIdentityCredentials} from './cognito_identity_credentials';
+import {CognitoIdentityCredentials} from './credentials/cognito_identity_credentials';
 
 export class ConfigBase extends ConfigurationOptions{
     constructor(options?: ConfigurationOptions);
