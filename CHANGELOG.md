@@ -1,6 +1,25 @@
 # Changelog for AWS SDK for JavaScript
-<!--LATEST=2.36.0-->
+<!--LATEST=2.41.0-->
 <!--ENTRYINSERT-->
+
+## 2.41.0
+* feature: APIGateway: API Gateway request validators
+* feature: Batch: API Update for AWS Batch: Customer provided AMI for MANAGED Compute Environment 
+* feature: GameLift: Allows developers to utilize an improved workflow when calling our Queues API and introduces a new feature that allows developers to specify a maximum allowable latency per Queue.
+* feature: OpsWorks: Cloudwatch Logs agent configuration can now be attached to OpsWorks Layers using CreateLayer and UpdateLayer. OpsWorks will then automatically install and manage the CloudWatch Logs agent on the instances part of the OpsWorks Layer.
+
+## 2.40.0
+* feature: Redshift: This update adds the GetClusterCredentials API which is used to get temporary login credentials to the cluster. AccountWithRestoreAccess now has a new member AccountAlias, this is the identifier of the AWS support account authorized to restore the specified snapshot. This is added to support the feature where the customer can share their snapshot with the Amazon Redshift Support Account without having to manually specify the AWS Redshift Service account ID on the AWS Console/API.
+
+## 2.39.0
+* feature: ElastiCache: ElastiCache added support for testing the Elasticache Multi-AZ feature with Automatic Failover.
+* feature: Http: Adds a connectTimeout option that allows slow-to-establish socket connections to be quickly abandoned
+
+## 2.38.0
+* feature: CloudWatch: Amazon Web Services announced the immediate availability of two additional alarm configuration rules for Amazon CloudWatch Alarms. The first rule is for configuring missing data treatment. Customers have the options to treat missing data as alarm threshold breached, alarm threshold not breached, maintain alarm state and the current default treatment. The second rule is for alarms based on percentiles metrics that can trigger unnecassarily if the percentile is calculated from a small number of samples. The new rule can treat percentiles with low sample counts as same as missing data. If the first rule is enabled, the same treatment will be applied when an alarm encounters a percentile with low sample counts.
+
+## 2.37.0
+* feature: LexRuntime: Adds support to PostContent for speech input
 
 ## 2.36.0
 * feature: CloudDirectory: ListObjectAttributes now supports filtering by facet.
