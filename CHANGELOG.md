@@ -1,6 +1,34 @@
 # Changelog for AWS SDK for JavaScript
-<!--LATEST=2.41.0-->
+<!--LATEST=2.45.0-->
 <!--ENTRYINSERT-->
+
+## 2.45.0
+* bugfix: Promise: Fixes an issue introduced in v2.44.0 where payload members on some CloudFront and S3 operations weren't hoisted when using promises. This issue was introduced in and could affect users that were accessing fields on a response that weren't documented, but were available for backwards compatibility.
+* bugfix: Request: Make `$response` property of resolved promise value non-enumerable to prevent serialization errors
+* feature: AppStream: The new feature named "Default Internet Access" will enable Internet access from AppStream 2.0 instances - image builders and fleet instances. Admins will check a flag either through AWS management console for AppStream 2.0 or through API while creating an image builder or while creating/updating a fleet.
+* feature: Kinesis: Adds a new waiter, StreamNotExists, to Kinesis.
+
+## 2.44.0
+* feature: DeviceFarm: API Update for AWS Device Farm: Support for Deals and Promotions 
+* feature: ELBv2: Adding LoadBalancersDeleted waiter for Elasticloadbalancingv2
+* feature: EnvironmentVariable: Load config from ~/.aws/config if AWS_SDK_LOAD_CONFIG is set
+* feature: EnvironmentVariable: Add support for specifying the location of the shared config file via the AWS_CONFIG_FILE environment variable. This variable is only honored if AWS_SDK_LOAD_CONFIG is set to a truthy value.
+* feature: EnvironmentVariable: Add support for the AWS_SHARED_CREDENTIALS_FILE environment variable if AWS_SDK_LOAD_CONFIG is set
+* feature: Promises: Binds response object to the data object with which successful request promises are resolved
+
+## 2.43.0
+* feature: APIGateway: Add support for "embed" property.
+* feature: CodeStar: AWS CodeStar is a cloud-based service for creating, managing, and working with software development projects on AWS. An AWS CodeStar project creates and integrates AWS services for your project development toolchain. AWS CodeStar also manages the permissions required for project users.
+* feature: EC2: Adds support for creating an Amazon FPGA Image (AFI) from a specified design checkpoint (DCP).
+* feature: IAM: This changes introduces a new IAM role type, Service Linked Role, which works like a normal role but must be managed via services' control. 
+* feature: Lambda: Lambda integration with CloudDebugger service to enable customers to enable tracing for the Lambda functions and send trace information to the CloudDebugger service.
+* feature: LexModelBuildingService: Amazon Lex is a service for building conversational interfaces into any application using voice and text.
+* feature: Polly: API Update for Amazon Polly: Add support for speech marks
+* feature: Rekognition: Given an image, the API detects explicit or suggestive adult content in the image and returns a list of corresponding labels with confidence scores, as well as a taxonomy (parent-child relation) for each label.
+
+## 2.42.0
+* bugfix: Parser: Makes casting payload blobs to strings an exceptional behavior rather than the default
+* feature: Lambda: You can use tags to group and filter your Lambda functions, making it easier to analyze them for billing allocation purposes. For more information, see Tagging Lambda Functions.  You can now write or upgrade your Lambda functions using Python version 3.6. For more information, see Programming Model for Authoring Lambda Functions in Python. Note: Features will be rolled out in the US regions on 4/19.
 
 ## 2.41.0
 * feature: APIGateway: API Gateway request validators

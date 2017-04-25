@@ -566,10 +566,10 @@ describe 'AWS.util.base64', ->
       catch e
         err = e
       expect(err.message).to.equal('Cannot base64 encode number 3.14')
-    
+
     it 'does not encode null', ->
       expect(base64.encode(null)).to.eql(null)
-    
+
     it 'does not encode undefined', ->
       expect(base64.encode(undefined)).to.eql(undefined)
 
@@ -592,7 +592,7 @@ describe 'AWS.util.base64', ->
 
     it 'does not decode null', ->
       expect(base64.decode(null)).to.eql(null)
-    
+
     it 'does not decode undefined', ->
       expect(base64.decode(undefined)).to.eql(undefined)
 
@@ -603,7 +603,7 @@ describe 'AWS.util.hoistPayloadMember', ->
   buildService = (api) ->
     service = new AWS.Service endpoint: 'http://localhost', apiConfig: api
 
-  it 'hoists structure payload members', ->
+  it 'hoists structure payload members', (done) ->
     api =
       'metadata': 'protocol': 'rest-xml'
       'operations': 'sample': 'output': 'shape': 'OutputShape'
@@ -624,10 +624,43 @@ describe 'AWS.util.hoistPayloadMember', ->
     buildService(api)
     helpers.mockHttpResponse httpResp.status_code, httpResp.headers, httpResp.body
     req = service.sample()
-    req.send()
-    hoist(req.response)
-    expect(req.response.data.Foo).to.eql('abc')
-    expect(req.response.data.Data.Foo).to.eql('abc')
+    req.send((err, data) -> 
+      hoist(req.response)
+      expect(data.Foo).to.eql('abc')
+      expect(data.Data.Foo).to.eql('abc')
+      done()
+    )
+    
+
+  if typeof Promise != 'undefined'
+      it 'hoists structure payload members', ->
+        AWS.config.setPromisesDependency();
+        api =
+          'metadata': 'protocol': 'rest-xml'
+          'operations': 'sample': 'output': 'shape': 'OutputShape'
+          'shapes':
+            'OutputShape':
+              'type': 'structure'
+              'payload': 'Data'
+              'members':
+                'Data': 'shape': 'SingleStructure'
+            'StringType': 'type': 'string'
+            'SingleStructure':
+              'type': 'structure'
+              'members': 'Foo': 'shape': 'StringType'
+        httpResp =
+          'status_code': 200
+          'headers': 'X-Foo': 'baz'
+          'body': '<OperationNameResponse><Foo>abc</Foo></OperationNameResponse>'
+        buildService(api)
+        helpers.mockHttpResponse httpResp.status_code, httpResp.headers, httpResp.body
+        req = service.sample()
+        res = req.promise()
+        res.then((data) -> 
+          hoist(req.response)
+          expect(data.Foo).to.eql('abc')
+          expect(data.Data.Foo).to.eql('abc')
+        )
 
   it 'does not hoist streaming payload members', ->
     api =
@@ -639,7 +672,7 @@ describe 'AWS.util.hoistPayloadMember', ->
           'payload': 'Stream'
           'members': 'Stream': 'shape': 'BlobStream'
         'BlobStream':
-          'type': 'blob'
+          'type': 'binary'
           'streaming': true
     httpResp =
       'status_code': 200
